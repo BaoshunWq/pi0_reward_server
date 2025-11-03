@@ -1,0 +1,22 @@
+[
+    {
+        "task": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-0_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Locate the black bowl situated between the plate and the ramekin, lift it with your grasp, and place it precisely on the plate.",
+            "Grab the black bowl that\u2019s nestled between the plate and the ramekin, then carefully set it down on top of the plate.",
+            "Find the black bowl positioned between the plate and the ramekin, pick it up, and put it on the plate without disturbing the other items."
+        ]
+    },
+    {
+        "task": "pick up the black bowl next to the ramekin and place it on the plate",
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-1_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Grab the black bowl that\u2019s sitting beside the small ramekin and carefully set it down on the empty plate to your right.",
+            "Find the black bowl adjacent to the ramekin, pick it up with your hand, and put it down on the plate without spilling or knocking anything over.",
+            "Take the black bowl from its spot next to the ramekin and place it gently onto the plate, making sure it\u2019s centered and stable."
+        ]
+    }
+]

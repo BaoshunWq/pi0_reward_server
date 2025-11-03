@@ -1,0 +1,52 @@
+[
+    {
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-0_img-0_frame0.png",
+        "done_anotations": [],
+        "fail_anotations": [
+            "Place the black bowl on the plate.",
+            "Move the black bowl towards the plate.",
+            "Ensure the black bowl is centered on the plate."
+        ],
+        "task": "pick up the black bowl between the plate and the ramekin and place it on the plate"
+    },
+    {
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-1_img-0_frame0.png",
+        "done_anotations": [],
+        "fail_anotations": [
+            "Place the black bowl on the plate.",
+            "Move the black bowl towards the plate.",
+            "Move the black bowl towards the plate again."
+        ],
+        "task": "pick up the black bowl next to the ramekin and place it on the plate"
+    },
+    {
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-2_img-0_frame0.png",
+        "done_anotations": [],
+        "fail_anotations": [
+            "Place the black bowl on the plate.",
+            "Move the black bowl towards the plate.",
+            "Adjust the black bowl to fit perfectly on the plate."
+        ],
+        "task": "pick up the black bowl from table center and place it on the plate"
+    },
+    {
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-3_img-0_frame0.png",
+        "done_anotations": [],
+        "fail_anotations": [
+            "Move towards the black bowl on the cookie box.",
+            "Place the black bowl on the plate.",
+            "Move away from the black bowl."
+        ],
+        "task": "pick up the black bowl on the cookie box and place it on the plate"
+    },
+    {
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-4_img-0_frame0.png",
+        "done_anotations": [],
+        "fail_anotations": [
+            "Pick up the black bowl from the top drawer.",
+            "Place the black bowl on the plate.",
+            "Close the top drawer of the wooden cabinet."
+        ],
+        "task": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate"
+    }
+]

@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=7 nohup  python3 -u a_evalUnderAttack_noTraining/infer_openvla.py  > nohup_logs/infer_single_openvla.log 2>&1 &

@@ -1,0 +1,1 @@
+accelerate launch --multi_gpu --num_processes 2 --mixed_precision bf16 offline_dpo_trl/dpo_main_accelerate.py

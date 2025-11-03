@@ -1,0 +1,130 @@
+{
+  "libero_spatial": {
+    "pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_spatial_task-0_img-0_frame0.png"
+    ],
+    "pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_spatial_task-1_img-0_frame0.png"
+    ],
+    "pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_spatial_task-2_img-0_frame0.png"
+    ],
+    "pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_spatial_task-3_img-0_frame0.png"
+    ],
+    "pick_up_the_black_bowl_in_the_top_drawer_of_the_wooden_cabinet_and_place_it_on_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_spatial_task-4_img-0_frame0.png"
+    ],
+    "pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_spatial_task-5_img-0_frame0.png"
+    ],
+    "pick_up_the_black_bowl_next_to_the_cookie_box_and_place_it_on_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_spatial_task-6_img-0_frame0.png"
+    ],
+    "pick_up_the_black_bowl_on_the_stove_and_place_it_on_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_spatial_task-7_img-0_frame0.png"
+    ],
+    "pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_spatial_task-8_img-0_frame0.png"
+    ],
+    "pick_up_the_black_bowl_on_the_wooden_cabinet_and_place_it_on_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_spatial_task-9_img-0_frame0.png"
+    ]
+  },
+  "libero_object": {
+    "pick_up_the_alphabet_soup_and_place_it_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_object_task-0_img-0_frame0.png"
+    ],
+    "pick_up_the_cream_cheese_and_place_it_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_object_task-1_img-0_frame0.png"
+    ],
+    "pick_up_the_salad_dressing_and_place_it_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_object_task-2_img-0_frame0.png"
+    ],
+    "pick_up_the_bbq_sauce_and_place_it_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_object_task-3_img-0_frame0.png"
+    ],
+    "pick_up_the_ketchup_and_place_it_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_object_task-4_img-0_frame0.png"
+    ],
+    "pick_up_the_tomato_sauce_and_place_it_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_object_task-5_img-0_frame0.png"
+    ],
+    "pick_up_the_butter_and_place_it_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_object_task-6_img-0_frame0.png"
+    ],
+    "pick_up_the_milk_and_place_it_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_object_task-7_img-0_frame0.png"
+    ],
+    "pick_up_the_chocolate_pudding_and_place_it_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_object_task-8_img-0_frame0.png"
+    ],
+    "pick_up_the_orange_juice_and_place_it_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_init_frames/libero_object_task-9_img-0_frame0.png"
+    ]
+  },
+  "libero_goal": {
+    "open_the_middle_drawer_of_the_cabinet": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_goal_task-0_img-0_frame0.png"
+    ],
+    "put_the_bowl_on_the_stove": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_goal_task-1_img-0_frame0.png"
+    ],
+    "put_the_wine_bottle_on_top_of_the_cabinet": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_goal_task-2_img-0_frame0.png"
+    ],
+    "open_the_top_drawer_and_put_the_bowl_inside": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_goal_task-3_img-0_frame0.png"
+    ],
+    "put_the_bowl_on_top_of_the_cabinet": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_goal_task-4_img-0_frame0.png"
+    ],
+    "push_the_plate_to_the_front_of_the_stove": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_goal_task-5_img-0_frame0.png"
+    ],
+    "put_the_cream_cheese_in_the_bowl": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_goal_task-6_img-0_frame0.png"
+    ],
+    "turn_on_the_stove": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_goal_task-7_img-0_frame0.png"
+    ],
+    "put_the_bowl_on_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_goal_task-8_img-0_frame0.png"
+    ],
+    "put_the_wine_bottle_on_the_rack": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_goal_task-9_img-0_frame0.png"
+    ]
+  },
+  "libero_10": {
+    "put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_10_task-0_img-0_frame0.png"
+    ],
+    "put_both_the_cream_cheese_box_and_the_butter_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_10_task-1_img-0_frame0.png"
+    ],
+    "turn_on_the_stove_and_put_the_moka_pot_on_it": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_10_task-2_img-0_frame0.png"
+    ],
+    "put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_10_task-3_img-0_frame0.png"
+    ],
+    "put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_10_task-4_img-0_frame0.png"
+    ],
+    "pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_10_task-5_img-0_frame0.png"
+    ],
+    "put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_10_task-6_img-0_frame0.png"
+    ],
+    "put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_10_task-7_img-0_frame0.png"
+    ],
+    "put_both_moka_pots_on_the_stove": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_10_task-8_img-0_frame0.png"
+    ],
+    "put_the_yellow_and_white_mug_in_the_microwave_and_close_it": [
+      "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_10_task-9_img-0_frame0.png"
+    ]
+  }
+}

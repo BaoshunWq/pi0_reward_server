@@ -1,0 +1,22 @@
+[
+    {
+        "task": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-4_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Retrieve the black bowl from the upper compartment of the wooden cabinet and carefully set it onto the plate positioned to the right.",
+            "Open the top drawer of the wooden cabinet, locate the black bowl inside, and transfer it to the plate on the table without spilling its contents.",
+            "Grab the black bowl from the top drawer of the cabinet and slide it onto the plate, matching its position with the edge of the plate for a neat placement."
+        ]
+    },
+    {
+        "task": "pick up the black bowl on the ramekin and place it on the plate",
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-5_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Take the black bowl, which is resting on the ramekin, and transfer it to the plate by gently lifting and placing it without spilling any contents.",
+            "Move the black bowl from its current position on the ramekin to the plate, keeping the bowl steady and avoiding any accidental contact with the other items on the table.",
+            "Pick up the black bowl that\u2019s currently on the ramekin and place it on the plate \u2014 be sure to do this in one smooth motion without knocking over anything nearby."
+        ]
+    }
+]

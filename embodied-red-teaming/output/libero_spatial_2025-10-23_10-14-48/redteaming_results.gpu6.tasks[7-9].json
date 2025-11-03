@@ -1,0 +1,22 @@
+[
+    {
+        "task": "pick up the black bowl on the stove and place it on the plate",
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-7_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Take the black bowl from the stove, hold it securely, and place it on the plate \u2014 avoid spilling any contents if there are any.",
+            "Locate the black bowl resting on the stove, lift it with precision, and place it exactly on the plate nearby \u2014 make sure it\u2019s centered.",
+            "Reach for the black bowl on the stove, lift it with your hand, and set it down on the plate, ensuring it\u2019s stable and properly positioned."
+        ]
+    },
+    {
+        "task": "pick up the black bowl next to the plate and place it on the plate",
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-8_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Grab the black bowl that\u2019s sitting beside the plate and set it directly on top of the plate, making sure it\u2019s centered and stable.",
+            "Find the black bowl next to the plate, lift it up, and place it precisely on the plate \u2014 no tilting or shifting allowed.",
+            "Take the black bowl from its current spot next to the plate and carefully place it on the plate, ensuring it\u2019s aligned properly and doesn\u2019t tip over."
+        ]
+    }
+]

@@ -1,0 +1,818 @@
+[
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl that's by the ramekin and place it on the plate.",
+        "rejected": " Transfer the black bowl from its spot next to the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl that's by the ramekin and place it on the plate.",
+        "rejected": " Find the black bowl near the ramekin, lift it, and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl beside the ramekin and move it to the plate.",
+        "rejected": " Transfer the black bowl from its spot next to the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl beside the ramekin and move it to the plate.",
+        "rejected": " Find the black bowl near the ramekin, lift it, and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl adjacent to the ramekin and transfer it onto the plate.",
+        "rejected": " Transfer the black bowl from its spot next to the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl adjacent to the ramekin and transfer it onto the plate.",
+        "rejected": " Find the black bowl near the ramekin, lift it, and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl that is positioned next to the ramekin and set it on the plate.",
+        "rejected": " Transfer the black bowl from its spot next to the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl that is positioned next to the ramekin and set it on the plate.",
+        "rejected": " Find the black bowl near the ramekin, lift it, and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Place the black bowl, which is next to the ramekin, onto the plate.",
+        "rejected": " Transfer the black bowl from its spot next to the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Place the black bowl, which is next to the ramekin, onto the plate.",
+        "rejected": " Find the black bowl near the ramekin, lift it, and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Take the black bowl from its position next to the ramekin and set it on the plate.",
+        "rejected": " Transfer the black bowl from its spot next to the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Take the black bowl from its position next to the ramekin and set it on the plate.",
+        "rejected": " Find the black bowl near the ramekin, lift it, and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Relocate the black bowl from its position next to the ramekin to the plate.",
+        "rejected": " Transfer the black bowl from its spot next to the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Relocate the black bowl from its position next to the ramekin to the plate.",
+        "rejected": " Find the black bowl near the ramekin, lift it, and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Locate the black bowl next to the ramekin, pick it up, and put it on the plate.",
+        "rejected": " Transfer the black bowl from its spot next to the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-1_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Locate the black bowl next to the ramekin, pick it up, and put it on the plate.",
+        "rejected": " Find the black bowl near the ramekin, lift it, and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Lift the black bowl found in the middle of the table and deposit it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Grasp the black bowl from the middle of the table and transfer it onto the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Take the black bowl from the center of the table and place it on the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " At the center of the table, pick up the black bowl and move it to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Move to the center of the table, pick up the black bowl, and place it on the plate next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Go to the center of the table, pick up the black bowl, and place it on the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Go to the center of the table, grab the black bowl, and place it on the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " From the center of the table, pick up the black bowl and place it on the plate beside it.",
+        "rejected": " Lift the black bowl found in the middle of the table and deposit it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " From the center of the table, pick up the black bowl and place it on the plate beside it.",
+        "rejected": " Grasp the black bowl from the middle of the table and transfer it onto the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " From the center of the table, pick up the black bowl and place it on the plate beside it.",
+        "rejected": " Take the black bowl from the center of the table and place it on the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " From the center of the table, pick up the black bowl and place it on the plate beside it.",
+        "rejected": " At the center of the table, pick up the black bowl and move it to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " From the center of the table, pick up the black bowl and place it on the plate beside it.",
+        "rejected": " Move to the center of the table, pick up the black bowl, and place it on the plate next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " From the center of the table, pick up the black bowl and place it on the plate beside it.",
+        "rejected": " Go to the center of the table, pick up the black bowl, and place it on the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " From the center of the table, pick up the black bowl and place it on the plate beside it.",
+        "rejected": " Go to the center of the table, grab the black bowl, and place it on the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Lift the black bowl found in the middle of the table and deposit it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Grasp the black bowl from the middle of the table and transfer it onto the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Take the black bowl from the center of the table and place it on the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " At the center of the table, pick up the black bowl and move it to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Move to the center of the table, pick up the black bowl, and place it on the plate next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Go to the center of the table, pick up the black bowl, and place it on the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-2_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl from table center and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl from the center of the table and place it on the plate next to it.",
+        "rejected": " Go to the center of the table, grab the black bowl, and place it on the plate beside it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from atop the cookie box and set it down on the plate.",
+        "rejected": " Relocate the black bowl from the cookie box to the adjacent plate with care."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from atop the cookie box and set it down on the plate.",
+        "rejected": " Uplift the black bowl from the cookie box and lay it on the plate next door."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from atop the cookie box and set it down on the plate.",
+        "rejected": " Place the black bowl from the cookie box onto the plate using a steady hand."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Hoist the black bowl from the cookie box and rest it on the plate beside it.",
+        "rejected": " Relocate the black bowl from the cookie box to the adjacent plate with care."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Hoist the black bowl from the cookie box and rest it on the plate beside it.",
+        "rejected": " Uplift the black bowl from the cookie box and lay it on the plate next door."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Hoist the black bowl from the cookie box and rest it on the plate beside it.",
+        "rejected": " Place the black bowl from the cookie box onto the plate using a steady hand."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl resting on the cookie box, then transfer it to the plate.",
+        "rejected": " Relocate the black bowl from the cookie box to the adjacent plate with care."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl resting on the cookie box, then transfer it to the plate.",
+        "rejected": " Uplift the black bowl from the cookie box and lay it on the plate next door."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl resting on the cookie box, then transfer it to the plate.",
+        "rejected": " Place the black bowl from the cookie box onto the plate using a steady hand."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Slide the black bowl from the cookie box over to the plate in one smooth motion.",
+        "rejected": " Relocate the black bowl from the cookie box to the adjacent plate with care."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Slide the black bowl from the cookie box over to the plate in one smooth motion.",
+        "rejected": " Uplift the black bowl from the cookie box and lay it on the plate next door."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Slide the black bowl from the cookie box over to the plate in one smooth motion.",
+        "rejected": " Place the black bowl from the cookie box onto the plate using a steady hand."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Transport the black bowl from its location on the cookie box to the plate.",
+        "rejected": " Relocate the black bowl from the cookie box to the adjacent plate with care."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Transport the black bowl from its location on the cookie box to the plate.",
+        "rejected": " Uplift the black bowl from the cookie box and lay it on the plate next door."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Transport the black bowl from its location on the cookie box to the plate.",
+        "rejected": " Place the black bowl from the cookie box onto the plate using a steady hand."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Carefully lift the black bowl from the cookie box and gently place it on the plate.",
+        "rejected": " Relocate the black bowl from the cookie box to the adjacent plate with care."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Carefully lift the black bowl from the cookie box and gently place it on the plate.",
+        "rejected": " Uplift the black bowl from the cookie box and lay it on the plate next door."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Carefully lift the black bowl from the cookie box and gently place it on the plate.",
+        "rejected": " Place the black bowl from the cookie box onto the plate using a steady hand."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Extract the black bowl from the cookie box and position it on the plate.",
+        "rejected": " Relocate the black bowl from the cookie box to the adjacent plate with care."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Extract the black bowl from the cookie box and position it on the plate.",
+        "rejected": " Uplift the black bowl from the cookie box and lay it on the plate next door."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-3_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the cookie box and place it on the plate\n\nImage: <image>",
+        "chosen": " Extract the black bowl from the cookie box and position it on the plate.",
+        "rejected": " Place the black bowl from the cookie box onto the plate using a steady hand."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Take the black bowl from the drawer that is at the top of the cabinet and place it on the plate.",
+        "rejected": " Open the top drawer, find the black bowl inside, and place it atop the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Take the black bowl from the drawer that is at the top of the cabinet and place it on the plate.",
+        "rejected": " Grasp the black bowl from the drawer located at the top of the cabinet and lay it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Take the black bowl from the drawer that is at the top of the cabinet and place it on the plate.",
+        "rejected": " Lift the black bowl out of the top drawer and carefully place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Take the black bowl from the drawer that is at the top of the cabinet and place it on the plate.",
+        "rejected": " Open the drawer at the top of the cabinet, pick up the black bowl, and place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Take the black bowl from the drawer that is at the top of the cabinet and place it on the plate.",
+        "rejected": " Retrieve the black bowl from the drawer at the top of the cabinet and place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Take the black bowl from the drawer that is at the top of the cabinet and place it on the plate.",
+        "rejected": " Identify the black bowl in the top drawer, pick it up, and place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Take the black bowl from the drawer that is at the top of the cabinet and place it on the plate.",
+        "rejected": " Find and lift the black bowl from the top drawer, then place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Take the black bowl from the drawer that is at the top of the cabinet and place it on the plate.",
+        "rejected": " Open the top drawer, locate the black bowl, and place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Locate the black bowl in the drawer at the top of the cabinet and transfer it to the plate.",
+        "rejected": " Open the top drawer, find the black bowl inside, and place it atop the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Locate the black bowl in the drawer at the top of the cabinet and transfer it to the plate.",
+        "rejected": " Grasp the black bowl from the drawer located at the top of the cabinet and lay it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Locate the black bowl in the drawer at the top of the cabinet and transfer it to the plate.",
+        "rejected": " Lift the black bowl out of the top drawer and carefully place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Locate the black bowl in the drawer at the top of the cabinet and transfer it to the plate.",
+        "rejected": " Open the drawer at the top of the cabinet, pick up the black bowl, and place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Locate the black bowl in the drawer at the top of the cabinet and transfer it to the plate.",
+        "rejected": " Retrieve the black bowl from the drawer at the top of the cabinet and place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Locate the black bowl in the drawer at the top of the cabinet and transfer it to the plate.",
+        "rejected": " Identify the black bowl in the top drawer, pick it up, and place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Locate the black bowl in the drawer at the top of the cabinet and transfer it to the plate.",
+        "rejected": " Find and lift the black bowl from the top drawer, then place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-4_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Locate the black bowl in the drawer at the top of the cabinet and transfer it to the plate.",
+        "rejected": " Open the top drawer, locate the black bowl, and place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl atop the ramekin and deposit it on the plate.",
+        "rejected": " Transport the black bowl from its location on the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl atop the ramekin and deposit it on the plate.",
+        "rejected": " Carefully lift the black bowl off the ramekin and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Slide the black bowl from the ramekin over to the plate.",
+        "rejected": " Transport the black bowl from its location on the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Slide the black bowl from the ramekin over to the plate.",
+        "rejected": " Carefully lift the black bowl off the ramekin and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from the ramekin and set it on the plate.",
+        "rejected": " Transport the black bowl from its location on the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl from the ramekin and set it on the plate.",
+        "rejected": " Carefully lift the black bowl off the ramekin and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Extract the black bowl from the ramekin and affix it on the plate.",
+        "rejected": " Transport the black bowl from its location on the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Extract the black bowl from the ramekin and affix it on the plate.",
+        "rejected": " Carefully lift the black bowl off the ramekin and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Hoist the black bowl from the ramekin and anchor it on the plate.",
+        "rejected": " Transport the black bowl from its location on the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Hoist the black bowl from the ramekin and anchor it on the plate.",
+        "rejected": " Carefully lift the black bowl off the ramekin and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Relocate the black bowl, currently resting on the ramekin, onto the plate.",
+        "rejected": " Transport the black bowl from its location on the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Relocate the black bowl, currently resting on the ramekin, onto the plate.",
+        "rejected": " Carefully lift the black bowl off the ramekin and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Shift the black bowl from its perch on the ramekin to the plate.",
+        "rejected": " Transport the black bowl from its location on the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Shift the black bowl from its perch on the ramekin to the plate.",
+        "rejected": " Carefully lift the black bowl off the ramekin and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Uplift the black bowl from the ramekin and lay it on the plate.",
+        "rejected": " Transport the black bowl from its location on the ramekin to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-5_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the ramekin and place it on the plate\n\nImage: <image>",
+        "chosen": " Uplift the black bowl from the ramekin and lay it on the plate.",
+        "rejected": " Carefully lift the black bowl off the ramekin and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl off the stove and position it on top of the plate.",
+        "rejected": " Ascend the black bowl from the stove and berth it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl off the stove and position it on top of the plate.",
+        "rejected": " Slide the black bowl off the stove and onto the plate next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Lift the black bowl off the stove and position it on top of the plate.",
+        "rejected": " Pick up the black bowl that's on the stove and set it down on the nearby plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl from the stove and place it on the adjacent plate.",
+        "rejected": " Ascend the black bowl from the stove and berth it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl from the stove and place it on the adjacent plate.",
+        "rejected": " Slide the black bowl off the stove and onto the plate next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl from the stove and place it on the adjacent plate.",
+        "rejected": " Pick up the black bowl that's on the stove and set it down on the nearby plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Elevate the black bowl from the stove and install it on the plate.",
+        "rejected": " Ascend the black bowl from the stove and berth it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Elevate the black bowl from the stove and install it on the plate.",
+        "rejected": " Slide the black bowl off the stove and onto the plate next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Elevate the black bowl from the stove and install it on the plate.",
+        "rejected": " Pick up the black bowl that's on the stove and set it down on the nearby plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Hoist the black bowl from the stove and anchor it on the plate.",
+        "rejected": " Ascend the black bowl from the stove and berth it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Hoist the black bowl from the stove and anchor it on the plate.",
+        "rejected": " Slide the black bowl off the stove and onto the plate next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Hoist the black bowl from the stove and anchor it on the plate.",
+        "rejected": " Pick up the black bowl that's on the stove and set it down on the nearby plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Carry the black bowl from the stove and lay it on the plate.",
+        "rejected": " Ascend the black bowl from the stove and berth it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Carry the black bowl from the stove and lay it on the plate.",
+        "rejected": " Slide the black bowl off the stove and onto the plate next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Carry the black bowl from the stove and lay it on the plate.",
+        "rejected": " Pick up the black bowl that's on the stove and set it down on the nearby plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Transfer the black bowl from the stove to the plate with precision.",
+        "rejected": " Ascend the black bowl from the stove and berth it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Transfer the black bowl from the stove to the plate with precision.",
+        "rejected": " Slide the black bowl off the stove and onto the plate next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Transfer the black bowl from the stove to the plate with precision.",
+        "rejected": " Pick up the black bowl that's on the stove and set it down on the nearby plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Extract the black bowl from the stove and station it on the plate.",
+        "rejected": " Ascend the black bowl from the stove and berth it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Extract the black bowl from the stove and station it on the plate.",
+        "rejected": " Slide the black bowl off the stove and onto the plate next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-7_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the stove and place it on the plate\n\nImage: <image>",
+        "chosen": " Extract the black bowl from the stove and station it on the plate.",
+        "rejected": " Pick up the black bowl that's on the stove and set it down on the nearby plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl beside the plate and set it atop the plate.",
+        "rejected": " Take the black bowl off the table and put it on the nearby plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl beside the plate and set it atop the plate.",
+        "rejected": " Slide the black bowl over to the plate and rest it there."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl beside the plate and set it atop the plate.",
+        "rejected": " Ensure the black bowl ends up on the plate by lifting and moving it there."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl beside the plate and set it atop the plate.",
+        "rejected": " Lift the dark bowl from its current spot and place it on the adjacent plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl beside the plate and set it atop the plate.",
+        "rejected": " Swap the black bowl’s location by putting it on the plate instead."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl beside the plate and set it atop the plate.",
+        "rejected": " Transport the black bowl from its current resting place to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl beside the plate and set it atop the plate.",
+        "rejected": " Retrieve the black bowl from its position and lay it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Grasp the black bowl beside the plate and set it atop the plate.",
+        "rejected": " Relocate the black bowl by placing it on the plate that's right next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Move the black bowl that's next to the plate, putting it directly on top of the plate.",
+        "rejected": " Take the black bowl off the table and put it on the nearby plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Move the black bowl that's next to the plate, putting it directly on top of the plate.",
+        "rejected": " Slide the black bowl over to the plate and rest it there."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Move the black bowl that's next to the plate, putting it directly on top of the plate.",
+        "rejected": " Ensure the black bowl ends up on the plate by lifting and moving it there."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Move the black bowl that's next to the plate, putting it directly on top of the plate.",
+        "rejected": " Lift the dark bowl from its current spot and place it on the adjacent plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Move the black bowl that's next to the plate, putting it directly on top of the plate.",
+        "rejected": " Swap the black bowl’s location by putting it on the plate instead."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Move the black bowl that's next to the plate, putting it directly on top of the plate.",
+        "rejected": " Transport the black bowl from its current resting place to the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Move the black bowl that's next to the plate, putting it directly on top of the plate.",
+        "rejected": " Retrieve the black bowl from its position and lay it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-8_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl next to the plate and place it on the plate\n\nImage: <image>",
+        "chosen": " Move the black bowl that's next to the plate, putting it directly on top of the plate.",
+        "rejected": " Relocate the black bowl by placing it on the plate that's right next to it."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-9_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl that's on the wooden cabinet and place it on the plate.",
+        "rejected": " Lift the black bowl off the wooden cabinet and place it atop the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-9_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl that's on the wooden cabinet and place it on the plate.",
+        "rejected": " Take the black bowl from the wooden cabinet and lay it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-9_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl that's on the wooden cabinet and place it on the plate.",
+        "rejected": " Grasp the black bowl from the wooden surface and transfer it onto the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-9_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl that's on the wooden cabinet and place it on the plate.",
+        "rejected": " Find the black bowl on the cabinet, pick it up, and put it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-9_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl that's on the wooden cabinet and place it on the plate.",
+        "rejected": " Reach for the black bowl on the wooden cabinet, lift it, and set it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-9_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl that's on the wooden cabinet and place it on the plate.",
+        "rejected": " Retrieve the black bowl from the cabinet and position it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-9_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl that's on the wooden cabinet and place it on the plate.",
+        "rejected": " Go to the wooden cabinet, pick up the black bowl, and gently place it on the plate."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-9_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl that's on the wooden cabinet and place it on the plate.",
+        "rejected": " Move to the black bowl on the wooden cabinet, pick it up, and place it on the plate securely."
+    },
+    {
+        "image": "https://huggingface.co/datasets/TBS2001/libero-init-frames/resolve/main/libero_spatial_task-9_img-0_frame0.png",
+        "prompt": "Role: You are a quality assurance engineer for a robot.\n\nGoal: Produce a single, human-like instruction that correctly describes the task and slightly challenges the robot while remaining feasible.\n\nTask: pick up the black bowl on the wooden cabinet and place it on the plate\n\nImage: <image>",
+        "chosen": " Pick up the black bowl that's on the wooden cabinet and place it on the plate.",
+        "rejected": " Move to the wooden cabinet and pick up the black bowl, then place it on the plate."
+    }
+]

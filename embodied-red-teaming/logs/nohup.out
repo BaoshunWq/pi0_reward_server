@@ -1,0 +1,156 @@
+>>> Running prefer_prompt_key=UNDER_OVER
+2025-10-17 16:21:58.723773: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-10-17 16:21:58.764340: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2025-10-17 16:21:58.764388: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2025-10-17 16:21:58.765399: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-10-17 16:21:58.771444: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-10-17 16:21:59.466658: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+[robosuite WARNING] No private macro file found! (macros.py:53)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:54)
+[robosuite WARNING] To setup, run: python /home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/robosuite/scripts/setup_macros.py (macros.py:55)
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+<frozen importlib._bootstrap>:283: DeprecationWarning: the load_module() method is deprecated and slated for removal in Python 3.12; use exec_module() instead
+[*] Instantiating Pretrained VLA model
+[*] Loading in BF16 with Flash-Attention Enabled
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:00,  3.26it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00,  4.15it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:00<00:00,  4.51it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00,  4.82it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00,  4.52it/s]
+Traceback (most recent call last):
+  File "/home/baoshuntong/code/saftyEmbodyAI/embodied-red-teaming/a_evalUnderAttack/main.py", line 290, in <module>
+    run_ert_loop()
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/draccus/argparsing.py", line 203, in wrapper_inner
+    response = fn(cfg, *args, **kwargs)
+  File "/home/baoshuntong/code/saftyEmbodyAI/embodied-red-teaming/a_evalUnderAttack/main.py", line 169, in run_ert_loop
+    openvla_model = get_model(cfg).eval().to("cuda:1")
+  File "/home/baoshuntong/code/saftyEmbodyAI/embodied-red-teaming/openvla/experiments/robot/robot_utils.py", line 43, in get_model
+    model = get_vla(cfg)
+  File "/home/baoshuntong/code/saftyEmbodyAI/embodied-red-teaming/openvla/experiments/robot/openvla_utils.py", line 57, in get_vla
+    vla = vla.to(DEVICE)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/transformers/modeling_utils.py", line 2692, in to
+    return super().to(*args, **kwargs)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1152, in to
+    return self._apply(convert)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/torch/nn/modules/module.py", line 802, in _apply
+    module._apply(fn)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/torch/nn/modules/module.py", line 802, in _apply
+    module._apply(fn)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/torch/nn/modules/module.py", line 802, in _apply
+    module._apply(fn)
+  [Previous line repeated 3 more times]
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/torch/nn/modules/module.py", line 825, in _apply
+    param_applied = fn(param)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1150, in convert
+    return t.to(device, dtype if t.is_floating_point() or t.is_complex() else None, non_blocking)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 86.00 MiB. GPU 1 has a total capacity of 23.59 GiB of which 81.69 MiB is free. Process 840317 has 14.82 GiB memory in use. Including non-PyTorch memory, this process has 8.67 GiB memory in use. Of the allocated memory 8.39 GiB is allocated by PyTorch, and 40.08 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+>>> Running prefer_prompt_key=UNDER_OVER
+2025-10-17 16:23:01.819677: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-10-17 16:23:01.855071: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2025-10-17 16:23:01.855118: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2025-10-17 16:23:01.856053: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-10-17 16:23:01.861326: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-10-17 16:23:02.467782: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+[robosuite WARNING] No private macro file found! (macros.py:53)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:54)
+[robosuite WARNING] To setup, run: python /home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/robosuite/scripts/setup_macros.py (macros.py:55)
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+<frozen importlib._bootstrap>:283: DeprecationWarning: the load_module() method is deprecated and slated for removal in Python 3.12; use exec_module() instead
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s][*] Instantiating Pretrained VLA model
+[*] Loading in BF16 with Flash-Attention Enabled
+Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:00,  3.40it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00,  4.20it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:00<00:00,  4.38it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00,  4.65it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00,  4.42it/s]
+WARNING: No local dataset_statistics.json file found for current checkpoint.
+You can ignore this if you are loading the base VLA (i.e. not fine-tuned) checkpoint.Otherwise, you may run into errors when trying to call `predict_action()` due to an absent `unnorm_key`.
+Loaded model: <class 'transformers_modules.openvla.openvla-7b.31f090d05236101ebfc381b61c674dd4746d4ce0.modeling_prismatic.OpenVLAForActionPrediction'>
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+Task suite: libero_spatial
+
+task 1 :  pick up the black bowl between the plate and the ramekin and place it on the plate
+10/17 [16:23:35] INFO     | >> Retrying request to          _base_client.py:1071
+                          /chat/completions in 0.418486                         
+                          seconds                                               
+10/17 [16:23:40] INFO     | >> Retrying request to          _base_client.py:1071
+                          /chat/completions in 0.823780                         
+                          seconds                                               
+Traceback (most recent call last):
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpx/_transports/default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
+    raise exc
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpcore/_sync/connection.py", line 156, in _connect
+    stream = stream.start_tls(**kwargs)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpcore/_backends/sync.py", line 154, in start_tls
+    with map_exceptions(exc_map):
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectTimeout: _ssl.c:1000: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/openai/_base_client.py", line 982, in request
+    response = self._client.send(
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpx/_transports/default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectTimeout: _ssl.c:1000: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/baoshuntong/code/saftyEmbodyAI/embodied-red-teaming/a_evalUnderAttack/main.py", line 290, in <module>
+    run_ert_loop()
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/draccus/argparsing.py", line 203, in wrapper_inner
+    response = fn(cfg, *args, **kwargs)
+  File "/home/baoshuntong/code/saftyEmbodyAI/embodied-red-teaming/a_evalUnderAttack/main.py", line 210, in run_ert_loop
+    annotations = red_team(instruction, image_url=image_url, prefer_prompt_key=cfg.prefer_prompt_key,
+  File "/home/baoshuntong/code/saftyEmbodyAI/embodied-red-teaming/a_evalUnderAttack/generate_instructions.py", line 133, in __call__
+    chat_completion = self.client.chat.completions.create(
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/openai/resources/chat/completions/completions.py", line 1147, in create
+    return self._post(
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/openai/_base_client.py", line 1259, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/openai/_base_client.py", line 1000, in request
+    raise APITimeoutError(request=request) from err
+openai.APITimeoutError: Request timed out.
+Exception ignored in: <function MjRenderContext.__del__ at 0x7f4828186cb0>
+Traceback (most recent call last):
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/robosuite/utils/binding_utils.py", line 199, in __del__
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/robosuite/renderers/context/egl_context.py", line 147, in free
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/OpenGL/platform/baseplatform.py", line 408, in __call__
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/OpenGL/platform/baseplatform.py", line 387, in load
+ImportError: sys.meta_path is None, Python is likely shutting down
+Exception ignored in: <function EGLGLContext.__del__ at 0x7f4828186b00>
+Traceback (most recent call last):
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/robosuite/renderers/context/egl_context.py", line 155, in __del__
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/robosuite/renderers/context/egl_context.py", line 147, in free
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/OpenGL/platform/baseplatform.py", line 408, in __call__
+  File "/home/baoshuntong/anaconda3/envs/redTeamingopenvla/lib/python3.10/site-packages/OpenGL/platform/baseplatform.py", line 387, in load
+ImportError: sys.meta_path is None, Python is likely shutting down

@@ -1,0 +1,12 @@
+[
+    {
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-0_img-0_frame0.png",
+        "done_anotations": [],
+        "fail_anotations": [
+            "There is a table with a white cup and a black cup on it.",
+            "In this image we can see 2 cups and a box placed on the table.",
+            "A coffee grinder is on a table next to some cups. There is a piece of paper on the table with some writing on it."
+        ],
+        "task": "pick up the black bowl between the plate and the ramekin and place it on the plate"
+    }
+]

@@ -1,0 +1,34 @@
+[
+    {
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-0_img-0_frame0.png",
+        "done_anotations": [],
+        "fail_anotations": [
+            "Place the black bowl on the plate.",
+            "Move the black bowl towards the plate.",
+            "Ensure the black bowl is centered on the plate."
+        ],
+        "donw_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.9187859296798706,
+            0.9011176228523254,
+            0.8942517638206482
+        ],
+        "task": "pick up the black bowl between the plate and the ramekin and place it on the plate"
+    },
+    {
+        "image_url": "/home/baoshuntong/code/vlaSpace/attackVLA/libero-init-frames/libero_spatial_task-1_img-0_frame0.png",
+        "done_anotations": [],
+        "fail_anotations": [
+            "Place the black bowl on the plate.",
+            "Move the black bowl towards the plate.",
+            "Move the black bowl towards the plate again."
+        ],
+        "donw_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.913155198097229,
+            0.8905787467956543,
+            0.8882066011428833
+        ],
+        "task": "pick up the black bowl next to the ramekin and place it on the plate"
+    }
+]
