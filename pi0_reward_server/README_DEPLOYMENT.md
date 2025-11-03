@@ -251,3 +251,5 @@ sudo journalctl -u pi0-reward -f
 - 检查应用是否正常运行
 - 查看应用日志排查错误
 
+
+

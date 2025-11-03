@@ -26585,3 +26585,40 @@ INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 37378)
 INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 40080) closed
 INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 36740) closed
 INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 40406) closed
+INFO:websockets.server:connection open
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 52336) opened
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 52336) closed
+INFO:websockets.server:connection open
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 42492) opened
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 42492) closed
+INFO:websockets.server:connection open
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 54060) opened
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 54060) closed
+INFO:websockets.server:connection open
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 49322) opened
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 49322) closed
+INFO:websockets.server:connection open
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 57536) opened
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 57536) closed
+INFO:websockets.server:connection open
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 44768) opened
+INFO:websockets.server:connection open
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 35480) opened
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 35480) closed
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 44768) closed
+INFO:websockets.server:connection open
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 48542) opened
+INFO:websockets.server:connection rejected (426 Upgrade Required)
+ERROR:websockets.server:opening handshake failed
+Traceback (most recent call last):
+  File "/home/baoshuntong/code/saftyEmbodyAI/redTeam_pi0/.venv/lib/python3.11/site-packages/websockets/asyncio/server.py", line 356, in conn_handler
+    await connection.handshake(
+  File "/home/baoshuntong/code/saftyEmbodyAI/redTeam_pi0/.venv/lib/python3.11/site-packages/websockets/asyncio/server.py", line 207, in handshake
+    raise self.protocol.handshake_exc
+  File "/home/baoshuntong/code/saftyEmbodyAI/redTeam_pi0/.venv/lib/python3.11/site-packages/websockets/server.py", line 138, in accept
+    ) = self.process_request(request)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/baoshuntong/code/saftyEmbodyAI/redTeam_pi0/.venv/lib/python3.11/site-packages/websockets/server.py", line 233, in process_request
+    raise InvalidUpgrade(
+websockets.exceptions.InvalidUpgrade: missing Connection header
+INFO:openpi.serving.websocket_policy_server:Connection from ('127.0.0.1', 48542) closed

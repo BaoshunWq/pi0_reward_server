@@ -4,7 +4,7 @@ URL = "http://127.0.0.1:34567/score"
 
 payload = {
     "responses": [
-        {"outputs":[{"text":"place the red bowl onto the left shelf"}]},
+        {"outputs":[{"text":"place the red bowl onto the shelf"}]},
     ],
     "metas": [
         {

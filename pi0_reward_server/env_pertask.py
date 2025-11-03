@@ -18,6 +18,8 @@ LIBERO_DUMMY_ACTION = [0.0] * 6 + [-1.0]
 LIBERO_ENV_RESOLUTION = 256  # resolution used to render training data
 
 
+
+
 @dataclasses.dataclass
 class Args:
     #################################################################################################################
@@ -39,8 +41,10 @@ class Args:
 
     #################################################################################################################
     # Utils
+    import time
+    current_time = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
     #################################################################################################################
-    video_out_path: str = "data/libero/videos"  # Path to save videos
+    video_out_path: str = f"data/libero/{current_time}/videos"  # Path to save videos
     seed: int = 7                                # Random Seed (for reproducibility)
 
 
@@ -183,6 +187,7 @@ def eval_one_task(args: Args) -> None:
         suffix = "success" if done else "failure"
         safe_desc = str(task_description).replace(" ", "_")[:60]
         video_name = f"rollout_suite-{args.task_suite_name}_task-{args.task_id}_ep-{episode_idx+1}_{suffix}_{safe_desc}.mp4"
+        print(f"Saving video to {args.video_out_path} / {video_name}")
         try:
             imageio.mimwrite(
                 pathlib.Path(args.video_out_path) / video_name,

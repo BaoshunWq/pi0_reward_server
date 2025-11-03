@@ -3,7 +3,8 @@ import logging
 import tqdm  # 如果你是 `import tqdm` 用法，请保持一致
 from env_pertask import eval_one_task
 import dataclasses
-
+import time
+current_time = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
 
 @dataclasses.dataclass
 class Args:
@@ -27,7 +28,7 @@ class Args:
     #################################################################################################################
     # Utils
     #################################################################################################################
-    video_out_path: str = "data/libero/videos"  # Path to save videos
+    video_out_path: str = f"data/libero/{current_time}/videos"  # Path to save videos
     seed: int = 7                                # Random Seed (for reproducibility)
 
 
@@ -49,7 +50,7 @@ DEFAULT_LIBERO_CFG: Dict[str, Any] = {
     "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
 
     # Utils
-    "video_out_path": "data/libero/videos",
+    "video_out_path": f"data/libero/{current_time}/videos",
     "seed": 7,
 }
 
