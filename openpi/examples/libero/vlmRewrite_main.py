@@ -63,10 +63,11 @@ class Args:
     num_instructions: int = 10  # number of generated instructions
     select_topk: int = 5  # select top k instructions
     task_to_huglinks_json_path: str = "/home/baoshuntong/code/saftyEmbodyAI/redTeam_pi0/openpi/libero-init-frames/json_data_for_rl/vlm_initial_state_links_new.json"  # path to task to huglinks json
-    BACKEND: str = "qwenvl"  # "smolvlm" or "qwenvl"
+    BACKEND: str = "verl_qwen"  # "smolvlm" or "qwenvl","verl_qwen"
     output_path: str = f"data/{formatted_time}libero/results/libero_vlmrewrite_results.json"  # path to save results
     whole_acc_log_path: str = f"data/{formatted_time}libero/results/libero_whole_acc_log.json"  # path to save whole accuracy log
     failure_threshold: int = 5
+    verl_model_path: str = "/root/autodl-tmp/trained_models/global_step_200"  # path to verl qwen model
 
 
 def eval_libero(args: Args) -> None:

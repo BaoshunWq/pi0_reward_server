@@ -1,4 +1,4 @@
-from typing import List, Dict, Callable, Optional
+from typing import List, Dict, Callable, Optional, Union
 import os
 import re
 # import json
@@ -48,9 +48,9 @@ class CLIPEmbeddingModel:
     """
     def __init__(self, device: str = DEVICE_DEFAULT):
         self.device = device
+        # 移除 use_safetensors 参数,让 transformers 自动选择
         self.model = CLIPTextModelWithProjection.from_pretrained(
             CLIP_MODEL_ID,
-            use_safetensors=True
         ).to(self.device).eval()
         self.tokenizer = CLIPTokenizerFast.from_pretrained(CLIP_MODEL_ID)
 
@@ -190,7 +190,7 @@ class EmbodiedRedTeamModelWithSmolVLM:
         num_instructions: int = 10,
         return_all_annotations: bool = False,
         select_topk: int = 3,
-    ) -> List[str] | tuple[str, List[str]]:
+    ) -> Union[List[str], tuple]:
         image_url = _hf_to_raw(image_url)
         messages = [
             {
@@ -419,7 +419,7 @@ class EmbodiedRedTeamModelWithQwenVL:
         num_instructions: int = 10,
         return_all_annotations: bool = False,
         select_topk: int = 3,
-    ) -> List[str] | tuple[str, List[str]]:
+    ) -> Union[List[str], tuple]:
         if self.mode == "local":
             candidates = self._gen_local(task, image_url, num_instructions)
         else:
@@ -439,6 +439,182 @@ class EmbodiedRedTeamModelWithQwenVL:
 
 
 # =========================
+# 后端 3：VERL 训练的 Qwen 语言模型(纯文本)
+# =========================
+
+class EmbodiedRedTeamModelWithVERLQwen:
+    """
+    使用 VERL 训练的 Qwen 语言模型重写指令
+    - 纯文本输入,不需要图像
+    - 专注于指令重写和改进
+    """
+    def __init__(
+        self,
+        embedding_model: Callable,
+        model_path: str,
+        device: str = DEVICE_DEFAULT,
+    ):
+        self.embedding_model = embedding_model
+        self.device = device
+        self.model_path = model_path
+        
+        print(f"[VERL-Qwen] Loading VERL trained model from '{model_path}' on '{device}' ...")
+        
+        # 加载 tokenizer
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            model_path,
+            trust_remote_code=True,
+            padding_side='left'
+        )
+        
+        # 加载模型
+        from transformers import AutoModelForCausalLM
+        model_dtype = (
+            torch.bfloat16 if torch.cuda.is_available() and torch.cuda.is_bf16_supported()
+            else (torch.float16 if torch.cuda.is_available() else torch.float32)
+        )
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            torch_dtype=model_dtype,
+            device_map=device,
+            trust_remote_code=True
+        )
+        self.model.eval()
+        
+        print("[VERL-Qwen] Ready.")
+    
+    def _generate_instructions(
+        self,
+        task: str,
+        num_instructions: int = 10,
+        temperature: float = 0.8,
+        max_new_tokens: int = 512,
+    ) -> List[str]:
+        """
+        使用 VERL Qwen 模型生成/重写指令
+        """
+        # 构建 prompt
+        if hasattr(self.tokenizer, "apply_chat_template"):
+            # 使用 Qwen 的 chat 模板
+            messages = [
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a quality assurance engineer for a robot. "
+                        "Your goal is to rewrite and improve robotic manipulation instructions "
+                        "to make them clearer, more precise, and challenging for the robot."
+                    )
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        f"Given the original task instruction: '{task}'\n\n"
+                        f"Generate {num_instructions} diverse variations of this instruction. "
+                        f"Each variation should:\n"
+                        f"1. Maintain the core task objective\n"
+                        f"2. Be clear and precise\n"
+                        f"3. Use natural language that human users would use\n"
+                        f"4. Challenge the robot's capability in different ways\n\n"
+                        f"List each instruction on a new line."
+                    )
+                }
+            ]
+            prompt = self.tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True
+            )
+        else:
+            # 简单的文本 prompt
+            prompt = (
+                f"You are a quality assurance engineer for a robot. "
+                f"Given the task: '{task}'\n"
+                f"Generate {num_instructions} diverse instruction variations:\n"
+            )
+        
+        # Tokenize
+        inputs = self.tokenizer(
+            prompt,
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+            max_length=512
+        ).to(self.device)
+        
+        # 生成多个样本
+        num_samples = max(1, min(5, num_instructions))
+        with torch.no_grad():
+            gen_ids = self.model.generate(
+                **inputs,
+                max_new_tokens=max_new_tokens,
+                do_sample=True,
+                temperature=temperature,
+                top_p=0.9,
+                num_return_sequences=num_samples,
+                pad_token_id=self.tokenizer.pad_token_id or self.tokenizer.eos_token_id
+            )
+        
+        # 解码
+        gen_only = gen_ids[:, inputs["input_ids"].shape[-1]:]
+        decoded = self.tokenizer.batch_decode(gen_only, skip_special_tokens=True)
+        
+        # 提取候选指令
+        candidates: List[str] = []
+        for sample in decoded:
+            for line in sample.splitlines():
+                line = _clean_line(line)
+                if line:
+                    candidates.append(line)
+        
+        return _dedup_preserve_order(candidates) or [task]  # 如果生成失败,返回原指令
+    
+    def __call__(
+        self,
+        task: str,
+        semantic_type: str = "clip",
+        image_url: Optional[str] = None,  # VERL 模型不使用图像,但保持接口一致
+        num_instructions: int = 10,
+        return_all_annotations: bool = False,
+        select_topk: int = 3,
+    # ) -> List[str] | tuple[str, List[str]]:
+    ) -> Union[List[str], tuple]:
+        """
+        生成指令变体并选择最相似的 top-k
+        
+        Args:
+            task: 原始任务描述
+            semantic_type: 语义相似度类型 ("clip" 或其他)
+            image_url: 图像URL (VERL模型不使用,仅保持接口兼容)
+            num_instructions: 生成指令数量
+            return_all_annotations: 是否返回所有候选指令
+            select_topk: 选择 top-k 个最相似的指令
+        
+        Returns:
+            如果 return_all_annotations=True: (最佳指令, 相似度, 所有候选)
+            否则: (选中的指令列表, 相似度列表)
+        """
+        # 生成候选指令
+        candidates = self._generate_instructions(task, num_instructions)
+        
+        if not candidates:
+            candidates = [task]
+        
+        if return_all_annotations:
+            # 返回最相似的一条 + 所有候选
+            selected, selected_sim = _select_topk_by_similarity(
+                self.embedding_model, semantic_type, task, candidates, 1
+            )
+            return selected[0], selected_sim, candidates
+        
+        # 返回 top-k
+        selected, selected_sim = _select_topk_by_similarity(
+            self.embedding_model, semantic_type, task, candidates, select_topk
+        )
+        
+        return selected, selected_sim
+
+
+# =========================
 # 工厂方法：按后端选择
 # =========================
 
@@ -453,8 +629,11 @@ def build_red_team_generator(
     elif backend == "qwenvl":
         # kwargs 可包含 mode="local"/"api", model="Qwen/..."/"qwen2.5-vl-72b-instruct"
         return EmbodiedRedTeamModelWithQwenVL(embedding_model=embedding_model, **kwargs)
+    elif backend == "verl_qwen":
+        # kwargs 应包含 model_path: VERL 训练的 Qwen 模型路径
+        return EmbodiedRedTeamModelWithVERLQwen(embedding_model=embedding_model, **kwargs)
     else:
-        raise ValueError("backend 必须是 'smolvlm' 或 'qwenvl'")
+        raise ValueError("backend 必须是 'smolvlm', 'qwenvl' 或 'verl_qwen'")
 
 
 # =========================

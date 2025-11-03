@@ -50,7 +50,7 @@ DEFAULT_LIBERO_CFG: Dict[str, Any] = {
     "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
 
     # Utils
-    "video_out_path": f"data/libero/{current_time}/videos",
+    "video_out_path": f"/root/autodl-tmp/output_big_data/libero/{current_time}/videos",
     "seed": 7,
 }
 
