@@ -15,6 +15,7 @@ import tqdm
 import tyro
 import json
 import random
+import gc  # 添加垃圾回收模块
 from utils import load_relate_model,parse_task_and_links
 
 LIBERO_DUMMY_ACTION = [0.0] * 6 + [-1.0]
@@ -26,9 +27,6 @@ now = datetime.now()
 
 # 格式化为 "年-月-日 时:分:秒"
 formatted_time = now.strftime('%Y-%m-%d_%H:%M:%S')
-
-
-
 
 
 @dataclasses.dataclass
@@ -54,7 +52,8 @@ class Args:
     # Utils
     #################################################################################################################
     video_out_path: str = f"output/{formatted_time}libero/videos"  # Path to save videos
-
+    save_videos: bool = False  # Whether to save video replays (disable to save memory)
+    
     seed: int = 7  # Random Seed (for reproducibility)
     custom_lora_path: str = ""  # smolvlm custom lora path
     qwen_mode: str = "api"  # qwenvl mode: "local" or "api"
@@ -62,19 +61,17 @@ class Args:
     semantic_type: str = "clip"  # "clip" or "deberta"
     num_instructions: int = 10  # number of generated instructions
     select_topk: int = 5  # select top k instructions
-    task_to_huglinks_json_path: str = "/home/baoshuntong/code/saftyEmbodyAI/redTeam_pi0/openpi/libero-init-frames/json_data_for_rl/vlm_initial_state_links_new.json"  # path to task to huglinks json
+    task_to_huglinks_json_path: str = "libero-init-frames/json_data_for_rl/vlm_initial_state_links_new.json"  # path to task to huglinks json
     BACKEND: str = "verl_qwen"  # "smolvlm" or "qwenvl","verl_qwen"
     output_path: str = f"data/{formatted_time}libero/results/libero_vlmrewrite_results.json"  # path to save results
     whole_acc_log_path: str = f"data/{formatted_time}libero/results/libero_whole_acc_log.json"  # path to save whole accuracy log
     failure_threshold: int = 5
-    verl_model_path: str = "/root/autodl-tmp/trained_models/global_step_200"  # path to verl qwen model
+    verl_model_path: str = "/root/autodl-tmp/trained_models/Qwen2.5-1.5B-Instruct_full_train_step200"  # path to verl qwen model
 
 
 def eval_libero(args: Args) -> None:
     # Set random seed
     np.random.seed(args.seed)
-
-
 
     red_team = load_relate_model(args)
 
@@ -84,7 +81,12 @@ def eval_libero(args: Args) -> None:
     num_tasks_in_suite = task_suite.n_tasks
     logging.info(f"Task suite: {args.task_suite_name}")
 
-    pathlib.Path(args.video_out_path).mkdir(parents=True, exist_ok=True)
+    # 只在需要保存视频时创建目录
+    if args.save_videos:
+        pathlib.Path(args.video_out_path).mkdir(parents=True, exist_ok=True)
+        logging.info(f"Video saving enabled. Videos will be saved to: {args.video_out_path}")
+    else:
+        logging.info("Video saving disabled to save memory")
 
     if args.task_suite_name == "libero_spatial":
         max_steps = 220  # longest training demo has 193 steps
@@ -99,6 +101,7 @@ def eval_libero(args: Args) -> None:
     else:
         raise ValueError(f"Unknown task suite: {args.task_suite_name}")
 
+    # 初始化WebSocket客户端
     client = _websocket_client_policy.WebsocketClientPolicy(args.host, args.port)
 
     with open(args.task_to_huglinks_json_path, "r") as f:
@@ -111,181 +114,232 @@ def eval_libero(args: Args) -> None:
     results = []  # task -> list of dicts per round / per candidate
     # Start evaluation
     total_episodes, total_successes = 0, 0
-    for task_id in tqdm.tqdm(range(num_tasks_in_suite)):
-        # Get task
-        task = task_suite.get_task(task_id)
+    
+    # 在最外层使用try-finally确保资源清理
+    try:
+        for task_id in tqdm.tqdm(range(num_tasks_in_suite)):
+            # Get task
+            task = task_suite.get_task(task_id)
 
-        # Get default LIBERO initial states
-        initial_states = task_suite.get_task_init_states(task_id)
+            # Get default LIBERO initial states
+            initial_states = task_suite.get_task_init_states(task_id)
 
-        # Initialize LIBERO environment and task description
-        env, task_description = _get_libero_env(task, LIBERO_ENV_RESOLUTION, args.seed)
+            # Initialize LIBERO environment and task description
+            env = None  # 初始化为None，便于finally块清理
+            
+            try:
+                env, task_description = _get_libero_env(task, LIBERO_ENV_RESOLUTION, args.seed)
 
-        task_links_key = task_description.replace(" ", "_")
+                task_links_key = task_description.replace(" ", "_")
 
-        current_task_links = task_links_suite[task_links_key]
+                current_task_links = task_links_suite[task_links_key]
 
-        image_url = random.choice(current_task_links)
+                image_url = random.choice(current_task_links)
 
+                annotations,annotations_smi = red_team(task_description,semantic_type= args.semantic_type, image_url=image_url,
+                                                       num_instructions=args.num_instructions,select_topk=args.select_topk)
 
+                annotations_smi_all.extend(annotations_smi)
+                annotations_smi = [float(x) for x in annotations_smi]  # 去掉 np.float32
 
-        annotations,annotations_smi = red_team(task_description,semantic_type= args.semantic_type, image_url=image_url,
-                                               num_instructions=args.num_instructions,select_topk=args.select_topk)
+                done_anotations = []
+                fail_anotations = []
+                done_annotations_smi = []
+                fail_annotations_smi = []
 
-        # import pdb
-        # pdb.set_trace()
-        annotations_smi_all.extend(annotations_smi)
-        annotations_smi = [float(x) for x in annotations_smi]  # 去掉 np.float32
+                current_task_result = {}
 
-        done_anotations = []
-        fail_anotations = []
-        done_annotations_smi = []
-        fail_annotations_smi = []
+                for i,(annotation,annotation_sim) in enumerate(zip(annotations,annotations_smi)):
 
-        current_task_result = {}
+                    print(f"evaluation task description:{annotation}, It's similarity :{annotation_sim}")
+                    # Start episodes
+                    task_episodes, task_successes = 0, 0
 
-        for i,(annotation,annotation_sim) in enumerate(zip(annotations,annotations_smi)):
+                    for episode_idx in tqdm.tqdm(range(args.num_trials_per_task)):
+                        logging.info(f"\nTask: {task_description}")
+                        logging.info(f"evaluation task description:{annotation}, It's similarity :{annotation_sim}")
 
-            # task_description = annotation
+                        # Reset environment
+                        env.reset()
+                        action_plan = collections.deque()
 
-            print(f"evaluation task description:{annotation}, It's similarity :{annotation_sim}")
-        # Start episodes
-            task_episodes, task_successes = 0, 0
+                        # Set initial states
+                        obs = env.set_init_state(initial_states[episode_idx])
 
-            for episode_idx in tqdm.tqdm(range(args.num_trials_per_task)):
-                logging.info(f"\nTask: {task_description}")
-                logging.info(f"evaluation task description:{annotation}, It's similarity :{annotation_sim}")
+                        # Setup
+                        t = 0
+                        replay_images = []
 
-                # Reset environment
-                env.reset()
-                action_plan = collections.deque()
+                        logging.info(f"Starting episode {task_episodes+1}...")
+                        
+                        try:
+                            while t < max_steps + args.num_steps_wait:
+                                # IMPORTANT: Do nothing for the first few timesteps because the simulator drops objects
+                                # and we need to wait for them to fall
+                                if t < args.num_steps_wait:
+                                    obs, reward, done, info = env.step(LIBERO_DUMMY_ACTION)
+                                    t += 1
+                                    continue
 
-                # Set initial states
-                obs = env.set_init_state(initial_states[episode_idx])
-
-                # Setup
-                t = 0
-                replay_images = []
-
-                logging.info(f"Starting episode {task_episodes+1}...")
-                while t < max_steps + args.num_steps_wait:
-                    # try:
-                        # IMPORTANT: Do nothing for the first few timesteps because the simulator drops objects
-                        # and we need to wait for them to fall
-                    if t < args.num_steps_wait:
-                        obs, reward, done, info = env.step(LIBERO_DUMMY_ACTION)
-                        t += 1
-                        continue
-
-                    # Get preprocessed image
-                    # IMPORTANT: rotate 180 degrees to match train preprocessing
-                    img = np.ascontiguousarray(obs["agentview_image"][::-1, ::-1])
-                    wrist_img = np.ascontiguousarray(obs["robot0_eye_in_hand_image"][::-1, ::-1])
-                    img = image_tools.convert_to_uint8(
-                        image_tools.resize_with_pad(img, args.resize_size, args.resize_size)
-                    )
-                    wrist_img = image_tools.convert_to_uint8(
-                        image_tools.resize_with_pad(wrist_img, args.resize_size, args.resize_size)
-                    )
-
-                    # Save preprocessed image for replay video
-                    replay_images.append(img)
-
-                    if not action_plan:
-                        # Finished executing previous action chunk -- compute new chunk
-                        # Prepare observations dict
-                        element = {
-                            "observation/image": img,
-                            "observation/wrist_image": wrist_img,
-                            "observation/state": np.concatenate(
-                                (
-                                    obs["robot0_eef_pos"],
-                                    _quat2axisangle(obs["robot0_eef_quat"]),
-                                    obs["robot0_gripper_qpos"],
+                                # Get preprocessed image
+                                # IMPORTANT: rotate 180 degrees to match train preprocessing
+                                img = np.ascontiguousarray(obs["agentview_image"][::-1, ::-1])
+                                wrist_img = np.ascontiguousarray(obs["robot0_eye_in_hand_image"][::-1, ::-1])
+                                img = image_tools.convert_to_uint8(
+                                    image_tools.resize_with_pad(img, args.resize_size, args.resize_size)
                                 )
-                            ),
-                            # "prompt": str(task_description),
-                            "prompt": str(annotation),
-                        }
+                                wrist_img = image_tools.convert_to_uint8(
+                                    image_tools.resize_with_pad(wrist_img, args.resize_size, args.resize_size)
+                                )
 
-                        # Query model to get action
-                        action_chunk = client.infer(element)["actions"]
-                        assert (
-                            len(action_chunk) >= args.replan_steps
-                        ), f"We want to replan every {args.replan_steps} steps, but policy only predicts {len(action_chunk)} steps."
-                        action_plan.extend(action_chunk[: args.replan_steps])
+                                # Save preprocessed image for replay video (only if enabled)
+                                if args.save_videos:
+                                    replay_images.append(img)
 
-                    action = action_plan.popleft()
+                                if not action_plan:
+                                    # Finished executing previous action chunk -- compute new chunk
+                                    # Prepare observations dict
+                                    element = {
+                                        "observation/image": img,
+                                        "observation/wrist_image": wrist_img,
+                                        "observation/state": np.concatenate(
+                                            (
+                                                obs["robot0_eef_pos"],
+                                                _quat2axisangle(obs["robot0_eef_quat"]),
+                                                obs["robot0_gripper_qpos"],
+                                            )
+                                        ),
+                                        "prompt": str(annotation),
+                                    }
 
-                    # Execute action in environment
-                    obs, reward, done, info = env.step(action.tolist())
-                    if done:
-                        task_successes += 1
-                        total_successes += 1
-                        break
-                    t += 1
+                                    # Query model to get action
+                                    action_chunk = client.infer(element)["actions"]
+                                    assert (
+                                        len(action_chunk) >= args.replan_steps
+                                    ), f"We want to replan every {args.replan_steps} steps, but policy only predicts {len(action_chunk)} steps."
+                                    action_plan.extend(action_chunk[: args.replan_steps])
 
-                    # except Exception as e:
-                    #     logging.error(f"Caught exception: {e}")
-                    #     break
+                                action = action_plan.popleft()
 
-                task_episodes += 1
-                total_episodes += 1
+                                # Execute action in environment
+                                obs, reward, done, info = env.step(action.tolist())
+                                if done:
+                                    task_successes += 1
+                                    total_successes += 1
+                                    break
+                                t += 1
+                        
+                        except Exception as e:
+                            logging.error(f"Caught exception in episode {episode_idx}: {e}")
+                            done = False  # 确保done有值
+                        
+                        finally:
+                            # CRITICAL: 立即释放replay_images内存
+                            task_episodes += 1
+                            total_episodes += 1
 
-                # Save a replay video of the episode
-                suffix = "success" if done else "failure"
-                # task_segment = task_description.replace(" ", "_")
-                task_segment = annotation.replace(" ", "_")
-                imageio.mimwrite(
-                    pathlib.Path(args.video_out_path) / f"rollout{suffix}_{task_segment}.mp4",
-                    [np.asarray(x) for x in replay_images],
-                    fps=10,
-                )
+                            # Save a replay video of the episode (only if enabled)
+                            if args.save_videos and replay_images:
+                                try:
+                                    suffix = "success" if done else "failure"
+                                    task_segment = annotation.replace(" ", "_")[:60]  # 限制文件名长度
+                                    video_name = f"rollout{suffix}_{task_segment}.mp4"
+                                    imageio.mimwrite(
+                                        pathlib.Path(args.video_out_path) / video_name,
+                                        [np.asarray(x) for x in replay_images],
+                                        fps=10,
+                                    )
+                                except Exception as e:
+                                    logging.error(f"Failed to write video: {e}")
+                            
+                            # CRITICAL: 显式删除replay_images释放内存
+                            if replay_images:
+                                del replay_images
+                            
+                            # Log current results
+                            logging.info(f"Success: {done}")
+                            logging.info(f"# episodes completed so far: {total_episodes}")
+                            logging.info(f"# successes: {total_successes} ({total_successes / total_episodes * 100:.1f}%)")
+                    
+                    if task_successes <= args.failure_threshold:
+                        fail_anotations.append(annotation)
+                        fail_annotations_smi.append(annotations_smi[i])
+                    else:
+                        done_anotations.append(annotation)
+                        done_annotations_smi.append(annotations_smi[i])
+                    
+                    current_task_result['image_url'] = image_url
+                    current_task_result['done_anotations'] = done_anotations
+                    current_task_result['fail_anotations'] = fail_anotations
+                    current_task_result['donw_annotations_smi'] = done_annotations_smi
+                    current_task_result['fail_annotations_smi'] = fail_annotations_smi
+                    current_task_result['task'] = task_description
 
-                 # Log current results
-                logging.info(f"Success: {done}")
-                logging.info(f"# episodes completed so far: {total_episodes}")
-                logging.info(f"# successes: {total_successes} ({total_successes / total_episodes * 100:.1f}%)")
-            if task_successes <= args.failure_threshold:
-                fail_anotations.append(annotation)
-                fail_annotations_smi.append(annotations_smi[i])
-            else:
-                done_anotations.append(annotation)
-                done_annotations_smi.append(annotations_smi[i])
-            current_task_result['image_url'] = image_url
-            current_task_result['done_anotations'] = done_anotations
-            current_task_result['fail_anotations'] = fail_anotations
-            current_task_result['donw_annotations_smi'] = done_annotations_smi
-            current_task_result['fail_annotations_smi'] = fail_annotations_smi
-            current_task_result['task'] = task_description
+                    results.append(current_task_result)
+                    
+                    # save intermediate results to disk after each task
+                    os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
+                    with open(args.output_path, "w") as fout:
+                        json.dump(results, fout,indent=4)
+                
+                # Log final results
+                logging.info(f"Current task success rate: {float(task_successes) / float(task_episodes) if task_episodes > 0 else 0.0}")
+                logging.info(f"Current total success rate: {float(total_successes) / float(total_episodes) if total_episodes > 0 else 0.0}")
+            
+            finally:
+                # CRITICAL: 清理环境资源
+                if env is not None:
+                    try:
+                        env.close()
+                        logging.info(f"Environment for task {task_id} closed successfully")
+                    except Exception as e:
+                        logging.error(f"Failed to close environment for task {task_id}: {e}")
+                    finally:
+                        del env
+                
+                # 强制垃圾回收
+                gc.collect()
 
-            results.append(current_task_result)
-            # save intermediate results to disk after each task
-            os.makedirs(os.path.dirname(args.output_path), exist_ok=True)
-            with open(args.output_path, "w") as fout:
-                json.dump(results, fout,indent=4)
-        # Log final results
-        logging.info(f"Current task success rate: {float(task_successes) / float(task_episodes)}")
-        logging.info(f"Current total success rate: {float(total_successes) / float(total_episodes)}")
+        # 计算最终统计
+        if annotations_smi_all:
+            mean_val = np.mean(annotations_smi_all)
+            var_val = np.var(annotations_smi_all)
+            print(f" Overall task similarity  Mean: {mean_val:.4f}, Variance: {var_val:.4f}")
 
-    mean_val = np.mean(annotations_smi_all)
-    var_val = np.var(annotations_smi_all)
-    print(f" Overall task similarity  Mean: {mean_val:.4f}, Variance: {var_val:.4f}")
+        all_result = {}
+        all_success_rate = float(total_successes) / float(total_episodes) if total_episodes > 0 else 0.0
+        all_result[args.task_suite_name] = all_success_rate
 
-    all_result = {}
+        os.makedirs(os.path.dirname(args.whole_acc_log_path), exist_ok=True)
+        with open(args.whole_acc_log_path, "a") as fout:
+            json.dump(all_result, fout,indent=4)
 
-    all_success_rate = float(total_successes) / float(total_episodes)
+        print(f"Done. Results saved to {args.output_path}")
 
-    all_result[args.task_suite_name] = all_success_rate
-
-    os.makedirs(os.path.dirname(args.whole_acc_log_path), exist_ok=True)
-    with open(args.whole_acc_log_path, "a") as fout:
-        json.dump(all_result, fout,indent=4)
-
-    print(f"Done. Results saved to {args.output_path}")
-
-    logging.info(f"Total success rate: {float(total_successes) / float(total_episodes)}")
-    logging.info(f"Total episodes: {total_episodes}")
+        logging.info(f"Total success rate: {all_success_rate:.4f}")
+        logging.info(f"Total episodes: {total_episodes}")
+    
+    finally:
+        # CRITICAL: 最终清理
+        # 关闭WebSocket客户端
+        try:
+            if hasattr(client, '_ws') and client._ws is not None:
+                client._ws.close()
+                logging.info("WebSocket client closed successfully")
+        except Exception as e:
+            logging.error(f"Failed to close WebSocket client: {e}")
+        
+        # 清理其他对象
+        if 'client' in locals():
+            del client
+        if 'task_suite' in locals():
+            del task_suite
+        if 'red_team' in locals():
+            del red_team
+        
+        # 最终垃圾回收
+        gc.collect()
+        logging.info("All resources cleaned up")
 
 
 def _get_libero_env(task, resolution, seed):

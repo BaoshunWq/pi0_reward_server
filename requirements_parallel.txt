@@ -1,0 +1,21 @@
+# 并行版本Pi0 Reward Server依赖
+
+# Web框架
+flask>=2.3.0
+gunicorn>=21.2.0
+
+# 原有依赖（保持不变）
+numpy>=1.24.0
+imageio>=2.31.0
+tqdm>=4.66.0
+tyro>=0.5.0
+
+# LIBERO环境
+# libero @ git+https://github.com/Lifelong-Robot-Learning/LIBERO.git
+
+# OpenPI客户端
+# 假设已安装，如果需要可以添加路径
+
+# 可选：异步worker支持
+# gevent>=23.9.0  # 如果使用gevent worker
+

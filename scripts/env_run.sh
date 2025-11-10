@@ -27,6 +27,6 @@
 # done
 # " > "$LOGDIR/loop.out" 2>&1 &
 # echo "loop pid=$!"
-CUDA_VISIBLE_DEVICES=2 nohup python pi0_reward_server/app_pi0_libero.py > pi0_reward_server_log.txt 2>&1 &
+CUDA_VISIBLE_DEVICES=1 nohup python pi0_reward_server/app_pi0_libero.py > pi0_reward_server_log.txt 2>&1 &
 
 

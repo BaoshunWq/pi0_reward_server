@@ -29,6 +29,7 @@ class Args:
     # Utils
     #################################################################################################################
     video_out_path: str = f"data/libero/{current_time}/videos"  # Path to save videos
+    save_videos: bool = False                    # Whether to save video replays (disable to save memory)
     seed: int = 7                                # Random Seed (for reproducibility)
 
 
@@ -51,6 +52,7 @@ DEFAULT_LIBERO_CFG: Dict[str, Any] = {
 
     # Utils
     "video_out_path": f"/root/autodl-tmp/output_big_data/libero/{current_time}/videos",
+    "save_videos": False,  # 默认禁用视频保存以节省内存
     "seed": 7,
 }
 
@@ -138,6 +140,7 @@ def compute_score(
             num_trials_per_task=int(merged_cfg["num_trials_per_task"]),
             instruction=instruction,
             video_out_path=str(merged_cfg["video_out_path"]),
+            save_videos=bool(merged_cfg.get("save_videos", False)),
             seed=int(seed),
         )
 
