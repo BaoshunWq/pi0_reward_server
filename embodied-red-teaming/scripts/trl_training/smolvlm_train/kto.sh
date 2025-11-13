@@ -1,1 +1,0 @@
-accelerate launch --multi_gpu --num_processes 2 --mixed_precision bf16 offline_trl_vlm/kto_home/kto_main_accelerate.py
