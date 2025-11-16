@@ -19,7 +19,6 @@ def load_relate_model(cfg):
 
     print(f"[ERT] Using backend: {cfg.BACKEND}")
 
-
     if cfg.BACKEND == "qwenvl":
         # Qwen-VL：本地或 API
         # - 本地：model="Qwen/Qwen2.5-VL-7B-Instruct", mode="local"
@@ -37,7 +36,7 @@ def load_relate_model(cfg):
         red_team = build_red_team_generator(
             backend="verl_qwen",
             embedding_model=semantic_model,
-            lora_path=cfg.verl_model_path,
+            model_path=cfg.verl_model_path,
             device=device_model,
         )
     else:

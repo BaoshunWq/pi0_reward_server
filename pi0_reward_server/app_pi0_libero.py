@@ -1,13 +1,31 @@
 import sys
+import os
+import logging
 from flask import Flask, request, jsonify
 import traceback
-from reward_core import compute_score, DEFAULT_LIBERO_CFG
+from .reward_core import compute_score, DEFAULT_LIBERO_CFG
+from .gpu_worker_pool import get_global_pool
 
+# 配置日志 - 确保输出到stderr（会被重定向到日志文件）
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    stream=sys.stderr,  # 只输出到stderr
+    force=True  # 强制重新配置
+)
 
+logger = logging.getLogger(__name__)
 
 
 def create_app():
     app = Flask(__name__)
+    
+    # 从环境变量读取policy端口配置
+    policy_port = os.environ.get("POLICY_PORT")
+    if policy_port:
+        DEFAULT_LIBERO_CFG["port"] = int(policy_port)
+        logger.info(f"[Config] Using policy port from env: {policy_port}")
+        print(f"[Config] Using policy port from env: {policy_port}", flush=True)
 
     @app.get("/health")
     def health():
@@ -50,6 +68,8 @@ def create_app():
 
             metas     = body.get("metas", None)
             kwargs    = body.get("reward_function_kwargs", {}) or {}
+            
+            logger.info(f"Received /score request with {len(responses)} samples")
 
             if not isinstance(responses, list):
                 return jsonify({"error": "`responses` must be a list"}), 400
@@ -62,9 +82,20 @@ def create_app():
             lib_cfg.update(kwargs.get("libero_cfg", {}) or {})
             kwargs["libero_cfg"] = lib_cfg
 
-            done_result = compute_score(responses, metas, **kwargs)
+            # 检查是否启用并行处理
+            use_parallel = os.environ.get("USE_GPU_POOL", "0") == "1"
+            
+            if use_parallel and len(responses) > 1:
+                # 使用GPU工作池并行处理batch
+                logger.info(f"[Parallel Mode] Processing {len(responses)} samples across multiple GPUs")
+                pool = get_global_pool()
+                done_result = pool.process_batch(responses, metas, **kwargs)
+            else:
+                # 单GPU顺序处理（原有逻辑）
+                logger.info(f"[Sequential Mode] Processing {len(responses)} samples on single GPU")
+                done_result = compute_score(responses, metas, **kwargs)
 
-            print(f"[annotation: {responses}, done_result: {done_result}]\n")
+            logger.info(f"Completed {len(responses)} samples, results: {done_result}")
 
             return jsonify({"done_result": done_result}), 200
 
@@ -78,4 +109,9 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(host="0.0.0.0", port=6006, debug=True)
+    # 从环境变量读取端口，默认8000
+    port = int(os.environ.get("PORT", 8000))
+    # 使用threaded=True允许并发处理多个请求
+    # 注意：对于CPU密集型任务，线程并发受GIL限制，建议使用waitress或gunicorn
+    print(f"Starting Flask server on port {port}...")
+    app.run(host="0.0.0.0", port=port, debug=False, threaded=True)

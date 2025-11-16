@@ -20,7 +20,7 @@ cd /root/autodl-tmp/code/attackVLA/pi0_reward_server/openpi
 
 - 创建并激活 Conda 环境（Python 3.8）
 ```bash
-conda create -y -n openpi-libero python=3.8
+conda create -y -n openpi-libero python=3.9
 conda activate openpi-libero
 ```
 
@@ -46,6 +46,7 @@ pip install flask
 pip install -e third_party/libero
 ```
 
+pip install nltk
 - 运行示例前（推荐）加入 PYTHONPATH，便于直接 import 自由度更高
 ```bash
 export PYTHONPATH="$PYTHONPATH:$PWD/third_party/libero"

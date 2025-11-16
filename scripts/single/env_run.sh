@@ -27,6 +27,9 @@
 # done
 # " > "$LOGDIR/loop.out" 2>&1 &
 # echo "loop pid=$!"
-CUDA_VISIBLE_DEVICES=1 nohup python pi0_reward_server/app_pi0_libero.py > pi0_reward_server_log.txt 2>&1 &
+TIMESTAMP="$(date +%Y-%m-%d_%H-%M-%S)"
+LOG_DIR="logs"
+LOG_FILE="${LOG_DIR}/reward_server_log_${TIMESTAMP}.txt"
+CUDA_VISIBLE_DEVICES=1 nohup python pi0_reward_server/app_pi0_libero.py > "${LOG_FILE}" 2>&1 &
 
 

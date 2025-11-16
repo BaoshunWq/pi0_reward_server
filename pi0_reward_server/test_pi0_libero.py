@@ -1,6 +1,6 @@
 import requests
 
-URL = "http://127.0.0.1:34567/score"
+URL = "http://127.0.0.1:8000/score"
 
 payload = {
     "responses": [

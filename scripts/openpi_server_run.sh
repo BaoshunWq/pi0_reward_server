@@ -1,2 +1,0 @@
-# CUDA_VISIBLE_DEVICES=5,6,7 nohup uv run openpi/scripts/serve_policy.py --env LIBERO > server_log.txt 2>&1 &
-CUDA_VISIBLE_DEVICES=1 nohup python openpi/scripts/serve_policy.py --env LIBERO > server_log.txt 2>&1 &

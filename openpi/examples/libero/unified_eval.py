@@ -5,7 +5,7 @@
 import os
 # 设置tokenizers并行处理环境变量，避免警告
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
-
+os.environ.setdefault("CUDA_VISIBLE_DEVICES", "0")
 import collections
 import dataclasses
 import logging
@@ -46,7 +46,7 @@ class Args:
     # Model server parameters
     #################################################################################################################
     host: str = "0.0.0.0"
-    port: int = 8000
+    port: int = 3333
     resize_size: int = 224
     replan_steps: int = 5
 
@@ -75,12 +75,12 @@ class Args:
     output_path: str = f"data/{formatted_time}libero/results/unified_eval_results.json"
     whole_acc_log_path: str = f"data/{formatted_time}libero/results/whole_acc_log.json"
     failure_threshold: int = 5
-    verl_model_path: str = "/root/autodl-tmp/trained_models/Qwen2.5-1.5B-Instruct_full_train_step200"
+    verl_model_path: str = "/root/autodl-tmp/code/attackVLA/rover_verl/checkpoints/custom_rover_qwen2_5_vl_lora_20251113_121506/global_step_100"
     
     # WandB config
     use_wandb: bool = False  # Use --no-use-wandb to disable
     wandb_project: str = "unified_libero_evaluation"
-    wandb_entity: str = ""
+    wandb_entity: str = "tongbs-sysu"
 
 
 def eval_libero(args: Args) -> None:
@@ -174,7 +174,7 @@ def eval_libero(args: Args) -> None:
             try:
                 env, task_description = _get_libero_env(task, LIBERO_ENV_RESOLUTION, args.seed)
 
-                print(f"[Task {task_id}]: sourcetask_description: {task_description}")
+                print(f"[Task {task_id}]: source task_description: {task_description}")
                 
                 # 根据模式选择image_url
                 if args.mode == "vlm":
@@ -185,13 +185,8 @@ def eval_libero(args: Args) -> None:
                     image_url = ""
                 
                 # 生成指令
-                annotations, annotations_smi = red_team(
-                    task_description,
-                    semantic_type=args.semantic_type,
-                    image_url=image_url,
-                    num_instructions=args.num_instructions,
-                    select_topk=args.select_topk
-                )
+                annotations, annotations_smi = red_team(task_description,semantic_type=args.semantic_type,image_url=image_url,
+                    num_instructions=args.num_instructions,select_topk=args.select_topk)
                 
                 annotations_smi_all.extend(annotations_smi)
                 annotations_smi = [float(x) for x in annotations_smi]
@@ -300,6 +295,7 @@ def eval_libero(args: Args) -> None:
                             if replay_images:
                                 del replay_images
                             
+                            print(f"Episode {task_episodes}: {'success' if done else 'failure'}")
                             logging.debug(f"Episode {task_episodes}: {'success' if done else 'failure'}")
                     
                     # 计算当前指令的成功率

@@ -58,11 +58,12 @@ class Args:
     custom_lora_path: str = ""  # smolvlm custom lora path
     qwen_mode: str = "api"  # qwenvl mode: "local" or "api"
     qwen_model_id : str = "Qwen/Qwen2-VL-2B-Instruct"
+    qwen_llm_model_id: str = "Qwen/Qwen2.5-7B-Instruct"
     semantic_type: str = "clip"  # "clip" or "deberta"
     num_instructions: int = 10  # number of generated instructions
     select_topk: int = 5  # select top k instructions
     task_to_huglinks_json_path: str = "libero-init-frames/json_data_for_rl/vlm_initial_state_links_new.json"  # path to task to huglinks json
-    BACKEND: str = "verl_qwen"  # "smolvlm" or "qwenvl","verl_qwen"
+    BACKEND: str = "verl_qwen"  # "smolvlm" or "qwenvl","verl_qwen","qwen_llm"
     output_path: str = f"data/{formatted_time}libero/results/libero_vlmrewrite_results.json"  # path to save results
     whole_acc_log_path: str = f"data/{formatted_time}libero/results/libero_whole_acc_log.json"  # path to save whole accuracy log
     failure_threshold: int = 5

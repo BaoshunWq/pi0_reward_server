@@ -24,7 +24,7 @@ class Args:
     # Model server parameters
     #################################################################################################################
     host: str = "0.0.0.0"
-    port: int = 8000
+    port: int = 3333
     resize_size: int = 224
     replan_steps: int = 5
 
@@ -40,7 +40,7 @@ class Args:
     #################################################################################################################
     # Utils
     #################################################################################################################
-    video_out_path: str = "data/libero/pi0_baseline/videos"  # Path to save videos
+    video_out_path: str = "data/libero/videos"  # Path to save videos
 
     seed: int = 7  # Random Seed (for reproducibility)
 
@@ -90,7 +90,10 @@ def eval_libero(args: Args) -> None:
         task_episodes, task_successes = 0, 0
         for episode_idx in tqdm.tqdm(range(args.num_trials_per_task)):
             logging.info(f"\nTask: {task_description}")
-            print(f"eval task_description : {task_description}\n")
+
+            print(" change the task_description to [no action]\n")
+
+            task_description = "no action."
 
             # Reset environment
             env.reset()
@@ -101,8 +104,7 @@ def eval_libero(args: Args) -> None:
 
             # Setup
             t = 0
-            if episode_idx == 0:
-                replay_images = []
+            replay_images = []
 
             logging.info(f"Starting episode {task_episodes+1}...")
             while t < max_steps + args.num_steps_wait:
@@ -124,9 +126,11 @@ def eval_libero(args: Args) -> None:
                     wrist_img = image_tools.convert_to_uint8(
                         image_tools.resize_with_pad(wrist_img, args.resize_size, args.resize_size)
                     )
+                    if episode_idx ==0:
+                        # Save preprocessed image for replay video
+                        replay_images.append(img)
 
-                    # Save preprocessed image for replay video
-                    replay_images.append(img)
+                    # print(f"task_description : {task_description}\n")
 
                     if not action_plan:
                         # Finished executing previous action chunk -- compute new chunk
@@ -169,7 +173,6 @@ def eval_libero(args: Args) -> None:
             total_episodes += 1
 
             # Save a replay video of the episode
-
             if episode_idx == 0:
                 suffix = "success" if done else "failure"
                 task_segment = task_description.replace(" ", "_")

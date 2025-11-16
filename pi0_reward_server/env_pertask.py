@@ -4,6 +4,11 @@ import gc
 import logging
 import math
 import pathlib
+import warnings
+import random
+
+# 注意：EGL上下文警告是AttributeError异常，不是Warning
+# 无法通过warnings模块过滤，这些警告可以安全忽略
 
 import imageio
 from libero.libero import benchmark
@@ -39,6 +44,7 @@ class Args:
     num_steps_wait: int = 10                  # 开场等待步数，等物体稳定
     num_trials_per_task: int = 10             # 同一个任务重复多少次 rollout
     instruction: str = "pick up the black bowl between the plate and the ramekin and place it on the plate"                     # 外部指令（为空则使用任务自带 language）
+    init_state_id: int = 0                    # 初始状态 ID
 
     #################################################################################################################
     # Utils
@@ -51,8 +57,22 @@ class Args:
 
 
 def eval_one_task(args: Args) -> None:
-    # Set random seed
+    # Set random seed for reproducibility
+    random.seed(args.seed)
     np.random.seed(args.seed)
+    
+    # Set torch seed if torch is available
+    try:
+        import torch
+        torch.manual_seed(args.seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(args.seed)
+            torch.backends.cudnn.deterministic = True
+            torch.backends.cudnn.benchmark = False
+    except ImportError:
+        pass  # torch not available, skip
+    
+    logging.info(f"Random seed set to: {args.seed}")
 
     # Initialize LIBERO task suite
     benchmark_dict = benchmark.get_benchmark_dict()
@@ -109,108 +129,111 @@ def eval_one_task(args: Args) -> None:
         logging.info(f"Task ID: {args.task_id}")
         logging.info(f"Instruction used: {task_description}")
 
-        for episode_idx in tqdm.tqdm(range(args.num_trials_per_task)):
+        # for episode_idx in tqdm.tqdm(range(args.num_trials_per_task)):
             # Choose init state (cycle if trials > available init states)
-            init_state = initial_states[episode_idx % len(initial_states)]
+        # episode_idx = args.init_state_id
+        init_state = initial_states[args.init_state_id]
 
-            # Reset environment
-            env.reset()
-            env.set_init_state(init_state)
+        print(f"init_state id: {args.init_state_id}")
 
-            action_plan = collections.deque()
-            t = 0
-            replay_images = []
-            done = False  # avoid UnboundLocalError if exception occurs early
+        # Reset environment
+        env.reset()
+        env.set_init_state(init_state)
 
-            logging.info(f"Starting episode {episode_idx + 1}/{args.num_trials_per_task}...")
+        action_plan = collections.deque()
+        t = 0
+        replay_images = []
+        done = False  # avoid UnboundLocalError if exception occurs early
 
-            try:
-                # obs = env.get_observation() if hasattr(env, "get_observation") else env._get_observation()  # fallback
+        # logging.info(f"Starting episode {episode_idx + 1}/{args.num_trials_per_task}...")
 
-                while t < max_steps + args.num_steps_wait:
-                    # IMPORTANT: wait for objects to settle
-                    if t < args.num_steps_wait:
-                        obs, reward, done, info = env.step(LIBERO_DUMMY_ACTION)
-                        t += 1
-                        if done:
-                            break
-                        continue
+        try:
+            # obs = env.get_observation() if hasattr(env, "get_observation") else env._get_observation()  # fallback
 
-                    # Get preprocessed images (rotate 180° to match train preprocessing)
-                    img = np.ascontiguousarray(obs["agentview_image"][::-1, ::-1])
-                    wrist_img = np.ascontiguousarray(obs["robot0_eye_in_hand_image"][::-1, ::-1])
-
-                    img = image_tools.convert_to_uint8(
-                        image_tools.resize_with_pad(img, args.resize_size, args.resize_size)
-                    )
-                    wrist_img = image_tools.convert_to_uint8(
-                        image_tools.resize_with_pad(wrist_img, args.resize_size, args.resize_size)
-                    )
-
-                    # Save for replay (only if video saving is enabled)
-                    if args.save_videos:
-                        replay_images.append(img)
-
-                    if not action_plan:
-                        # Prepare observations dict
-                        element = {
-                            "observation/image": img,
-                            "observation/wrist_image": wrist_img,
-                            "observation/state": np.concatenate(
-                                (
-                                    obs["robot0_eef_pos"],
-                                    _quat2axisangle(obs["robot0_eef_quat"]),
-                                    obs["robot0_gripper_qpos"],
-                                )
-                            ),
-                            "prompt": str(task_description),
-                        }
-
-                        # Query model to get action chunk
-                        action_chunk = client.infer(element)["actions"]
-                        assert len(action_chunk) >= args.replan_steps, (
-                            f"We want to replan every {args.replan_steps} steps, "
-                            f"but policy only predicts {len(action_chunk)} steps."
-                        )
-                        action_plan.extend(action_chunk[: args.replan_steps])
-
-                    action = action_plan.popleft()
-                    obs, reward, done, info = env.step(action.tolist())
-
-                    if done:
-                        total_successes += 1
-                        break
-
+            while t < max_steps + args.num_steps_wait:
+                # IMPORTANT: wait for objects to settle
+                if t < args.num_steps_wait:
+                    obs, reward, done, info = env.step(LIBERO_DUMMY_ACTION)
                     t += 1
+                    if done:
+                        break
+                    continue
 
-            except Exception as e:
-                logging.error(f"Caught exception in episode {episode_idx + 1}: {e}")
+                # Get preprocessed images (rotate 180° to match train preprocessing)
+                img = np.ascontiguousarray(obs["agentview_image"][::-1, ::-1])
+                wrist_img = np.ascontiguousarray(obs["robot0_eye_in_hand_image"][::-1, ::-1])
 
-            total_episodes += 1
+                img = image_tools.convert_to_uint8(
+                    image_tools.resize_with_pad(img, args.resize_size, args.resize_size)
+                )
+                wrist_img = image_tools.convert_to_uint8(
+                    image_tools.resize_with_pad(wrist_img, args.resize_size, args.resize_size)
+                )
 
-            # Save a replay video of the episode
-            if args.save_videos and replay_images:
-                suffix = "success" if done else "failure"
-                safe_desc = str(task_description).replace(" ", "_")[:60]
-                video_name = f"rollout_suite-{args.task_suite_name}_task-{args.task_id}_ep-{episode_idx+1}_{suffix}_{safe_desc}.mp4"
-                print(f"Saving video to {args.video_out_path} / {video_name}")
-                try:
-                    imageio.mimwrite(
-                        pathlib.Path(args.video_out_path) / video_name,
-                        [np.asarray(x) for x in replay_images],
-                        fps=10,
+                # Save for replay (only if video saving is enabled)
+                if args.save_videos:
+                    replay_images.append(img)
+
+                if not action_plan:
+                    # Prepare observations dict
+                    element = {
+                        "observation/image": img,
+                        "observation/wrist_image": wrist_img,
+                        "observation/state": np.concatenate(
+                            (
+                                obs["robot0_eef_pos"],
+                                _quat2axisangle(obs["robot0_eef_quat"]),
+                                obs["robot0_gripper_qpos"],
+                            )
+                        ),
+                        "prompt": str(task_description),
+                    }
+
+                    # Query model to get action chunk
+                    action_chunk = client.infer(element)["actions"]
+                    assert len(action_chunk) >= args.replan_steps, (
+                        f"We want to replan every {args.replan_steps} steps, "
+                        f"but policy only predicts {len(action_chunk)} steps."
                     )
-                except Exception as e:
-                    logging.error(f"Failed to write video {video_name}: {e}")
-            
-            # CRITICAL: Explicitly delete replay_images to free memory immediately
-            if replay_images:
-                del replay_images
-            
-            # Log current results
-            logging.info(f"Episode {episode_idx + 1} success: {done}")
-            logging.info(f"# episodes so far: {total_episodes}")
-            logging.info(f"# successes: {total_successes} ({(total_successes / total_episodes * 100):.1f}%)")
+                    action_plan.extend(action_chunk[: args.replan_steps])
+
+                action = action_plan.popleft()
+                obs, reward, done, info = env.step(action.tolist())
+
+                if done:
+                    total_successes += 1
+                    break
+
+                t += 1
+
+        except Exception as e:
+            logging.error("Caught exception in episode")
+
+        total_episodes += 1
+
+        # Save a replay video of the episode
+        if args.save_videos and replay_images:
+            suffix = "success" if done else "failure"
+            safe_desc = str(task_description).replace(" ", "_")[:60]
+            video_name = f"rollout_suite-{args.task_suite_name}_task-{args.task_id}_init-{args.init_state_id}_{suffix}_{safe_desc}.mp4"
+            print(f"Saving video to {args.video_out_path} / {video_name}")
+            try:
+                imageio.mimwrite(
+                    pathlib.Path(args.video_out_path) / video_name,
+                    [np.asarray(x) for x in replay_images],
+                    fps=10,
+                )
+            except Exception as e:
+                logging.error(f"Failed to write video {video_name}: {e}")
+        
+        # CRITICAL: Explicitly delete replay_images to free memory immediately
+        if replay_images:
+            del replay_images
+        
+        # Log current results
+        # logging.info(f"Episode {episode_idx + 1} success: {done}")
+        logging.info(f"# episodes so far: {total_episodes}")
+        logging.info(f"# successes: {total_successes} ({(total_successes / total_episodes * 100):.1f}%)")
 
         # Final results
         # Final results + **返回值**

@@ -1,43 +1,18 @@
 from typing import Any, Dict, List, Optional
 import logging
 import tqdm  # 如果你是 `import tqdm` 用法，请保持一致
-from env_pertask import eval_one_task
+from .env_pertask import eval_one_task, Args
+from .utils import _extract_text_from_vllm
 import dataclasses
 import time
 current_time = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
-
-@dataclasses.dataclass
-class Args:
-    #################################################################################################################
-    # Model server parameters
-    #################################################################################################################
-    host: str = "0.0.0.0"
-    port: int = 8000
-    resize_size: int = 224
-    replan_steps: int = 5
-
-    #################################################################################################################
-    # LIBERO environment-specific parameters
-    #################################################################################################################
-    task_suite_name: str = "libero_spatial"  # libero_spatial, libero_object, libero_goal, libero_10, libero_90
-    task_id: int = 0                          # 要评测的任务 ID（基于 task suite 的索引）
-    num_steps_wait: int = 10                  # 开场等待步数，等物体稳定
-    num_trials_per_task: int = 10             # 同一个任务重复多少次 rollout
-    instruction: str = "pick up the black bowl between the plate and the ramekin and place it on the plate"                     # 外部指令（为空则使用任务自带 language）
-
-    #################################################################################################################
-    # Utils
-    #################################################################################################################
-    video_out_path: str = f"data/libero/{current_time}/videos"  # Path to save videos
-    save_videos: bool = False                    # Whether to save video replays (disable to save memory)
-    seed: int = 7                                # Random Seed (for reproducibility)
 
 
 # 供外部覆盖的默认配置
 DEFAULT_LIBERO_CFG: Dict[str, Any] = {
     # Model server parameters
     "host": "0.0.0.0",
-    "port": 8000,
+    "port": 23451,
     "resize_size": 224,
     "replan_steps": 5,
 
@@ -46,6 +21,7 @@ DEFAULT_LIBERO_CFG: Dict[str, Any] = {
     "task_id": 0,
     "num_steps_wait": 10,
     "num_trials_per_task": 5,
+    "init_state_id": 0,
 
     # instruction 会用候选文本覆盖
     "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
@@ -56,36 +32,6 @@ DEFAULT_LIBERO_CFG: Dict[str, Any] = {
     "seed": 7,
 }
 
-def _extract_text_from_vllm(r: Any) -> str:
-    """尽量鲁棒的候选文本抽取。"""
-    if r is None:
-        return ""
-    if isinstance(r, str):
-        return r
-    if isinstance(r, list):
-        return _extract_text_from_vllm(r[0]) if r else ""
-    if isinstance(r, dict):
-        for k in ("text", "generated_text", "output_text", "response", "content"):
-            v = r.get(k)
-            if isinstance(v, str):
-                return v
-        if isinstance(r.get("outputs"), list) and r["outputs"]:
-            o0 = r["outputs"][0]
-            if isinstance(o0, dict) and isinstance(o0.get("text"), str):
-                return o0["text"]
-            # openai/chat 风格
-        if isinstance(r.get("choices"), list) and r["choices"]:
-            ch0 = r["choices"][0]
-            if isinstance(ch0, dict):
-                if isinstance(ch0.get("text"), str):
-                    return ch0["text"]
-                msg = ch0.get("message")
-                if isinstance(msg, dict) and isinstance(msg.get("content"), str):
-                    return msg["content"]
-    try:
-        return str(r)
-    except Exception:
-        return ""
 
 def compute_score(
     responses: List[Any],
@@ -115,7 +61,12 @@ def compute_score(
 
     success_list: List[float] = []
 
-    for r, m in tqdm.tqdm(zip(responses, metas), total=len(responses)):
+    # 使用enumerate来显示进度，而不是tqdm（更适合日志）
+    total_samples = len(responses)
+    logging.info(f"Processing {total_samples} samples...")
+    
+    for idx, (r, m) in enumerate(zip(responses, metas), 1):
+        logging.info(f"[{idx}/{total_samples}] Processing sample {idx}...")
         m = m or {}
 
         # 解析 suite / task_id / seed
@@ -127,6 +78,7 @@ def compute_score(
         candidate = _extract_text_from_vllm(r)
         i0 = str(m.get("original_instruction", "")) if m.get("original_instruction") is not None else ""
         instruction = (candidate or i0 or merged_cfg.get("instruction", "")).strip()
+        init_state_id = int(m.get("init_state_id", merged_cfg["init_state_id"]))
 
         # 组装 Args，逐条评测（不做任何缓存）
         args = Args(
@@ -136,6 +88,7 @@ def compute_score(
             replan_steps=int(merged_cfg["replan_steps"]),
             task_suite_name=str(suite),
             task_id=int(task_id),
+            init_state_id=int(init_state_id),
             num_steps_wait=int(merged_cfg["num_steps_wait"]),
             num_trials_per_task=int(merged_cfg["num_trials_per_task"]),
             instruction=instruction,
@@ -146,9 +99,11 @@ def compute_score(
 
         try:
             sr = float(eval_one_task(args))  # ← 直接用返回的成功率
+            logging.info(f"[{idx}/{total_samples}] Sample {idx} completed: success_rate={sr:.2%}")
         except Exception as e:
             logging.error(f"compute_score: eval_one_task failed for suite={suite}, task_id={task_id}: {e}")
             sr = 0.0
+            logging.info(f"[{idx}/{total_samples}] Sample {idx} failed: success_rate=0.00%")
 
         success_list.append(sr)
 

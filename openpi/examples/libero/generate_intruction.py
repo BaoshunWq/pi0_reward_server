@@ -1,11 +1,13 @@
 from typing import List, Dict, Callable, Optional, Union
 import os
 import re
-# import json
+import json
 # import random
 # import functools
 # import multiprocessing
 # from pydantic import BaseModel
+import shutil
+import tempfile
 import nltk
 from nltk.corpus import stopwords
 from tqdm import tqdm
@@ -20,7 +22,8 @@ from transformers import (
 )
 from transformers.image_utils import load_image
 import string
-
+from qwen_vl_utils import process_vision_info
+from verl_qwen_lora_generator import VERLQwenLoRAGenerator
 HF_API_TOKEN = "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"
 DASHSCOPE_API_KEY = "sk-c48456b8ea2643cb9209979aed586cff"
 stop = set(stopwords.words("english")) | set(string.punctuation)
@@ -128,6 +131,9 @@ def _dedup_preserve_order(items: List[str]) -> List[str]:
             out.append(it)
     return out
 
+
+
+
 def _select_topk_by_similarity(embedding_model: Callable,semantic_type, task: str, candidates: List[str], select_topk: int) -> List[str]:
     if semantic_type == "clip":
         sims = (
@@ -149,116 +155,7 @@ def _select_topk_by_similarity(embedding_model: Callable,semantic_type, task: st
     return [candidates[i] for i in top_idx],[sims[i] for i in top_idx]
 
 
-# =========================
-# 后端 1：SmolVLM（本地）
-# =========================
 
-class EmbodiedRedTeamModelWithSmolVLM:
-    """
-    本地 HuggingFace 的 SmolVLM-Instruct（如：HuggingFaceTB/SmolVLM-Instruct）
-    """
-    def __init__(
-        self,
-        embedding_model: Callable,
-        model_path: str = "HuggingFaceTB/SmolVLM-Instruct",
-        custom_lora_path: Optional[str] = None,
-        device: str = DEVICE_DEFAULT,
-    ):
-        self.device = device
-        print(f"[SmolVLM] Loading '{model_path}' on '{device}' ...")
-        model_dtype = (
-            torch.bfloat16 if torch.cuda.is_available() and torch.cuda.is_bf16_supported()
-            else (torch.float16 if torch.cuda.is_available() else torch.float32)
-        )
-        self.model = AutoModelForVision2Seq.from_pretrained(
-            model_path,
-            torch_dtype=model_dtype,
-            trust_remote_code=True,
-        ).to(self.device).eval()
-
-        # if custom_lora_path:
-        #     from peft import PeftModel
-        #     print(f"[SmolVLM] Loading LoRA: {custom_lora_path}")
-        #     self.model = PeftModel.from_pretrained(self.model, custom_lora_path).to(self.device).eval()
-
-        self.processor = AutoProcessor.from_pretrained(model_path, trust_remote_code=True)
-        self.embedding_model = embedding_model
-        print("[SmolVLM] Ready.")
-
-    def __call__(
-        self,
-        task: str,
-        image_url: Optional[str] = None,
-        semantic_type: str = "",
-        num_instructions: int = 10,
-        return_all_annotations: bool = False,
-        select_topk: int = 3,
-    ) -> Union[List[str], tuple]:
-        image_url = _hf_to_raw(image_url)
-        messages = [
-            {
-                "role": "system",
-                "content": (
-                    "You are a quality assurance engineer for a robot. "
-                    "Your goal is to come up with instructions that describe the given task correctly, "
-                    "are similar to what human users would possibly give, and yet challenge the robot's capability."
-                ),
-            },
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": f"The attached image is an example of the initial state for the task: {task}. "
-                                f"Generate a diverse set of exactly {num_instructions} instructions. Image: <image>"
-                    }],
-            },
-        ]
-
-        image = load_image(image_url) if image_url else None
-        prompt = self.processor.apply_chat_template(messages, add_generation_prompt=True)
-
-        inputs = self.processor(
-            text=prompt,
-            images=[image] if image is not None else None,
-            return_tensors="pt"
-        ).to(self.device)
-
-        # 生成若干样本
-        num_samples = max(1, min(5, num_instructions))
-        gen_ids = self.model.generate(
-            **inputs,
-            max_new_tokens=512,
-            do_sample=True,
-            temperature=0.8,
-            num_return_sequences=num_samples,
-        )
-        gen_only = gen_ids[:, inputs["input_ids"].shape[-1]:]
-        decoded = self.processor.batch_decode(gen_only, skip_special_tokens=True)
-
-        # candidates: List[str] = []
-        # for sample in decoded:
-        #     for line in sample.splitlines():
-        #         line = _clean_line(line)
-        #         if line:
-        #             candidates.append(line)
-
-        # candidates = _dedup_preserve_order(candidates) or ["Please pick up the object and place it as requested."]
-
-        if return_all_annotations:
-            # 返回（最相似的一条, 全部候选）
-            selected,selected_sim = _select_topk_by_similarity(self.embedding_model, task, decoded, 1)
-            
-            return selected[0],selected_sim, decoded
-        
-        selected,selected_sim = _select_topk_by_similarity(self.embedding_model,semantic_type, task, decoded, select_topk)
-
-        return selected,selected_sim
-
-
-# =========================
-# 后端 2：Qwen-VL（本地 / API）
-# =========================
 
 class EmbodiedRedTeamModelWithQwenVL:
     """
@@ -441,313 +338,8 @@ class EmbodiedRedTeamModelWithQwenVL:
         return selected,selected_sim
 
 
-# =========================
-# 后端 3：VERL 训练的 Qwen 语言模型(纯文本)
-# =========================
-
-class EmbodiedRedTeamModelWithVERLQwen:
-    """
-    使用 VERL 训练的 Qwen 语言模型重写指令
-    - 纯文本输入,不需要图像
-    - 专注于指令重写和改进
-    """
-    def __init__(
-        self,
-        embedding_model: Callable,
-        model_path: str,
-        device: str = DEVICE_DEFAULT,
-    ):
-        self.embedding_model = embedding_model
-        self.device = device
-        self.model_path = model_path
-        
-        # 自动检测正确的模型路径（处理VERL checkpoint结构）
-        import os
-        actual_model_path = model_path
-        lora_adapter_path = None
-        
-        if os.path.isdir(model_path):
-            # 检查是否是VERL checkpoint结构
-            huggingface_path = os.path.join(model_path, "actor", "huggingface")
-            lora_path = os.path.join(model_path, "actor", "lora_adapter")
-            
-            if os.path.isdir(huggingface_path) and os.path.exists(os.path.join(huggingface_path, "tokenizer_config.json")):
-                actual_model_path = huggingface_path
-                if os.path.isdir(lora_path) and os.path.exists(os.path.join(lora_path, "adapter_config.json")):
-                    lora_adapter_path = lora_path
-                    print(f"[VERL-Qwen] Detected VERL checkpoint with LoRA adapter")
-                    print(f"[VERL-Qwen] Base model path: {actual_model_path}")
-                    print(f"[VERL-Qwen] LoRA adapter path: {lora_adapter_path}")
-                else:
-                    print(f"[VERL-Qwen] Detected VERL checkpoint structure, using: {actual_model_path}")
-        
-        print(f"[VERL-Qwen] Loading VERL trained model from '{actual_model_path}' on '{device}' ...")
-        
-        # 加载 tokenizer
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            actual_model_path,
-            trust_remote_code=True,
-            padding_side='left'
-        )
-        
-        # 如果tokenizer没有chat_template，从base model加载或使用默认模板
-        if not hasattr(self.tokenizer, 'chat_template') or self.tokenizer.chat_template is None:
-            print(f"[VERL-Qwen] Warning: tokenizer has no chat_template, will use simple prompt format")
-        
-        # 加载模型 - 自动检测模型类型
-        from transformers import AutoConfig, AutoModelForCausalLM
-        model_dtype = (
-            torch.bfloat16 if torch.cuda.is_available() and torch.cuda.is_bf16_supported()
-            else (torch.float16 if torch.cuda.is_available() else torch.float32)
-        )
-        
-        # 检查模型配置，判断是否是VL模型
-        config = AutoConfig.from_pretrained(actual_model_path, trust_remote_code=True)
-        model_type = config.model_type if hasattr(config, 'model_type') else None
-        
-        # 检查是否需要加载LoRA
-        if lora_adapter_path:
-            from peft import PeftModel
-            print(f"[VERL-Qwen] Loading base model with LoRA adapter...")
-            
-            # 检查huggingface目录是否包含实际的模型权重
-            has_model_weights = any(
-                os.path.exists(os.path.join(actual_model_path, f))
-                for f in ["pytorch_model.bin", "model.safetensors", "model.bin"]
-            )
-            
-            if not has_model_weights:
-                # huggingface目录只有config，需要从环境变量或config中获取base model名称
-                print(f"[VERL-Qwen] No model weights in huggingface dir, loading from base model...")
-                
-                # 优先从环境变量读取base model路径
-                base_model_name = os.environ.get('VERL_BASE_MODEL')
-                if not base_model_name:
-                    # 尝试从config读取
-                    base_model_name = getattr(config, '_name_or_path', None)
-                if not base_model_name or base_model_name == actual_model_path:
-                    # 根据model_type推断默认base model
-                    if model_type == 'qwen2_vl':
-                        base_model_name = "Qwen/Qwen2-VL-2B-Instruct"
-                    else:
-                        base_model_name = "Qwen/Qwen2.5-1.5B-Instruct"
-                
-                print(f"[VERL-Qwen] Base model: {base_model_name}")
-                print(f"[VERL-Qwen] Tip: Set VERL_BASE_MODEL env var to specify custom base model path")
-                actual_model_path_for_loading = base_model_name
-            else:
-                actual_model_path_for_loading = actual_model_path
-            
-            if model_type and 'vl' in model_type.lower():
-                # VL模型需要使用ForConditionalGeneration才能调用generate()
-                print(f"[VERL-Qwen] Detected VL model type: {model_type}")
-                if 'qwen2_vl' in model_type.lower():
-                    print(f"[VERL-Qwen] Using Qwen2VLForConditionalGeneration")
-                    from transformers import Qwen2VLForConditionalGeneration
-                    base_model = Qwen2VLForConditionalGeneration.from_pretrained(
-                        actual_model_path_for_loading,
-                        torch_dtype=model_dtype,
-                        device_map=device,
-                        trust_remote_code=True
-                    )
-                else:
-                    # 其他VL模型
-                    from transformers import AutoModelForVision2Seq
-                    base_model = AutoModelForVision2Seq.from_pretrained(
-                        actual_model_path_for_loading,
-                        torch_dtype=model_dtype,
-                        device_map=device,
-                        trust_remote_code=True
-                    )
-            else:
-                print(f"[VERL-Qwen] Detected LM model type: {model_type}, using AutoModelForCausalLM")
-                base_model = AutoModelForCausalLM.from_pretrained(
-                    actual_model_path_for_loading,
-                    torch_dtype=model_dtype,
-                    device_map=device,
-                    trust_remote_code=True
-                )
-            
-            # 应用LoRA adapter
-            print(f"[VERL-Qwen] Applying LoRA adapter from: {lora_adapter_path}")
-            self.model = PeftModel.from_pretrained(base_model, lora_adapter_path)
-            self.model = self.model.merge_and_unload()  # 合并LoRA权重
-        else:
-            # 直接加载完整模型
-            if model_type and 'vl' in model_type.lower():
-                print(f"[VERL-Qwen] Detected VL model type: {model_type}")
-                if 'qwen2_vl' in model_type.lower():
-                    print(f"[VERL-Qwen] Using Qwen2VLForConditionalGeneration")
-                    from transformers import Qwen2VLForConditionalGeneration
-                    self.model = Qwen2VLForConditionalGeneration.from_pretrained(
-                        actual_model_path,
-                        torch_dtype=model_dtype,
-                        device_map=device,
-                        trust_remote_code=True
-                    )
-                else:
-                    from transformers import AutoModelForVision2Seq
-                    self.model = AutoModelForVision2Seq.from_pretrained(
-                        actual_model_path,
-                        torch_dtype=model_dtype,
-                        device_map=device,
-                        trust_remote_code=True
-                    )
-            else:
-                print(f"[VERL-Qwen] Detected LM model type: {model_type}, using AutoModelForCausalLM")
-                self.model = AutoModelForCausalLM.from_pretrained(
-                    actual_model_path,
-                    torch_dtype=model_dtype,
-                    device_map=device,
-                    trust_remote_code=True
-                )
-        
-        self.model.eval()
-        print("[VERL-Qwen] Model loaded successfully. Ready.")
-    
-    def _generate_instructions(
-        self,
-        task: str,
-        num_instructions: int = 10,
-        temperature: float = 0.8,
-        max_new_tokens: int = 512,
-    ) -> List[str]:
-        """
-        使用 VERL Qwen 模型生成/重写指令
-        """
-        # 构建 prompt
-        if hasattr(self.tokenizer, "chat_template") and self.tokenizer.chat_template is not None:
-            # 使用 Qwen 的 chat 模板
-            messages = [
-                {
-                    "role": "system",
-                    "content": (
-                        "You are a quality assurance engineer for a robot. "
-                        "Your goal is to rewrite and improve robotic manipulation instructions "
-                        "to make them clearer, more precise, and challenging for the robot."
-                    )
-                },
-                {
-                    "role": "user",
-                    "content": (
-                        f"Given the original task instruction: '{task}'\n\n"
-                        f"Generate {num_instructions} diverse variations of this instruction. "
-                        f"Each variation should:\n"
-                        f"1. Maintain the core task objective\n"
-                        f"2. Be clear and precise\n"
-                        f"3. Use natural language that human users would use\n"
-                        f"4. Challenge the robot's capability in different ways\n\n"
-                        f"List each instruction on a new line."
-                    )
-                }
-            ]
-            try:
-                prompt = self.tokenizer.apply_chat_template(
-                    messages,
-                    tokenize=False,
-                    add_generation_prompt=True
-                )
-            except Exception as e:
-                print(f"[VERL-Qwen] Failed to apply chat template: {e}, using simple prompt")
-                prompt = (
-                    f"You are a quality assurance engineer for a robot. "
-                    f"Given the task: '{task}'\n"
-                    f"Generate {num_instructions} diverse instruction variations:\n"
-                )
-        else:
-            # 简单的文本 prompt
-            prompt = (
-                f"You are a quality assurance engineer for a robot. "
-                f"Given the task: '{task}'\n"
-                f"Generate {num_instructions} diverse instruction variations:\n"
-            )
-        
-        # Tokenize
-        inputs = self.tokenizer(
-            prompt,
-            return_tensors="pt",
-            padding=True,
-            truncation=True,
-            max_length=512
-        ).to(self.device)
-        
-        # 生成多个样本
-        num_samples = num_instructions
-        with torch.no_grad():
-            gen_ids = self.model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                do_sample=True,
-                temperature=temperature,
-                top_p=0.9,
-                num_return_sequences=num_samples,
-                pad_token_id=self.tokenizer.pad_token_id or self.tokenizer.eos_token_id
-            )
-        
-        # 解码
-        gen_only = gen_ids[:, inputs["input_ids"].shape[-1]:]
-        decoded = self.tokenizer.batch_decode(gen_only, skip_special_tokens=True)
-        
-        # 提取候选指令
-        candidates: List[str] = []
-        for sample in decoded:
-            for line in sample.splitlines():
-                line = _clean_line(line)
-                if line:
-                    candidates.append(line)
-        
-        return _dedup_preserve_order(candidates) or [task]  # 如果生成失败,返回原指令
-    
-    def __call__(
-        self,
-        task: str,
-        semantic_type: str = "clip",
-        image_url: Optional[str] = None,  # VERL 模型不使用图像,但保持接口一致
-        num_instructions: int = 10,
-        return_all_annotations: bool = False,
-        select_topk: int = 3,
-    # ) -> List[str] | tuple[str, List[str]]:
-    ) -> Union[List[str], tuple]:
-        """
-        生成指令变体并选择最相似的 top-k
-        
-        Args:
-            task: 原始任务描述
-            semantic_type: 语义相似度类型 ("clip" 或其他)
-            image_url: 图像URL (VERL模型不使用,仅保持接口兼容)
-            num_instructions: 生成指令数量
-            return_all_annotations: 是否返回所有候选指令
-            select_topk: 选择 top-k 个最相似的指令
-        
-        Returns:
-            如果 return_all_annotations=True: (最佳指令, 相似度, 所有候选)
-            否则: (选中的指令列表, 相似度列表)
-        """
-        # 生成候选指令
-        candidates = self._generate_instructions(task, num_instructions)
-        
-        if not candidates:
-            candidates = [task]
-    
-        
-        if return_all_annotations:
-            # 返回最相似的一条 + 所有候选
-            selected, selected_sim = _select_topk_by_similarity(
-                self.embedding_model, semantic_type, task, candidates, 1
-            )
-            return selected[0], selected_sim, candidates
-        
-        # 返回 top-k
-        selected, selected_sim = _select_topk_by_similarity(
-            self.embedding_model, semantic_type, task, candidates, select_topk
-        )
-        
-        return selected, selected_sim
 
 
-# =========================
-# 工厂方法：按后端选择
-# =========================
 
 def build_red_team_generator(
     backend: str,
@@ -755,14 +347,14 @@ def build_red_team_generator(
     **kwargs,
 ):
     backend = backend.lower()
-    if backend == "smolvlm":
-        return EmbodiedRedTeamModelWithSmolVLM(embedding_model=embedding_model, **kwargs)
-    elif backend == "qwenvl":
+    lora_path = kwargs.get("lora_path", None)
+
+    if backend == "qwenvl":
         # kwargs 可包含 mode="local"/"api", model="Qwen/..."/"qwen2.5-vl-72b-instruct"
         return EmbodiedRedTeamModelWithQwenVL(embedding_model=embedding_model, **kwargs)
     elif backend == "verl_qwen":
         # kwargs 应包含 model_path: VERL 训练的 Qwen 模型路径
-        return EmbodiedRedTeamModelWithVERLQwen(embedding_model=embedding_model, **kwargs)
+        return VERLQwenLoRAGenerator(embedding_model=embedding_model, lora_path=lora_path)
     else:
         raise ValueError("backend 必须是 'smolvlm', 'qwenvl' 或 'verl_qwen'")
 

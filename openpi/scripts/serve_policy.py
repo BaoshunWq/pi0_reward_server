@@ -18,6 +18,9 @@ class EnvMode(enum.Enum):
     ALOHA_SIM = "aloha_sim"
     DROID = "droid"
     LIBERO = "libero"
+    PI0_LIBERO = "pi0_libero"
+    PI05_LIBERO = "pi05_libero"
+    
 
 
 @dataclasses.dataclass
@@ -70,10 +73,18 @@ DEFAULT_CHECKPOINT: dict[EnvMode, Checkpoint] = {
         dir="gs://openpi-assets/checkpoints/pi05_droid",
     ),
     EnvMode.LIBERO: Checkpoint(
-        # config="pi05_libero",
-        # dir="gs://openpi-assets/checkpoints/pi05_libero",
+        config="pi05_libero",
+        dir="gs://openpi-assets/checkpoints/pi05_libero",
+        # config="pi0_libero",
+        # dir="gs://openpi-assets/checkpoints/pi0_libero",
+    ),
+    EnvMode.PI0_LIBERO: Checkpoint(
         config="pi0_libero",
         dir="gs://openpi-assets/checkpoints/pi0_libero",
+    ),    
+    EnvMode.PI05_LIBERO: Checkpoint(
+        config="pi05_libero",
+        dir="gs://openpi-assets/checkpoints/pi05_libero",
     ),
 }
 
@@ -81,6 +92,7 @@ DEFAULT_CHECKPOINT: dict[EnvMode, Checkpoint] = {
 def create_default_policy(env: EnvMode, *, default_prompt: str | None = None) -> _policy.Policy:
     """Create a default policy for the given environment."""
     if checkpoint := DEFAULT_CHECKPOINT.get(env):
+        print(f"eval model: {checkpoint}")
         return _policy_config.create_trained_policy(
             _config.get_config(checkpoint.config), checkpoint.dir, default_prompt=default_prompt
         )
