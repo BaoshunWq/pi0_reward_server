@@ -22,8 +22,9 @@ def load_relate_model(cfg):
 
     if cfg.BACKEND == "qwenvl":
         # Qwen-VL：本地或 API
-        # - 本地：model="Qwen/Qwen2.5-VL-7B-Instruct", mode="local"
+        # - 本地：model="Qwen/Qwen2-VL-2B-Instruct" 或 "Qwen/Qwen2.5-VL-7B-Instruct", mode="local"
         # - API ：model="qwen2.5-vl-72b-instruct",  mode="api"（需 export DASHSCOPE_API_KEY=...）
+        print(f"[ERT] Loading Qwen-VL model: {cfg.qwen_model_id} (mode: {cfg.qwen_mode})")
         red_team = build_red_team_generator(
             backend="qwenvl",
             embedding_model=semantic_model,

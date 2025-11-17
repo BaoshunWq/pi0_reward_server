@@ -160,14 +160,15 @@ def _select_topk_by_similarity(embedding_model: Callable,semantic_type, task: st
 class EmbodiedRedTeamModelWithQwenVL:
     """
     Qwen-VL 生成：
-    - mode="local"：使用 HuggingFace 本地推理（推荐：如 Qwen/Qwen2.5-VL-7B-Instruct）
+    - mode="local"：使用 HuggingFace 本地推理
+      支持模型: Qwen/Qwen2-VL-2B-Instruct, Qwen/Qwen2.5-VL-7B-Instruct 等
     - mode="api"  ：使用 DashScope（OpenAI 兼容接口，需设置环境变量 DASHSCOPE_API_KEY）
     """
     def __init__(
         self,
         embedding_model: Callable,
         mode: str = "local",  # "local" | "api"
-        model: str = "Qwen/Qwen2.5-VL-7B-Instruct",  # local 时使用 HF 模型名；api 时使用 DashScope 模型名，如 "qwen2.5-vl-72b-instruct"
+        model: str = "Qwen/Qwen2.5-VL-7B-Instruct",  # local 时使用 HF 模型名 (如 Qwen/Qwen2-VL-2B-Instruct)；api 时使用 DashScope 模型名，如 "qwen2.5-vl-72b-instruct"
         device: str = DEVICE_DEFAULT,
     ):
         self.embedding_model = embedding_model
@@ -384,7 +385,7 @@ if __name__ == '__main__':
         )
     else:
         # Qwen-VL：本地或 API
-        # - 本地：model="Qwen/Qwen2.5-VL-7B-Instruct", mode="local"
+        # - 本地：model="Qwen/Qwen2-VL-2B-Instruct" 或 "Qwen/Qwen2.5-VL-7B-Instruct", mode="local"
         # - API ：model="qwen2.5-vl-72b-instruct",  mode="api"（需 export DASHSCOPE_API_KEY=...）
         red_team = build_red_team_generator(
             backend="qwenvl",
