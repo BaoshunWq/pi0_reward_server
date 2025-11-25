@@ -35,6 +35,24 @@ now = datetime.now()
 formatted_time = now.strftime('%Y-%m-%d_%H:%M:%S')
 
 
+def convert_to_json_serializable(obj):
+    """递归转换numpy类型为Python原生类型，使其可以JSON序列化"""
+    if isinstance(obj, np.integer):
+        return int(obj)
+    elif isinstance(obj, np.floating):
+        return float(obj)
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif isinstance(obj, dict):
+        return {key: convert_to_json_serializable(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_to_json_serializable(item) for item in obj]
+    elif isinstance(obj, tuple):
+        return tuple(convert_to_json_serializable(item) for item in obj)
+    else:
+        return obj
+
+
 @dataclasses.dataclass
 class Args:
     #################################################################################################################
@@ -163,6 +181,11 @@ def eval_libero(args: Args) -> None:
     annotations_smi_all = []
     results = []
     total_episodes, total_successes = 0, 0
+
+    rewrite_content = {}
+
+    rewrite_content[args.task_suite_name] = []
+
     
     # 使用try-finally确保资源清理
     try:
@@ -174,7 +197,21 @@ def eval_libero(args: Args) -> None:
             try:
                 env, task_description = _get_libero_env(task, LIBERO_ENV_RESOLUTION, args.seed)
 
+                per_task_rewirte_content = {}
+
+                per_task_rewirte_content["task_id"] = task_id
+                per_task_rewirte_content["task_description"] = task_description
+
+                per_task_rewirte_content["rewrite_content"] = []
+                per_task_rewirte_content["similarity"] = []
+                per_task_rewirte_content["done"] = []
+
+
+
+
                 print(f"[Task {task_id}]: source task_description: {task_description}")
+
+
                 
                 # 根据模式选择image_url
                 if args.mode == "vlm":
@@ -207,6 +244,8 @@ def eval_libero(args: Args) -> None:
                 for i, (annotation, annotation_sim) in enumerate(zip(annotations, annotations_smi)):
                     
                     print(f"[Task {task_id}] Evaluating: {annotation} (similarity: {annotation_sim:.4f})")
+                    per_task_rewirte_content["rewrite_content"].append(annotation)
+                    per_task_rewirte_content["similarity"].append(annotation_sim)
                     
                     task_episodes, task_successes = 0, 0
                     instruction_step = task_id * len(annotations) + i
@@ -266,8 +305,10 @@ def eval_libero(args: Args) -> None:
                                 if done:
                                     task_successes += 1
                                     total_successes += 1
+                                    per_task_rewirte_content["done"].append(1)
                                     break
                                 t += 1
+                        
                         
                         except Exception as e:
                             logging.error(f"Episode {episode_idx} failed: {e}")
@@ -276,7 +317,9 @@ def eval_libero(args: Args) -> None:
                         finally:
                             task_episodes += 1
                             total_episodes += 1
+                        
                             
+                        
                             # 保存视频(如果启用)
                             if args.save_videos and replay_images:
                                 try:
@@ -297,6 +340,10 @@ def eval_libero(args: Args) -> None:
                             
                             print(f"Episode {task_episodes}: {'success' if done else 'failure'}")
                             logging.debug(f"Episode {task_episodes}: {'success' if done else 'failure'}")
+                        
+                        if not done:
+                            per_task_rewirte_content["done"].append(0)
+
                     
                     # 计算当前指令的成功率
                     instruction_success_rate = float(task_successes) / float(task_episodes) if task_episodes > 0 else 0.0
@@ -345,6 +392,10 @@ def eval_libero(args: Args) -> None:
                 
                 task_success_rate = float(task_successes) / float(task_episodes) if task_episodes > 0 else 0.0
                 logging.info(f"Task {task_id} completed: {task_success_rate:.2%}")
+
+                rewrite_content[args.task_suite_name].append(per_task_rewirte_content)
+
+                # print(rewrite_content)
             
             finally:
                 # 清理环境
@@ -361,8 +412,8 @@ def eval_libero(args: Args) -> None:
         
         # 计算最终统计
         if annotations_smi_all:
-            mean_val = np.mean(annotations_smi_all)
-            var_val = np.var(annotations_smi_all)
+            mean_val = float(np.mean(annotations_smi_all))
+            var_val = float(np.var(annotations_smi_all))
             logging.info(f"Overall similarity - Mean: {mean_val:.4f}, Variance: {var_val:.4f}")
         else:
             mean_val = 0.0
@@ -370,14 +421,14 @@ def eval_libero(args: Args) -> None:
         
         all_success_rate = float(total_successes) / float(total_episodes) if total_episodes > 0 else 0.0
         
-        # 最终结果
+        # 最终结果 (确保所有值都是Python原生类型)
         final_result = {
-            args.task_suite_name: all_success_rate,
+            args.task_suite_name: float(all_success_rate),
             "mode": args.mode,
-            "total_successes": total_successes,
-            "total_episodes": total_episodes,
-            "mean_similarity": mean_val,
-            "variance_similarity": var_val,
+            "total_successes": int(total_successes),
+            "total_episodes": int(total_episodes),
+            "mean_similarity": float(mean_val),
+            "variance_similarity": float(var_val),
         }
         
         # 记录到wandb
@@ -405,13 +456,20 @@ def eval_libero(args: Args) -> None:
         # 保存最终日志
         os.makedirs(os.path.dirname(args.whole_acc_log_path), exist_ok=True)
         with open(args.whole_acc_log_path, "a") as fout:
-            json.dump(final_result, fout, indent=4)
+            json.dump(convert_to_json_serializable(final_result), fout, indent=4)
+
+        
+        os.makedirs(os.path.dirname(args.whole_acc_log_path), exist_ok=True)
+        with open(args.whole_acc_log_path, "a") as fout:
+            json.dump(convert_to_json_serializable(rewrite_content), fout, indent=4)
         
         logging.info(f"=== Evaluation Complete ===")
         logging.info(f"Mode: {args.mode.upper()}")
         logging.info(f"Overall Success Rate: {all_success_rate:.2%}")
         logging.info(f"Total Episodes: {total_episodes}")
         logging.info(f"Results saved to: {args.output_path}")
+    
+    
     
     finally:
         # 最终清理

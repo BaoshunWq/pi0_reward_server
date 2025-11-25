@@ -150,7 +150,9 @@ def _select_topk_by_similarity(embedding_model: Callable,semantic_type, task: st
         return candidates, sims
         
 
-    top_idx = np.argsort(sims)[-select_topk:][::-1]  # 从大到小
+    top_idx = np.argsort(sims)[-select_topk:][::-1]  
+
+    # import pdb; pdb.set_trace()
 
     return [candidates[i] for i in top_idx],[sims[i] for i in top_idx]
 
@@ -223,7 +225,7 @@ class EmbodiedRedTeamModelWithQwenVL:
                     {
                         "type": "text",
                         "text": f"The attached image is an example of the initial state for the task: {task}. "
-                                f"Generate a diverse set of exactly {num_instructions} instructions."
+                                f"Generate a diverse set of exactly instructions."
                     }],
             },
         ]
@@ -242,7 +244,7 @@ class EmbodiedRedTeamModelWithQwenVL:
             max_new_tokens=512,
             do_sample=True,
             temperature=0.8,
-            # num_return_sequences=num_samples,
+            num_return_sequences=num_samples,
         )
         gen_only = gen_ids[:, inputs["input_ids"].shape[-1]:]
         decoded = self.processor.batch_decode(gen_only, skip_special_tokens=True)

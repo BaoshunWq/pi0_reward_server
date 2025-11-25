@@ -27,8 +27,8 @@ export GPUS="${GPUS:-0,1}"
 export BASE_POLICY_PORT="${BASE_POLICY_PORT:-8000}"
 export BASE_REWARD_PORT="${BASE_REWARD_PORT:-6001}"
 export LB_PORT="${LB_PORT:-6000}"
-export POLICY_PY="${POLICY_PY:-/root/autodl-tmp/conda/envs/openpi/bin/python}"
-export REWARD_PY="${REWARD_PY:-/root/autodl-tmp/conda/envs/openpi-libero/bin/python}"
+export POLICY_PY="${POLICY_PY:-/root/autodl-tmp/conda/envs/openpi_reward_server/bin/python}"
+export REWARD_PY="${REWARD_PY:-/root/autodl-tmp/conda/envs/openpi_reward_libero/bin/python}"
 export OPENPI_ENV="${OPENPI_ENV:-PI0_LIBERO}"
 
 # 验证Python

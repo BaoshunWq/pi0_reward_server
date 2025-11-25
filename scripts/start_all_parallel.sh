@@ -17,7 +17,7 @@ PROJ_ROOT="${SCRIPT_DIR}/.."
 cd "$PROJ_ROOT"
 
 # 默认配置
-export GPUS="${GPUS:-2,3}"
+export GPUS="${GPUS:-4,5}"
 export BASE_POLICY_PORT="${BASE_POLICY_PORT:-8000}"
 export BASE_REWARD_PORT="${BASE_REWARD_PORT:-6001}"
 export LB_PORT="${LB_PORT:-6000}"

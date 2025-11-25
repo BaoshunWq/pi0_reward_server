@@ -1,18 +1,31 @@
-from openpi.training import config as _config
-from openpi.policies import policy_config
-from openpi.shared import download
+import requests
 
-config = _config.get_config("pi05_droid")
-checkpoint_dir = download.maybe_download("gs://openpi-assets/checkpoints/pi05_droid")
+URL = "http://127.0.0.1:6000/score"
 
-# Create a trained policy.
-policy = policy_config.create_trained_policy(config, checkpoint_dir)
-
-# Run inference on a dummy example.
-example = {
-    "observation/exterior_image_1_left": ...,
-    "observation/wrist_image_left": ...,
-
-    "prompt": "pick up the fork"
+payload = {
+    "responses": [
+        {"outputs":[{"text":"place the red bowl onto the shelf"}]},
+    ],
+    "metas": [
+        {
+            "original_instruction": "put the red bowl on the left shelf",
+            "suite": "libero_object",
+            "task_id": 3,
+            "seed": 0
+        },
+    ],
+    "reward_function_kwargs": {
+        "alpha": 1.0,
+        "beta": 0.1,
+        "gamma": 0.5,
+        "num_trials_per_task": 1,
+        "center_crop": 1,
+        "libero_cfg": {
+            "model_family": "openvla",
+        }
+    }
 }
-action_chunk = policy.infer(example)["actions"]
+
+resp = requests.post(URL, json=payload, timeout=1800)
+print(resp.status_code)
+print(resp.json())

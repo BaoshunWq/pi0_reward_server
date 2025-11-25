@@ -1,0 +1,21 @@
+Qwen2-VL-2B-Instruct 评估汇总报告
+==================================
+
+时间戳: 20251118_112822
+模型: Qwen/Qwen2-VL-2B-Instruct
+后端: qwenvl
+模式: local
+
+评估结果:
+--------
+
+Task Suite: libero_spatial
+
+Task Suite: libero_object
+  状态: 失败或未完成
+
+Task Suite: libero_goal
+  状态: 失败或未完成
+
+Task Suite: libero_10
+  状态: 失败或未完成

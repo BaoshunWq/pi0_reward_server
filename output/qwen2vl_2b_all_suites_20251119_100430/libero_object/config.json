@@ -1,0 +1,15 @@
+{
+    "backend": "qwenvl",
+    "qwen_mode": "local",
+    "qwen_model_id": "Qwen/Qwen2-VL-2B-Instruct",
+    "host": "0.0.0.0",
+    "port": 4444,
+    "task_suite": "libero_object",
+    "num_trials": 50,
+    "num_instructions": 3,
+    "select_topk": 1,
+    "semantic_type": "clip",
+    "save_videos": false,
+    "use_wandb": false,
+    "timestamp": "20251119_100430"
+}

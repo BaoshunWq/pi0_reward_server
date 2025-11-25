@@ -1,0 +1,68 @@
+[
+    {
+        "task_id": 0,
+        "task_description": "put both the alphabet soup and the tomato sauce in the basket",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_10_task-0_img-0_frame0.png",
+        "done_annotations": [
+            "Put the alphabet soup in the basket."
+        ],
+        "fail_annotations": [],
+        "done_annotations_smi": [
+            0.9417684674263
+        ],
+        "fail_annotations_smi": []
+    },
+    {
+        "task_id": 1,
+        "task_description": "put both the cream cheese box and the butter in the basket",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_10_task-1_img-0_frame0.png",
+        "done_annotations": [
+            "Put the cream cheese box in the basket."
+        ],
+        "fail_annotations": [],
+        "done_annotations_smi": [
+            0.9445480108261108
+        ],
+        "fail_annotations_smi": []
+    },
+    {
+        "task_id": 2,
+        "task_description": "turn on the stove and put the moka pot on it",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_10_task-2_img-0_frame0.png",
+        "done_annotations": [
+            "Place the moka pot on the stove."
+        ],
+        "fail_annotations": [
+            "Turn on the stove.",
+            "Place the pan on the stove."
+        ],
+        "done_annotations_smi": [
+            0.9749945998191833
+        ],
+        "fail_annotations_smi": [
+            0.8543881773948669,
+            0.8411075472831726
+        ]
+    },
+    {
+        "task_id": 3,
+        "task_description": "put the black bowl in the bottom drawer of the cabinet and close it",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_10_task-3_img-0_frame0.png",
+        "done_annotations": [
+            "Place the black bowl in the drawer.",
+            "Open the drawer.",
+            "Close the drawer."
+        ],
+        "fail_annotations": [],
+        "done_annotations_smi": [
+            0.9205408096313477,
+            0.8399155735969543,
+            0.8349591493606567
+        ],
+        "fail_annotations_smi": []
+    }
+]

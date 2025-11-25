@@ -1,0 +1,184 @@
+[
+    {
+        "task_id": 0,
+        "task_description": "open the middle drawer of the cabinet",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_goal_task-0_img-0_frame0.png",
+        "done_annotations": [
+            "Open the middle drawer of the cabinet."
+        ],
+        "fail_annotations": [],
+        "done_annotations_smi": [
+            0.9920103549957275
+        ],
+        "fail_annotations_smi": []
+    },
+    {
+        "task_id": 1,
+        "task_description": "put the bowl on the stove",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_goal_task-1_img-0_frame0.png",
+        "done_annotations": [
+            "Place the bowl on the stove."
+        ],
+        "fail_annotations": [
+            "Move towards the stove.",
+            "Grasp the bowl."
+        ],
+        "done_annotations_smi": [
+            0.9662449359893799
+        ],
+        "fail_annotations_smi": [
+            0.9088165760040283,
+            0.8709434866905212
+        ]
+    },
+    {
+        "task_id": 2,
+        "task_description": "put the wine bottle on top of the cabinet",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_goal_task-2_img-0_frame0.png",
+        "done_annotations": [
+            "Place the wine bottle on the cabinet."
+        ],
+        "fail_annotations": [
+            "Grasp the wine bottle.",
+            "Move towards the cabinet."
+        ],
+        "done_annotations_smi": [
+            0.9053186774253845
+        ],
+        "fail_annotations_smi": [
+            0.7875618934631348,
+            0.7774924635887146
+        ]
+    },
+    {
+        "task_id": 3,
+        "task_description": "open the top drawer and put the bowl inside",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_goal_task-3_img-0_frame0.png",
+        "done_annotations": [
+            "Place the bowl inside the drawer.",
+            "Open the top drawer."
+        ],
+        "fail_annotations": [],
+        "done_annotations_smi": [
+            0.952196478843689,
+            0.918064534664154
+        ],
+        "fail_annotations_smi": []
+    },
+    {
+        "task_id": 4,
+        "task_description": "put the bowl on top of the cabinet",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_goal_task-4_img-0_frame0.png",
+        "done_annotations": [
+            "Place the bowl on the cabinet.",
+            "Grasp the bowl."
+        ],
+        "fail_annotations": [
+            "Move towards the bowl."
+        ],
+        "done_annotations_smi": [
+            0.9418949484825134,
+            0.8166446089744568
+        ],
+        "fail_annotations_smi": [
+            0.8341713547706604
+        ]
+    },
+    {
+        "task_id": 5,
+        "task_description": "push the plate to the front of the stove",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_goal_task-5_img-0_frame0.png",
+        "done_annotations": [
+            "Push the plate forward on the stove."
+        ],
+        "fail_annotations": [
+            "Grasp the plate.",
+            "Move towards the plate."
+        ],
+        "done_annotations_smi": [
+            0.964507520198822
+        ],
+        "fail_annotations_smi": [
+            0.8519548177719116,
+            0.8386483788490295
+        ]
+    },
+    {
+        "task_id": 6,
+        "task_description": "put the cream cheese in the bowl",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_goal_task-6_img-0_frame0.png",
+        "done_annotations": [
+            "Place the cream cheese in the bowl."
+        ],
+        "fail_annotations": [
+            "Move away from the bowl.",
+            "Grasp the bowl."
+        ],
+        "done_annotations_smi": [
+            0.9702597856521606
+        ],
+        "fail_annotations_smi": [
+            0.8769913911819458,
+            0.8605513572692871
+        ]
+    },
+    {
+        "task_id": 7,
+        "task_description": "turn on the stove",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_goal_task-7_img-0_frame0.png",
+        "done_annotations": [
+            "Turn on the stove."
+        ],
+        "fail_annotations": [
+            "Move the stove to the center of the table."
+        ],
+        "done_annotations_smi": [
+            0.9798805117607117
+        ],
+        "fail_annotations_smi": [
+            0.8540124893188477
+        ]
+    },
+    {
+        "task_id": 8,
+        "task_description": "put the bowl on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_goal_task-8_img-0_frame0.png",
+        "done_annotations": [
+            "Place the bowl on the plate.",
+            "Move the bowl towards the plate."
+        ],
+        "fail_annotations": [],
+        "done_annotations_smi": [
+            0.9753621816635132,
+            0.9423448443412781
+        ],
+        "fail_annotations_smi": []
+    },
+    {
+        "task_id": 9,
+        "task_description": "put the wine bottle on the rack",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_goal_task-9_img-0_frame0.png",
+        "done_annotations": [
+            "Place the wine bottle on the rack.",
+            "Move towards the wine bottle on the table.",
+            "Grasp the wine bottle."
+        ],
+        "fail_annotations": [],
+        "done_annotations_smi": [
+            0.9766758680343628,
+            0.8866807818412781,
+            0.8829736113548279
+        ],
+        "fail_annotations_smi": []
+    }
+]

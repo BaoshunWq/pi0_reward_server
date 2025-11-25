@@ -12,6 +12,6 @@ mkdir -p "${LOG_DIR}"
 
 
 
-# CUDA_VISIBLE_DEVICES=1 nohup python openpi/scripts/serve_policy.py --env ${OPENPI_TYPE} --port 3333 > "${LOG_FILE}" 2>&1 &
+# CUDA_VISIBLE_DEVICES=3 python openpi/scripts/serve_policy.py --env PI0_LIBERO --port 4444 
 
-CUDA_VISIBLE_DEVICES=0 nohup python openpi/scripts/serve_policy.py --env ${OPENPI_TYPE} --port 4444 > "${LOG_FILE}" 2>&1 &
+CUDA_VISIBLE_DEVICES=1 nohup python openpi/scripts/serve_policy.py --env ${OPENPI_TYPE} --port 4444 > "${LOG_FILE}" 2>&1 &

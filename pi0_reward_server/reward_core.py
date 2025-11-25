@@ -12,7 +12,7 @@ current_time = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
 DEFAULT_LIBERO_CFG: Dict[str, Any] = {
     # Model server parameters
     "host": "0.0.0.0",
-    "port": 23451,
+    "port": 4444,
     "resize_size": 224,
     "replan_steps": 5,
 
