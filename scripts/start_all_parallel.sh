@@ -17,7 +17,7 @@ PROJ_ROOT="${SCRIPT_DIR}/.."
 cd "$PROJ_ROOT"
 
 # 默认配置
-export GPUS="${GPUS:-4,5}"
+export GPUS="${GPUS:-0,1}"
 export BASE_POLICY_PORT="${BASE_POLICY_PORT:-8000}"
 export BASE_REWARD_PORT="${BASE_REWARD_PORT:-6001}"
 export LB_PORT="${LB_PORT:-6000}"
@@ -40,6 +40,36 @@ fi
 IFS=',' read -ra GPU_ARRAY <<< "$GPUS"
 NUM_GPUS=${#GPU_ARRAY[@]}
 export NUM_SERVERS="${NUM_GPUS}"
+
+# 端口清理函数
+free_port() {
+    local port="$1"
+    local pids
+    pids="$(lsof -ti TCP:"${port}" 2>/dev/null || true)"
+    if [[ -n "${pids}" ]]; then
+        echo "  -> 端口 ${port} 被进程 ${pids} 占用，尝试释放..."
+        kill ${pids} 2>/dev/null || true
+        sleep 1
+        if lsof -ti TCP:"${port}" >/dev/null 2>&1; then
+            echo "  -> 端口 ${port} 仍被占用，执行强制终止..."
+            kill -9 ${pids} 2>/dev/null || true
+        fi
+    fi
+}
+
+# 清理所有目标端口
+echo ""
+echo "清理历史端口占用..."
+echo "=========================================="
+for i in "${!GPU_ARRAY[@]}"; do
+    POLICY_PORT=$((BASE_POLICY_PORT + i))
+    REWARD_PORT=$((BASE_REWARD_PORT + i))
+    free_port "${POLICY_PORT}"
+    free_port "${REWARD_PORT}"
+done
+free_port "${LB_PORT}"
+echo "端口清理完成"
+echo "=========================================="
 
 echo "=========================================="
 echo "启动完整并行服务架构"

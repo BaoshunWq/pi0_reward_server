@@ -1,5 +1,6 @@
 # Data directories.
 
+output/
 checkpoints/
 data/
 wandb/
