@@ -31,7 +31,7 @@ conda install -y -c conda-forge git pip
 
 - 按两个 requirements 文件一次性安装（使用 PyTorch CUDA 11.3 轮子源）
 ```bash
-pip install --extra-index-url https://download.pytorch.org/whl/cu113 \
+pip install --extra-index-url https://download.pytorch.org/whl/cu124 \
   -r examples/libero/requirements.txt \
   -r third_party/libero/requirements.txt
 ```

@@ -4,6 +4,7 @@ output/
 checkpoints/
 data/
 wandb/
+verl_trained_ckpts/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
