@@ -1,17 +1,17 @@
 import requests
 
-URL = "http://127.0.0.1:6000/score"
+URL = "http://127.0.0.1:6100/score"
 
 payload = {
     "responses": [
-        {"outputs":[{"text":"place the red bowl onto the shelf"}]},
+        {"outputs":[{"text":"open the middle drawer of the cabinet"}]},
     ],
     "metas": [
         {
-            "original_instruction": "put the red bowl on the left shelf",
-            "suite": "libero_object",
-            "task_id": 3,
-            "seed": 0
+            "original_instruction": "open the middle drawer of the cabinet",
+            "suite": "libero_goal",
+            "task_id": 0,
+            "seed": 7
         },
     ],
     "reward_function_kwargs": {
