@@ -10,9 +10,9 @@ cd "${PROJ_ROOT}"
 export PYTHONPATH="${PROJ_ROOT}:${PROJ_ROOT}/openvla-oft:${PYTHONPATH:-}"
 
 # 使用与并行启动相同的 Python 环境
-export POLICY_PY="${POLICY_PY:-/root/autodl-tmp/conda/envs/openvla-oft/bin/python}"
+export POLICY_PY="${POLICY_PY:-/data1/baoshuntong/conda/envs/openvla-oft/bin/python}"
 
-CUDA_VISIBLE_DEVICES=1 "${POLICY_PY}" openvla-oft/scripts/serve_policy.py \
+CUDA_VISIBLE_DEVICES=3 "${POLICY_PY}" openvla-oft/scripts/serve_policy.py \
   # --pretrained-checkpoint moojink/openvla-7b-oft-finetuned-libero-spatial \
   # --policy-server-port 23451 \
   # --task_suite_name libero_spatial \
