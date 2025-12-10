@@ -1,5 +1,5 @@
 # Data directories.
-
+rollouts/
 output/
 checkpoints/
 data/

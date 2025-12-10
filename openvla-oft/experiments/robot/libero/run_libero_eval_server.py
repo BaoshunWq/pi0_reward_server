@@ -195,7 +195,7 @@ class GenerateConfig:
     #################################################################################################################
     # Policy server parameters
     #################################################################################################################
-    policy_server_host: str = "0.0.0.0"
+    policy_server_host: str = "localhost"  # Use "localhost" for client connections, not "0.0.0.0"
     policy_server_port: int = 23451
     wait_for_policy_server: bool = True
 
@@ -221,6 +221,8 @@ class GenerateConfig:
     local_log_dir: str = "./experiments/logs"
     use_wandb: bool = False  # Kept for interface parity; unused here
     seed: int = 7
+
+    is_save_video: bool = False
 
 
 def validate_config(cfg: GenerateConfig) -> None:
@@ -329,7 +331,8 @@ def run_episode(
                 continue
 
             observation, img = prepare_observation(obs, resize_size)
-            replay_images.append(img)
+            if cfg.is_save_video:
+                replay_images.append(img)
 
             if len(action_queue) == 0:
                 actions = request_actions_from_policy(cfg, observation, task_description, policy_client)
@@ -382,8 +385,8 @@ def run_task(cfg: GenerateConfig, task_suite, task_id: int, policy_client, resiz
         if success:
             task_successes += 1
             total_successes += 1
-
-        save_rollout_video(replay_images, total_episodes, success=success, task_description=task_description, log_file=log_file)
+        if cfg.is_save_video:
+            save_rollout_video(replay_images, total_episodes, success=success, task_description=task_description, log_file=log_file)
 
         log_message(f"Success: {success}", log_file)
         log_message(f"# episodes completed so far: {total_episodes}", log_file)
