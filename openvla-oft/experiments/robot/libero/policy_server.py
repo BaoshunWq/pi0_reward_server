@@ -226,7 +226,8 @@ class OpenVLAPolicy(_base_policy.BasePolicy):
             "observation/image": ...,
             "observation/wrist_image": ...,
             "observation/state": ...,
-            "prompt": ...
+            "prompt": ...,
+            "task_suite_name": ...  # Optional: for dynamic unnorm_key selection
         }
         
         OpenVLA format (expected by get_vla_action):
@@ -259,17 +260,38 @@ class OpenVLAPolicy(_base_policy.BasePolicy):
         if observation is None:
             raise ValueError("Remote request missing observation data.")
         
-        actions = request_actions_from_policy(
-            self._cfg,
-            observation,
-            task_description,
-            self._model,
-            processor=self._processor,
-            action_head=self._action_head,
-            proprio_projector=self._proprio_projector,
-            noisy_action_projector=self._noisy_action_projector,
-            policy_client=None,
-        )
+        # Dynamically set unnorm_key based on task_suite_name from payload
+        original_unnorm_key = self._cfg.unnorm_key
+        task_suite_name = payload.get("task_suite_name")
+        if task_suite_name:
+            # Validate and set unnorm_key for this request
+            unnorm_key = task_suite_name
+            if unnorm_key not in self._model.norm_stats and f"{unnorm_key}_no_noops" in self._model.norm_stats:
+                unnorm_key = f"{unnorm_key}_no_noops"
+            if unnorm_key in self._model.norm_stats:
+                self._cfg.unnorm_key = unnorm_key
+            else:
+                logging.warning(
+                    f"Task suite {task_suite_name} not found in model norm_stats. "
+                    f"Available keys: {list(self._model.norm_stats.keys())}. "
+                    f"Using default unnorm_key: {original_unnorm_key}"
+                )
+        
+        try:
+            actions = request_actions_from_policy(
+                self._cfg,
+                observation,
+                task_description,
+                self._model,
+                processor=self._processor,
+                action_head=self._action_head,
+                proprio_projector=self._proprio_projector,
+                noisy_action_projector=self._noisy_action_projector,
+                policy_client=None,
+            )
+        finally:
+            # Restore original unnorm_key
+            self._cfg.unnorm_key = original_unnorm_key
 
         return {
             "actions": [np.asarray(action, dtype=np.float32) for action in actions],

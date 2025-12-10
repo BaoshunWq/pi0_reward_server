@@ -1,0 +1,12 @@
+Task suite: libero_10 (10 tasks)
+Using default initial states
+
+Task: put both the alphabet soup and the tomato sauce in the basket
+Starting episode 1...
+Saved rollout MP4 at path ./rollouts/2025_12_10/2025_12_10-11_53_49--openvla_oft--episode=1--success=True--task=put_both_the_alphabet_soup_and_the_tomato_sauce_in.mp4
+Success: True
+# episodes completed so far: 1
+# successes: 1 (100.0%)
+Current task success rate: 1.0
+Current total success rate: 1.0
+Using default initial states

@@ -1,0 +1,93 @@
+Task suite: libero_goal (10 tasks)
+Using default initial states
+
+Task: open the middle drawer of the cabinet
+Starting episode 1...
+Success: False
+# episodes completed so far: 1
+# successes: 0 (0.0%)
+Current task success rate: 0.0
+Current total success rate: 0.0
+Using default initial states
+
+Task: put the bowl on the stove
+Starting episode 1...
+Success: False
+# episodes completed so far: 2
+# successes: 0 (0.0%)
+Current task success rate: 0.0
+Current total success rate: 0.0
+Using default initial states
+
+Task: put the wine bottle on top of the cabinet
+Starting episode 1...
+Success: False
+# episodes completed so far: 3
+# successes: 0 (0.0%)
+Current task success rate: 0.0
+Current total success rate: 0.0
+Using default initial states
+
+Task: open the top drawer and put the bowl inside
+Starting episode 1...
+Success: False
+# episodes completed so far: 4
+# successes: 0 (0.0%)
+Current task success rate: 0.0
+Current total success rate: 0.0
+Using default initial states
+
+Task: put the bowl on top of the cabinet
+Starting episode 1...
+Success: False
+# episodes completed so far: 5
+# successes: 0 (0.0%)
+Current task success rate: 0.0
+Current total success rate: 0.0
+Using default initial states
+
+Task: push the plate to the front of the stove
+Starting episode 1...
+Success: False
+# episodes completed so far: 6
+# successes: 0 (0.0%)
+Current task success rate: 0.0
+Current total success rate: 0.0
+Using default initial states
+
+Task: put the cream cheese in the bowl
+Starting episode 1...
+Success: False
+# episodes completed so far: 7
+# successes: 0 (0.0%)
+Current task success rate: 0.0
+Current total success rate: 0.0
+Using default initial states
+
+Task: turn on the stove
+Starting episode 1...
+Success: False
+# episodes completed so far: 8
+# successes: 0 (0.0%)
+Current task success rate: 0.0
+Current total success rate: 0.0
+Using default initial states
+
+Task: put the bowl on the plate
+Starting episode 1...
+Success: False
+# episodes completed so far: 9
+# successes: 0 (0.0%)
+Current task success rate: 0.0
+Current total success rate: 0.0
+Using default initial states
+
+Task: put the wine bottle on the rack
+Starting episode 1...
+Success: False
+# episodes completed so far: 10
+# successes: 0 (0.0%)
+Current task success rate: 0.0
+Current total success rate: 0.0
+Total success rate: 0.0
+Total episodes: 10

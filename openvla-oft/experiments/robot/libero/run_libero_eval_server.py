@@ -289,6 +289,7 @@ def request_actions_from_policy(cfg: GenerateConfig, observation: dict, task_des
         "observation": observation,
         "task_description": task_description,
         "requested_chunk": cfg.num_open_loop_steps,
+        "task_suite_name": cfg.task_suite_name,  # Send task_suite_name to policy server
     }
     response = policy_client.infer(payload)
     actions = response.get("actions")
@@ -321,7 +322,7 @@ def run_episode(
 
     t = 0
     replay_images = []
-    max_steps = TASK_MAX_STEPS[cfg.task_suite_name]
+    max_steps = TASK_MAX_STEPS[TaskSuite(cfg.task_suite_name)]
     success = False
     try:
         while t < max_steps + cfg.num_steps_wait:

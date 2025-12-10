@@ -241,6 +241,7 @@ def eval_one_task(args: Args) -> None:
                             )
                         ),
                         "prompt": str(task_description),
+                        "task_suite_name": args.task_suite_name,  # Send task_suite_name to policy server for dynamic unnorm_key selection
                     }
 
                     # Query model to get action chunk

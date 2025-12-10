@@ -1,0 +1,15 @@
+Task suite: libero_goal (10 tasks)
+Using default initial states
+
+Task: open the middle drawer of the cabinet
+Starting episode 1...
+Saved rollout MP4 at path ./rollouts/2025_12_10/2025_12_10-11_53_09--openvla_oft--episode=1--success=True--task=open_the_middle_drawer_of_the_cabinet.mp4
+Success: True
+# episodes completed so far: 1
+# successes: 1 (100.0%)
+Current task success rate: 1.0
+Current total success rate: 1.0
+Using default initial states
+
+Task: put the bowl on the stove
+Starting episode 1...

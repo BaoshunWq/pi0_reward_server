@@ -1,0 +1,23 @@
+Task suite: libero_goal (10 tasks)
+Using default initial states
+
+Task: open the middle drawer of the cabinet
+Starting episode 1...
+Success: False
+# episodes completed so far: 1
+# successes: 0 (0.0%)
+
+Task: open the middle drawer of the cabinet
+Starting episode 2...
+Success: False
+# episodes completed so far: 2
+# successes: 0 (0.0%)
+
+Task: open the middle drawer of the cabinet
+Starting episode 3...
+Success: False
+# episodes completed so far: 3
+# successes: 0 (0.0%)
+
+Task: open the middle drawer of the cabinet
+Starting episode 4...
