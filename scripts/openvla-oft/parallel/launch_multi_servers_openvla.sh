@@ -116,13 +116,15 @@ for i in "${!GPU_ARRAY[@]}"; do
 done
 echo ""
 echo "下一步:"
-echo "  1. 启动负载均衡器: bash scripts/parallel/launch_load_balancer_openvla.sh"
+echo "  1. 启动负载均衡器: bash scripts/openvla-oft/parallel/launch_load_balancer_openvla.sh"
 echo "  2. 或直接访问某个服务器: curl http://localhost:${BASE_REWARD_PORT}/health"
 echo ""
 echo "按 Ctrl+C 停止所有服务器"
 echo "=========================================="
 
+# Trap信号
 trap 'echo ""; echo "停止所有服务器..."; kill ${POLICY_PIDS[@]} ${REWARD_PIDS[@]} 2>/dev/null; wait; echo "所有服务器已停止"; exit' INT TERM
 
+# 等待所有进程
 wait
 

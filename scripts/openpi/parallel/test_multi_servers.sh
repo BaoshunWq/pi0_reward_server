@@ -50,7 +50,7 @@ else
     echo "❌ 无响应"
     echo ""
     echo "提示: 请先启动负载均衡器"
-    echo "  NUM_SERVERS=${NUM_SERVERS} bash scripts/parallel/launch_load_balancer.sh"
+    echo "  NUM_SERVERS=${NUM_SERVERS} bash scripts/openpi/parallel/launch_load_balancer.sh"
     ALL_OK=false
 fi
 
@@ -62,7 +62,7 @@ fi
 
 echo ""
 echo "[3/4] 测试单个请求..."
-python scripts/parallel/test_dual_env.py \
+python scripts/openpi/parallel/test_dual_env.py \
     --reward_url "http://localhost:${LB_PORT}/score" \
     --policy_base_port "${BASE_POLICY_PORT}" \
     --num_gpus "${NUM_SERVERS}" \
@@ -71,7 +71,7 @@ python scripts/parallel/test_dual_env.py \
 
 echo ""
 echo "[4/4] 测试多个请求（验证负载均衡）..."
-python scripts/parallel/test_dual_env.py \
+python scripts/openpi/parallel/test_dual_env.py \
     --reward_url "http://localhost:${LB_PORT}/score" \
     --policy_base_port "${BASE_POLICY_PORT}" \
     --num_gpus "${NUM_SERVERS}" \

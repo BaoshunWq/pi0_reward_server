@@ -114,12 +114,14 @@ def compute_score(
             sr = float(eval_one_task(args))
             logging.info(f"[OpenVLA-OFT] [{idx}/{total_samples}] success_rate={sr:.2%}")
         except Exception as e:  # noqa: BLE001
+            import traceback
             logging.error(
                 "[OpenVLA-OFT] eval_one_task failed for suite=%s task_id=%s: %s",
                 suite,
                 task_id,
                 e,
             )
+            logging.error(f"[OpenVLA-OFT] Traceback: {traceback.format_exc()}")
             sr = 0.0
             logging.info(f"[OpenVLA-OFT] [{idx}/{total_samples}] failed, using 0.0")
 

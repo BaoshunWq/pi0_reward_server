@@ -1,6 +1,6 @@
 import requests
 
-URL = "http://127.0.0.1:6100/score"
+URL = "http://127.0.0.1:6000/score"
 
 # 测试所有 suite
 test_suites = [

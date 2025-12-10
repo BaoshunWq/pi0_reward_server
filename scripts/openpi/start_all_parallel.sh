@@ -13,7 +13,7 @@ set -euo pipefail
 #   OPENPI_ENV=PI0_LIBERO       - OpenPI环境名称
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJ_ROOT="${SCRIPT_DIR}/.."
+PROJ_ROOT="${SCRIPT_DIR}/../.."
 cd "$PROJ_ROOT"
 
 # 默认配置
@@ -183,7 +183,7 @@ echo "  后端服务器: ${BASE_REWARD_PORT} - $((BASE_REWARD_PORT + NUM_SERVERS
 echo "  策略: 最少连接数 (Least Connections)"
 echo "=========================================="
 
-python scripts/parallel/load_balancer.py \
+python scripts/openpi/parallel/load_balancer.py \
     --listen_port "${LB_PORT}" \
     --base_port "${BASE_REWARD_PORT}" \
     --num_servers "${NUM_SERVERS}" \

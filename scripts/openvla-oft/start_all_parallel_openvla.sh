@@ -16,10 +16,10 @@ set -euo pipefail
 #
 # 示例：
 #   GPUS=0,1 PRETRAINED_CKPT=moojink/openvla-7b-oft-finetuned-libero-spatial-object-goal-10 \
-#   bash scripts/start_all_parallel_openvla.sh
+#   bash scripts/openvla-oft/start_all_parallel_openvla.sh
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJ_ROOT="${SCRIPT_DIR}/.."
+PROJ_ROOT="${SCRIPT_DIR}/../.."
 cd "${PROJ_ROOT}"
 
 mkdir -p logs/openvla_parallel
@@ -282,7 +282,7 @@ echo "  后端服务器: ${BASE_REWARD_PORT} - $((BASE_REWARD_PORT + NUM_SERVERS
 echo "  策略: 最少连接数 (Least Connections)"
 echo "=========================================="
 
-python scripts/parallel/load_balancer.py \
+python openvla_reward_server/load_balancer_openvla.py \
     --listen_port "${LB_PORT}" \
     --base_port "${BASE_REWARD_PORT}" \
     --num_servers "${NUM_SERVERS}" \

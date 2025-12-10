@@ -121,7 +121,7 @@ for i in "${!GPU_ARRAY[@]}"; do
 done
 echo ""
 echo "下一步:"
-echo "  1. 启动负载均衡器: bash scripts/parallel/launch_load_balancer.sh"
+echo "  1. 启动负载均衡器: bash scripts/openpi/parallel/launch_load_balancer.sh"
 echo "  2. 或直接访问某个服务器: curl http://localhost:${BASE_REWARD_PORT}/health"
 echo ""
 echo "按 Ctrl+C 停止所有服务器"

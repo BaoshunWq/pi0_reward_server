@@ -116,15 +116,12 @@ def eval_one_task(args: Args) -> None:
     np.random.seed(args.seed)
     
     # Set torch seed if torch is available
-    try:
-        import torch
-        torch.manual_seed(args.seed)
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed_all(args.seed)
-            torch.backends.cudnn.deterministic = True
-            torch.backends.cudnn.benchmark = False
-    except ImportError:
-        pass  # torch not available, skip
+    import torch
+    torch.manual_seed(args.seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(args.seed)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
     
     logging.info(f"Random seed set to: {args.seed}")
 
@@ -163,173 +160,163 @@ def eval_one_task(args: Args) -> None:
     client = _websocket_client_policy.WebsocketClientPolicy(args.host, args.port)
     env = None  # Initialize to None for proper cleanup in finally block
     
-    try:
-        # Pick the single task
-        task = task_suite.get_task(args.task_id)
-        default_task_desc = task.language
-        task_description = args.instruction.strip() if args.instruction.strip() else default_task_desc
+    # Pick the single task
+    task = task_suite.get_task(args.task_id)
+    default_task_desc = task.language
+    task_description = args.instruction.strip() if args.instruction.strip() else default_task_desc
 
-        # Default initial states for this task
-        initial_states = task_suite.get_task_init_states(args.task_id)
-        if len(initial_states) == 0:
-            raise RuntimeError("No initial states found for the selected task.")
+    # Default initial states for this task
+    initial_states = task_suite.get_task_init_states(args.task_id)
+    if len(initial_states) == 0:
+        raise RuntimeError("No initial states found for the selected task.")
 
-        # Initialize environment for this task
-        env, _ = _get_libero_env(task, LIBERO_ENV_RESOLUTION, args.seed)
+    # Initialize environment for this task
+    env, _ = _get_libero_env(task, LIBERO_ENV_RESOLUTION, args.seed)
 
-        total_episodes, total_successes = 0, 0
+    total_episodes, total_successes = 0, 0
 
-        logging.info(f"=== Start evaluating ONE task ===")
-        logging.info(f"Task ID: {args.task_id}")
-        logging.info(f"Instruction used: {task_description}")
+    logging.info(f"=== Start evaluating ONE task ===")
+    logging.info(f"Task ID: {args.task_id}")
+    logging.info(f"Instruction used: {task_description}")
 
-        # for episode_idx in tqdm.tqdm(range(args.num_trials_per_task)):
-            # Choose init state (cycle if trials > available init states)
-        # episode_idx = args.init_state_id
-        init_state = initial_states[args.init_state_id]
+    # for episode_idx in tqdm.tqdm(range(args.num_trials_per_task)):
+        # Choose init state (cycle if trials > available init states)
+    # episode_idx = args.init_state_id
+    init_state = initial_states[args.init_state_id]
 
-        print(f"init_state id: {args.init_state_id}")
+    print(f"init_state id: {args.init_state_id}")
 
-        # Reset environment
-        env.reset()
-        env.set_init_state(init_state)
+    # Reset environment and set init state; use the returned observation as the initial obs
+    env.reset()
+    obs = env.set_init_state(init_state)
 
-        action_plan = collections.deque()
-        t = 0
-        replay_images = []
-        done = False  # avoid UnboundLocalError if exception occurs early
+    action_plan = collections.deque()
+    t = 0
+    replay_images = []
+    done = False
 
-        # logging.info(f"Starting episode {episode_idx + 1}/{args.num_trials_per_task}...")
+    # logging.info(f"Starting episode {episode_idx + 1}/{args.num_trials_per_task}...")
 
-        try:
-            # obs = env.get_observation() if hasattr(env, "get_observation") else env._get_observation()  # fallback
+    # Fallback in case the wrapper doesn't return obs
+    if obs is None:
+        # robosuite env exposes _get_observations(); wrapper may expose env env
+        if hasattr(env, "env") and hasattr(env.env, "_get_observations"):
+            obs = env.env._get_observations()
+        else:
+            raise AttributeError("Environment does not expose observation getter after reset")
 
-            while t < max_steps + args.num_steps_wait:
-                # IMPORTANT: wait for objects to settle
-                if t < args.num_steps_wait:
-                    obs, reward, done, info = env.step(LIBERO_DUMMY_ACTION)
-                    t += 1
-                    if done:
-                        break
-                    continue
+    while t < max_steps + args.num_steps_wait:
+        # IMPORTANT: wait for objects to settle
+        if t < args.num_steps_wait:
+            obs, reward, done, info = env.step(LIBERO_DUMMY_ACTION)
+            t += 1
+            if done:
+                break
+            continue
 
-                # Get preprocessed images (rotate 180° to match train preprocessing)
-                img = np.ascontiguousarray(obs["agentview_image"][::-1, ::-1])
-                wrist_img = np.ascontiguousarray(obs["robot0_eye_in_hand_image"][::-1, ::-1])
+        # Get preprocessed images (rotate 180° to match train preprocessing)
+        img = np.ascontiguousarray(obs["agentview_image"][::-1, ::-1])
+        wrist_img = np.ascontiguousarray(obs["robot0_eye_in_hand_image"][::-1, ::-1])
 
-                img = image_tools.convert_to_uint8(
-                    image_tools.resize_with_pad(img, args.resize_size, args.resize_size)
-                )
-                wrist_img = image_tools.convert_to_uint8(
-                    image_tools.resize_with_pad(wrist_img, args.resize_size, args.resize_size)
-                )
+        img = image_tools.convert_to_uint8(
+            image_tools.resize_with_pad(img, args.resize_size, args.resize_size)
+        )
+        wrist_img = image_tools.convert_to_uint8(
+            image_tools.resize_with_pad(wrist_img, args.resize_size, args.resize_size)
+        )
 
-                # Save for replay (only if video saving is enabled)
-                if args.save_videos:
-                    replay_images.append(img)
+        # Save for replay (only if video saving is enabled)
+        if args.save_videos:
+            replay_images.append(img)
 
-                if not action_plan:
-                    # Prepare observations dict
-                    element = {
-                        "observation/image": img,
-                        "observation/wrist_image": wrist_img,
-                        "observation/state": np.concatenate(
-                            (
-                                obs["robot0_eef_pos"],
-                                _quat2axisangle(obs["robot0_eef_quat"]),
-                                obs["robot0_gripper_qpos"],
-                            )
-                        ),
-                        "prompt": str(task_description),
-                        "task_suite_name": args.task_suite_name,  # Send task_suite_name to policy server for dynamic unnorm_key selection
-                    }
-
-                    # Query model to get action chunk
-                    action_chunk = client.infer(element)["actions"]
-                    assert len(action_chunk) >= args.replan_steps, (
-                        f"We want to replan every {args.replan_steps} steps, "
-                        f"but policy only predicts {len(action_chunk)} steps."
+        if not action_plan:
+            # Prepare observations dict
+            element = {
+                "observation/image": img,
+                "observation/wrist_image": wrist_img,
+                "observation/state": np.concatenate(
+                    (
+                        obs["robot0_eef_pos"],
+                        _quat2axisangle(obs["robot0_eef_quat"]),
+                        obs["robot0_gripper_qpos"],
                     )
-                    action_plan.extend(action_chunk[: args.replan_steps])
+                ),
+                "prompt": str(task_description),
+                "task_suite_name": args.task_suite_name,  # Send task_suite_name to policy server for dynamic unnorm_key selection
+            }
 
-                action = action_plan.popleft()
-                
-                # Process action before sending to environment
-                # This is critical for OpenVLA: normalize gripper action and invert sign
-                action = normalize_gripper_action(action, binarize=True)
-                action = invert_gripper_action(action)
-                
-                obs, reward, done, info = env.step(action.tolist())
+            # Query model to get action chunk
+            action_chunk = client.infer(element)["actions"]
+            assert len(action_chunk) >= args.replan_steps, (
+                f"We want to replan every {args.replan_steps} steps, "
+                f"but policy only predicts {len(action_chunk)} steps."
+            )
+            action_plan.extend(action_chunk[: args.replan_steps])
 
-                if done:
-                    total_successes += 1
-                    break
-
-                t += 1
-
-        except Exception as e:
-            logging.error(f"Caught exception in episode: {e}")
-            import traceback
-            logging.error(f"Traceback: {traceback.format_exc()}")
-
-        total_episodes += 1
-
-        # Save a replay video of the episode
-        if args.save_videos and replay_images:
-            suffix = "success" if done else "failure"
-            safe_desc = str(task_description).replace(" ", "_")[:60]
-            video_name = f"rollout_suite-{args.task_suite_name}_task-{args.task_id}_init-{args.init_state_id}_{suffix}_{safe_desc}.mp4"
-            print(f"Saving video to {args.video_out_path} / {video_name}")
-            try:
-                imageio.mimwrite(
-                    pathlib.Path(args.video_out_path) / video_name,
-                    [np.asarray(x) for x in replay_images],
-                    fps=10,
-                )
-            except Exception as e:
-                logging.error(f"Failed to write video {video_name}: {e}")
+        action = action_plan.popleft()
         
-        # CRITICAL: Explicitly delete replay_images to free memory immediately
-        if replay_images:
-            del replay_images
+        # Process action before sending to environment
+        # This is critical for OpenVLA: normalize gripper action and invert sign
+        action = normalize_gripper_action(action, binarize=True)
+        action = invert_gripper_action(action)
         
-        # Log current results
-        # logging.info(f"Episode {episode_idx + 1} success: {done}")
-        logging.info(f"# episodes so far: {total_episodes}")
-        logging.info(f"# successes: {total_successes} ({(total_successes / total_episodes * 100):.1f}%)")
+        obs, reward, done, info = env.step(action.tolist())
 
-        # Final results
-        # Final results + **返回值**
-        success_rate = float(total_successes) / float(total_episodes) if total_episodes > 0 else 0.0
-        logging.info(f"Final success rate for task {args.task_id}: {success_rate:.3f}")
-        logging.info(f"Total episodes: {total_episodes}")
-        return success_rate
+        if done:
+            total_successes += 1
+            break
+
+        t += 1
+
+    total_episodes += 1
+
+    # Save a replay video of the episode
+    if args.save_videos and replay_images:
+        suffix = "success" if done else "failure"
+        safe_desc = str(task_description).replace(" ", "_")[:60]
+        video_name = f"rollout_suite-{args.task_suite_name}_task-{args.task_id}_init-{args.init_state_id}_{suffix}_{safe_desc}.mp4"
+        print(f"Saving video to {args.video_out_path} / {video_name}")
+        imageio.mimwrite(
+            pathlib.Path(args.video_out_path) / video_name,
+            [np.asarray(x) for x in replay_images],
+            fps=10,
+        )
     
-    finally:
-        # CRITICAL: Clean up resources to prevent memory leaks
-        if env is not None:
-            try:
-                env.close()
-                logging.info("Environment closed successfully")
-            except Exception as e:
-                logging.error(f"Failed to close environment: {e}")
-        
-        # Close WebSocket client connection
-        try:
-            if 'client' in locals() and hasattr(client, '_ws') and client._ws is not None:
-                client._ws.close()
-                logging.info("WebSocket client closed successfully")
-        except Exception as e:
-            logging.error(f"Failed to close WebSocket client: {e}")
-        
-        # Explicitly delete large objects
-        if 'client' in locals():
-            del client
-        if 'task_suite' in locals():
-            del task_suite
-        
-        # Force garbage collection
-        gc.collect()
+    # CRITICAL: Explicitly delete replay_images to free memory immediately
+    if replay_images:
+        del replay_images
+    
+    # Log current results
+    # logging.info(f"Episode {episode_idx + 1} success: {done}")
+    logging.info(f"# episodes so far: {total_episodes}")
+    logging.info(f"# successes: {total_successes} ({(total_successes / total_episodes * 100):.1f}%)")
+
+    # Final results
+    # Final results + **返回值**
+    success_rate = float(total_successes) / float(total_episodes) if total_episodes > 0 else 0.0
+    logging.info(f"Final success rate for task {args.task_id}: {success_rate:.3f}")
+    logging.info(f"Total episodes: {total_episodes}")
+    
+    # Cleanup resources
+    if env is not None:
+        env.close()
+        logging.info("Environment closed successfully")
+    
+    # Close WebSocket client connection
+    if 'client' in locals() and hasattr(client, '_ws') and client._ws is not None:
+        client._ws.close()
+        logging.info("WebSocket client closed successfully")
+    
+    # Explicitly delete large objects
+    if 'client' in locals():
+        del client
+    if 'task_suite' in locals():
+        del task_suite
+    
+    # Force garbage collection
+    gc.collect()
+    
+    return success_rate
 
 
 def _get_libero_env(task, resolution, seed):

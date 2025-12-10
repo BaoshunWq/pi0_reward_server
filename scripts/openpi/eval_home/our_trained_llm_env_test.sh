@@ -9,7 +9,7 @@
 # set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROJ_ROOT="$SCRIPT_DIR/.."
+PROJ_ROOT="$SCRIPT_DIR/../.."
 LOGDIR="$PROJ_ROOT/logs"
 mkdir -p "$LOGDIR"
 

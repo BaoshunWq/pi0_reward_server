@@ -9,7 +9,7 @@ BASE_POLICY_PORT=8000 \
 BASE_REWARD_PORT=6001 \
 LB_PORT=6000 \
 OPENPI_ENV=PI0_LIBERO \
-bash scripts/parallel/launch_multi_servers.sh
+bash scripts/openpi/parallel/launch_multi_servers.sh
 
 # 多服务器架构说明:
 # GPU 0: Policy(8000) + Reward(6001)
@@ -22,6 +22,6 @@ bash scripts/parallel/launch_multi_servers.sh
 # - 可扩展到更多GPU
 #
 # 使用方法:
-# 1. 启动服务器: bash scripts/unify_multi_servers.sh
-# 2. 启动负载均衡器: NUM_SERVERS=2 bash scripts/parallel/launch_load_balancer.sh
+# 1. 启动服务器: bash scripts/openpi/parallel/unify_multi_servers.sh
+# 2. 启动负载均衡器: NUM_SERVERS=2 bash scripts/openpi/parallel/launch_load_balancer.sh
 # 3. 发送请求到: http://localhost:6000/score

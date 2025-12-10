@@ -131,37 +131,33 @@ class LoadBalancer:
                 task = self._forward_single_sample(i, single_request)
                 tasks.append(task)
             
-            # 并发执行所有任务
-            results = await asyncio.gather(*tasks, return_exceptions=True)
+            # 并发执行所有任务，若有异常直接抛出
+            results = await asyncio.gather(*tasks)
             
-            # 合并结果
-            merged_scores = []
+            # 合并结果（如有结构异常会抛出）
             merged_done_result = []
-            errors = []
-            
             for i, result in enumerate(results):
+                if not isinstance(result, dict):
+                    raise TypeError(f"Sample {i}: Unexpected result type {type(result)}")
+                if 'error' in result:
+                    raise RuntimeError(f"Sample {i}: {result['error']}")
+                if 'done_result' not in result:
+                    raise KeyError(f"Sample {i}: missing done_result")
 
+                done_list = result['done_result']
+                if not isinstance(done_list, list) or len(done_list) == 0:
+                    raise ValueError(f"Sample {i}: invalid done_result {done_list}")
 
-                # score = result.get('scores', [0.0])[0]
-                done = result.get('done_result', [0.0])[0]
-
-                # merged_scores.append(score)
-                merged_done_result.append(done)
+                merged_done_result.append(done_list[0])
             
             # 返回合并结果（兼容原API格式）
             response_data = {
                 'done_result': merged_done_result,  # 兼容测试脚本
                 'num_samples': num_samples,
-                'num_errors': len(errors)
+                'num_errors': 0,
             }
             
-            if errors:
-                response_data['errors'] = errors
-                logger.warning(f"Batch completed with {len(errors)} errors")
-            else:
-                logger.info(f"Batch completed successfully: {num_samples} samples")
-            
-            # 打印响应数据用于调试
+            logger.info(f"Batch completed successfully: {num_samples} samples")
             logger.info(f"Response data: {response_data}")
 
             return web.json_response(response_data)
