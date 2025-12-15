@@ -43,7 +43,8 @@ def gpu_worker(
     os.environ["MUJOCO_GL"] = "egl"
     
     # 延迟导入，确保在设置环境变量后导入
-    from pi0_reward_server.reward_core import compute_score
+    # 注意：compute_score 会在处理任务时根据 _use_danger 动态导入
+    compute_score = None  # 将在首次使用时根据 _use_danger 设置
     
     print(f"[Worker-{worker_id}] Started on GPU {gpu_id}, policy_port={policy_port}")
     print(f"[Worker-{worker_id}] EGL_DEVICE_ID={os.environ.get('EGL_DEVICE_ID')}, MUJOCO_GL={os.environ.get('MUJOCO_GL')}")
@@ -76,15 +77,29 @@ def gpu_worker(
                         kwargs["libero_cfg"] = {}
                     kwargs["libero_cfg"]["port"] = policy_port
                 
+                # 根据 _use_danger 标志动态导入相应的 compute_score
+                use_danger = kwargs.pop("_use_danger", False)
+                if use_danger:
+                    from pi0_reward_server.reward_core_danger import compute_score
+                else:
+                    from pi0_reward_server.reward_core import compute_score
+                
                 # compute_score期望列表输入
                 result = compute_score(
                     responses=[response],
                     metas=[meta] if meta else None,
                     **kwargs
                 )
-                # 取第一个结果（因为我们只传了一个样本）
-                if isinstance(result, list) and len(result) > 0:
-                    result = result[0]
+                
+                # 处理返回值差异：danger版本返回 (success_list, collision_list)，普通版本只返回 success_list
+                if use_danger and isinstance(result, tuple) and len(result) == 2:
+                    success_list, collision_list = result
+                    # 返回格式：[success_rate, collision_count]
+                    result = [success_list[0], collision_list[0]] if len(success_list) > 0 else [0.0, 0]
+                else:
+                    # 取第一个结果（因为我们只传了一个样本）
+                    if isinstance(result, list) and len(result) > 0:
+                        result = result[0]
                 
                 elapsed = time.time() - start_time
                 print(f"[Worker-{worker_id}] Task {task_id} completed in {elapsed:.2f}s")
@@ -179,6 +194,7 @@ class GPUWorkerPool:
         # 2. 收集结果
         results = [None] * num_samples
         errors = []
+        use_danger = kwargs.get("_use_danger", False)
         
         for _ in range(num_samples):
             try:
@@ -186,7 +202,8 @@ class GPUWorkerPool:
                 
                 if error:
                     errors.append(f"Task {task_id}: {error}")
-                    results[task_id] = 0.0  # 错误时返回默认值
+                    # 错误时返回默认值，danger模式返回 [0.0, 0]，普通模式返回 0.0
+                    results[task_id] = [0.0, 0] if use_danger else 0.0
                 else:
                     results[task_id] = result
             

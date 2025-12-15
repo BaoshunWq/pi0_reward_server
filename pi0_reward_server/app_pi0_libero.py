@@ -3,7 +3,6 @@ import os
 import logging
 from flask import Flask, request, jsonify
 import traceback
-from .reward_core import compute_score, DEFAULT_LIBERO_CFG
 from .gpu_worker_pool import get_global_pool
 
 # 配置日志 - 确保输出到stderr（会被重定向到日志文件）
@@ -20,10 +19,9 @@ logger = logging.getLogger(__name__)
 def create_app():
     app = Flask(__name__)
     
-    # 从环境变量读取policy端口配置
+    # 从环境变量读取policy端口配置（默认使用普通版本的配置）
     policy_port = os.environ.get("POLICY_PORT")
     if policy_port:
-        DEFAULT_LIBERO_CFG["port"] = int(policy_port)
         logger.info(f"[Config] Using policy port from env: {policy_port}")
         print(f"[Config] Using policy port from env: {policy_port}", flush=True)
 
@@ -76,6 +74,27 @@ def create_app():
             if len(responses) == 0:
                 return jsonify({"error": "`responses` must be a list"}), 400
 
+            # 检查是否使用 danger 版本
+            use_danger = kwargs.get("danger", False) or os.environ.get("USE_DANGER", "0") == "1"
+            if use_danger:
+                logger.info("[Mode] Using DANGER version (with collision detection)")
+                os.environ["LIBERO_CONFIG_PATH"] = "vla_simulator_env/liberoDanger/libero/configs"
+                from . import reward_core_danger as _rc
+                
+                DEFAULT_LIBERO_CFG = _rc.DEFAULT_LIBERO_CFG
+                if policy_port:
+                    DEFAULT_LIBERO_CFG["port"] = int(policy_port)
+                compute_score = _rc.compute_score
+            else:
+                logger.info("[Mode] Using NORMAL version")
+                os.environ["LIBERO_CONFIG_PATH"] = "openpi/third_party/libero/libero/configs"
+                from . import reward_core as _rc
+                
+                DEFAULT_LIBERO_CFG = _rc.DEFAULT_LIBERO_CFG
+                if policy_port:
+                    DEFAULT_LIBERO_CFG["port"] = int(policy_port)
+                compute_score = _rc.compute_score
+
             # 填默认 libero_cfg
             kwargs = dict(kwargs)
             lib_cfg = dict(DEFAULT_LIBERO_CFG)
@@ -88,12 +107,22 @@ def create_app():
             if use_parallel and len(responses) > 1:
                 # 使用GPU工作池并行处理batch
                 logger.info(f"[Parallel Mode] Processing {len(responses)} samples across multiple GPUs")
+                # 将 danger 标志传递给 worker pool
+                kwargs["_use_danger"] = use_danger
                 pool = get_global_pool()
                 done_result = pool.process_batch(responses, metas, **kwargs)
             else:
                 # 单GPU顺序处理（原有逻辑）
                 logger.info(f"[Sequential Mode] Processing {len(responses)} samples on single GPU")
-                done_result = compute_score(responses, metas, **kwargs)
+                result = compute_score(responses, metas, **kwargs)
+                
+                # 处理返回值差异：danger版本返回 (success_list, collision_list)，普通版本只返回 success_list
+                if use_danger and isinstance(result, tuple) and len(result) == 2:
+                    success_list, collision_list = result
+                    # 返回格式：每个元素是 [success_rate, collision_count]
+                    done_result = [[sr, cc] for sr, cc in zip(success_list, collision_list)]
+                else:
+                    done_result = result
 
             logger.info(f"Completed {len(responses)} samples, results: {done_result}")
 

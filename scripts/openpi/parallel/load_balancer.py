@@ -10,6 +10,7 @@ from aiohttp import web
 import logging
 from typing import List, Dict
 import time
+import os
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -102,6 +103,10 @@ class LoadBalancer:
         1. 拆分batch为单个样本
         2. 并发发送到不同服务器
         3. 收集结果并合并返回
+        
+        支持两种返回格式：
+        - 普通模式：done_result = [0.5, 0.3, ...] (每个元素是 success_rate)
+        - danger模式：done_result = [[0.5, 2], [0.3, 1], ...] (每个元素是 [success_rate, collision_count])
         """
         try:
             # 读取并解析请求体
@@ -111,8 +116,12 @@ class LoadBalancer:
             metas = body.get('metas', [])
             reward_kwargs = body.get('reward_function_kwargs', {})
             
+            # 检查是否启用danger模式（用于日志显示）
+            use_danger = reward_kwargs.get('danger', False) or os.environ.get('USE_DANGER', '0') == '1'
+            mode_str = "danger" if use_danger else "normal"
+            
             num_samples = len(responses)
-            logger.info(f"Received batch with {num_samples} samples, splitting and distributing...")
+            logger.info(f"Received batch with {num_samples} samples ({mode_str} mode), splitting and distributing...")
             
             if num_samples == 0:
                 return web.json_response({'error': 'Empty batch'}, status=400)
@@ -134,8 +143,11 @@ class LoadBalancer:
             # 并发执行所有任务，若有异常直接抛出
             results = await asyncio.gather(*tasks)
             
-            # 合并结果（如有结构异常会抛出）
+            # 合并结果（支持普通模式和danger模式）
+            # 普通模式：done_list[0] = 0.5 (float)
+            # danger模式：done_list[0] = [0.5, 2] (list)
             merged_done_result = []
+            merged_collision_result = []
             for i, result in enumerate(results):
                 if not isinstance(result, dict):
                     raise TypeError(f"Sample {i}: Unexpected result type {type(result)}")
@@ -148,17 +160,37 @@ class LoadBalancer:
                 if not isinstance(done_list, list) or len(done_list) == 0:
                     raise ValueError(f"Sample {i}: invalid done_result {done_list}")
 
-                merged_done_result.append(done_list[0])
+                # 提取单个样本的结果（支持两种格式）
+                sample_result = done_list[0]
+                if use_danger:
+                    # danger模式：sample_result = [success_rate, collision_count]
+                    if isinstance(sample_result, (list, tuple)) and len(sample_result) >= 2:
+                        merged_done_result.append(sample_result[0])
+                        merged_collision_result.append(sample_result[1])
+                    else:
+                        # 兼容处理：如果不是列表格式，假设只有success_rate
+                        merged_done_result.append(float(sample_result) if not isinstance(sample_result, (list, tuple)) else float(sample_result[0]))
+                        merged_collision_result.append(0)
+                    response_data = {
+                        'done_result': merged_done_result,  # 兼容测试脚本
+                        'collision_result': merged_collision_result,  # 兼容测试脚本
+                        'num_samples': num_samples,
+                        'num_errors': 0,
+                    }
+                else:
+                    # 普通模式：sample_result = success_rate (float)
+                    merged_done_result.append(float(sample_result))
+                    response_data = {
+                        'done_result': merged_done_result,  # 兼容测试脚本
+                        'num_samples': num_samples,
+                        'num_errors': 0,
+                    }
+        
             
-            # 返回合并结果（兼容原API格式）
-            response_data = {
-                'done_result': merged_done_result,  # 兼容测试脚本
-                'num_samples': num_samples,
-                'num_errors': 0,
-            }
-            
-            logger.info(f"Batch completed successfully: {num_samples} samples")
-            logger.info(f"Response data: {response_data}")
+            logger.info(f"Batch completed successfully: {num_samples} samples ({mode_str} mode)")
+            # 只记录前3个结果，避免日志过长
+            preview = merged_done_result[:3] if len(merged_done_result) > 3 else merged_done_result
+            logger.info(f"Response preview (first {len(preview)} samples): {preview}")
 
             return web.json_response(response_data)
         

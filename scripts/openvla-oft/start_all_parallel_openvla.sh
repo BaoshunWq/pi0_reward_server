@@ -10,7 +10,6 @@ set -euo pipefail
 #   LB_PORT=6100                  - 负载均衡器端口
 #   POLICY_PY=python              - Policy Python 解释器
 #   REWARD_PY=python              - Reward Python 解释器
-#   TASK_SUITE=libero_spatial     - LIBERO 套件名
 #   PRETRAINED_CKPT=""            - HF checkpoint 路径/ID
 #   NUM_ACTIONS_CHUNK=8           - open-loop 步数
 #
@@ -30,7 +29,6 @@ export BASE_REWARD_PORT="${BASE_REWARD_PORT:-6101}"
 export LB_PORT="${LB_PORT:-6100}"
 export POLICY_PY="${POLICY_PY:-/root/autodl-tmp/conda/envs/openvla-oft/bin/python}"
 export REWARD_PY="${REWARD_PY:-/root/autodl-tmp/conda/envs/openpi-libero_3_10/bin/python}"
-export TASK_SUITE="${TASK_SUITE:-libero_spatial}"
 export PRETRAINED_CKPT="${PRETRAINED_CKPT:-}"
 export NUM_ACTIONS_CHUNK="${NUM_ACTIONS_CHUNK:-8}"
 
@@ -90,7 +88,6 @@ echo "  Reward端口: ${BASE_REWARD_PORT}-$((BASE_REWARD_PORT + NUM_GPUS - 1))"
 echo "  负载均衡器: ${LB_PORT}"
 echo "  Policy Python: ${POLICY_PY}"
 echo "  Reward Python: ${REWARD_PY}"
-echo "  LIBERO suite: ${TASK_SUITE}"
 echo "=========================================="
 
 POLICY_PIDS=()
@@ -142,7 +139,6 @@ for i in "${!GPU_ARRAY[@]}"; do
     CUDA_VISIBLE_DEVICES="${GPU_ID}" \
     "${POLICY_PY}" openvla-oft/scripts/serve_policy.py \
         --policy_server_port "${POLICY_PORT}" \
-        --task_suite_name "${TASK_SUITE}" \
         --num_open_loop_steps "${NUM_ACTIONS_CHUNK}" \
         ${PRETRAINED_CKPT:+--pretrained_checkpoint "${PRETRAINED_CKPT}"} \
         > "logs/openvla_parallel/server_policy_gpu${GPU_ID}_port${POLICY_PORT}.log" 2>&1 &

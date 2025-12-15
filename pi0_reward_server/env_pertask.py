@@ -273,7 +273,8 @@ def eval_one_task(args: Args) -> None:
 def _get_libero_env(task, resolution, seed):
     """Initializes and returns the LIBERO environment."""
     task_bddl_file = pathlib.Path(get_libero_path("bddl_files")) / task.problem_folder / task.bddl_file
-    env_args = {"bddl_file_name": task_bddl_file, "camera_heights": resolution, "camera_widths": resolution}
+    # Convert pathlib.Path to string to avoid "stat: path should be string, bytes, os.PathLike or integer, not list" error
+    env_args = {"bddl_file_name": str(task_bddl_file), "camera_heights": resolution, "camera_widths": resolution}
     env = OffScreenRenderEnv(**env_args)
     env.seed(seed)  # IMPORTANT: seed seems to affect object positions even when using fixed initial state
     return env, task.language

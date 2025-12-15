@@ -1,0 +1,52 @@
+/root/autodl-tmp/conda/envs/openpi/lib/python3.11/site-packages/transformers/utils/hub.py:111: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+INFO:root:Loading model...
+2025-12-10 20:18:42.033238: E external/xla/xla/stream_executor/cuda/cuda_platform.cc:51] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+eval model: Checkpoint(config='pi0_libero', dir='gs://openpi-assets/checkpoints/pi0_libero')
+Traceback (most recent call last):
+  File "/root/autodl-tmp/conda/envs/openpi/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 915, in backends
+    backend = _init_backend(platform)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/autodl-tmp/conda/envs/openpi/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 1001, in _init_backend
+    backend = registration.factory()
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/autodl-tmp/conda/envs/openpi/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 693, in factory
+    return xla_client.make_c_api_client(plugin_name, updated_options, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/autodl-tmp/conda/envs/openpi/lib/python3.11/site-packages/jaxlib/xla_client.py", line 207, in make_c_api_client
+    return _xla.get_c_api_client(plugin_name, options, distributed_client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jaxlib.xla_extension.XlaRuntimeError: FAILED_PRECONDITION: No visible GPU devices.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/autodl-tmp/code/attackVLA/pi0_reward_server/openpi/scripts/serve_policy.py", line 138, in <module>
+    main(tyro.cli(Args))
+  File "/root/autodl-tmp/code/attackVLA/pi0_reward_server/openpi/scripts/serve_policy.py", line 114, in main
+    policy = create_policy(args)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/root/autodl-tmp/code/attackVLA/pi0_reward_server/openpi/scripts/serve_policy.py", line 110, in create_policy
+    return create_default_policy(args.env, default_prompt=args.default_prompt)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/autodl-tmp/code/attackVLA/pi0_reward_server/openpi/scripts/serve_policy.py", line 96, in create_default_policy
+    return _policy_config.create_trained_policy(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/autodl-tmp/code/attackVLA/pi0_reward_server/openpi/src/openpi/policies/policy_config.py", line 57, in create_trained_policy
+    model = train_config.model.load(_model.restore_params(checkpoint_dir / "params", dtype=jnp.bfloat16))
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/autodl-tmp/code/attackVLA/pi0_reward_server/openpi/src/openpi/models/model.py", line 310, in restore_params
+    mesh = jax.sharding.Mesh(jax.devices(), ("x",))
+                             ^^^^^^^^^^^^^
+  File "/root/autodl-tmp/conda/envs/openpi/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 1115, in devices
+    return get_backend(backend).devices()
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/root/autodl-tmp/conda/envs/openpi/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 1049, in get_backend
+    return _get_backend_uncached(platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/autodl-tmp/conda/envs/openpi/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 1028, in _get_backend_uncached
+    bs = backends()
+         ^^^^^^^^^^
+  File "/root/autodl-tmp/conda/envs/openpi/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 931, in backends
+    raise RuntimeError(err_msg)
+RuntimeError: Unable to initialize backend 'cuda': FAILED_PRECONDITION: No visible GPU devices. (you may need to uninstall the failing plugin package, or set JAX_PLATFORMS=cpu to skip this backend.)

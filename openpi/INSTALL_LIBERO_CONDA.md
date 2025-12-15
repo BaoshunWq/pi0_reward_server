@@ -20,7 +20,7 @@ cd /root/autodl-tmp/code/attackVLA/pi0_reward_server/openpi
 
 - 创建并激活 Conda 环境（Python 3.8）
 ```bash
-conda create -y -n openpi-libero python=3.9
+conda create -y -n liberoDanger python=3.10
 conda activate openpi-libero
 ```
 

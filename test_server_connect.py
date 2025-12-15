@@ -4,11 +4,10 @@ URL = "http://127.0.0.1:6000/score"
 
 # 测试所有 suite
 test_suites = [
-    # "libero_spatial",
+    "libero_spatial",
     # "libero_object", 
     # "libero_goal",
-    "libero_10",
-    # "libero_90"
+    # "libero_10",
 ]
 
 for suite in test_suites:
@@ -18,14 +17,15 @@ for suite in test_suites:
     
     payload = {
         "responses": [
-            {"outputs":[{"text":"put both the alphabet soup and the tomato sauce in the basket"}]},
+            {"outputs":[{"text":"pick up the black bowl between the plate and the ramekin and place it on the plate."}]},
         ],
         "metas": [
             {
-                "original_instruction": "put both the alphabet soup and the tomato sauce in the basket",
-                "suite": suite,
+                "original_instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+                "suite": "libero_spatial",
                 "task_id": 0,
-                "seed": 7
+                "seed": 7,
+                'init_state_id': 0
             },
         ],
         "reward_function_kwargs": {
@@ -36,10 +36,11 @@ for suite in test_suites:
             "center_crop": 1,
             "libero_cfg": {
                 "model_family": "openvla",
-            }
+            },
+            # "danger": True,
         }
     }
-    
+
     try:
         resp = requests.post(URL, json=payload, timeout=1800)
         print(f"状态码: {resp.status_code}")

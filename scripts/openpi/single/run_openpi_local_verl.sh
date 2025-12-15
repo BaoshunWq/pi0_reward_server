@@ -12,21 +12,21 @@ POLICY_PORT="5555"
 
 GENERATOR_MODE="local"  # must be "local" for this script
 
-NUM_TRIALS_PER_ANNOTATION=5
+NUM_TRIALS_PER_ANNOTATION=10
 NUM_INSTRUCTIONS=5
 SELECT_TOPK=3
 N_ITER_ATTACK=1
 
-LOCAL_MODEL_PATH="verl_trained_ckpts/rover_12_03_qwen3_vl_4b"
+LOCAL_MODEL_PATH="verl_trained_ckpts/rover_12_09_qwen3_vl_4b"
 
 API_MODEL_NAME="qwen2.5-vl-72b-instruct"  # unused in local mode, but kept for symmetry
 
 # You can override YAML / JSON paths if needed:
 # 要测试的多个 task suite
 TASK_SUITES=(
-  "libero_spatial"
-  "libero_object"
-  "libero_goal"
+  # "libero_spatial"
+  # "libero_object"
+  # "libero_goal"
   "libero_10"
 )
 

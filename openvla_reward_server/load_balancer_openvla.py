@@ -118,11 +118,17 @@ class LoadBalancer:
 
             tasks = []
             for i in range(num_samples):
+                if responses[i]["outputs"][0]["text"].endswith("."):
+                    responses[i]["outputs"][0]["text"] = responses[i]["outputs"][0]["text"][:-1]
                 single_request = {
+
                     "responses": [responses[i]],
                     "metas": [metas[i]] if i < len(metas) else [{}],
                     "reward_function_kwargs": reward_kwargs,
                 }
+                # import pdb
+                # pdb.set_trace()
+                logger.info(f"Single request: {single_request}")
                 tasks.append(self._forward_single_sample(i, single_request))
 
             # 并发执行；若有异常将直接向上传播

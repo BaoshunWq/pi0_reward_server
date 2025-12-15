@@ -51,27 +51,10 @@ def _build_prompt(task: str, num_instructions: int, examples: List[str], image_u
 
 
 # VERL training prompt constants and functions
-PROMPT_SYSTEM = """
+PROMPT_SYSTEM = """You are a quality assurance engineer for a robot. Your goal is to come up with
+instructions that describe the given task correctly, is similar to what human users
+would possibly give, and yet challenge the robot's capability on accomplishing the task. Not use chinese words."""
 
-You rewrite natural-language instructions for a household robot.
-
-Core rules (MUST):
-
-- Keep the task the same: same goal, same objects, same locations and spatial relations.
-
-- Do NOT add or remove any sub-task.
-
-- Do NOT tell the robot to ignore, override, or cancel the instruction.
-
-Wording rules:
-
-- Use different wording or structure (do not copy the sentence verbatim).
-
-- The instruction must be fluent, grammatical English.
-
-- Output one complete instruction (1–2 short sentences), no lists, no meta-comments, no random characters.
-
-"""
 
 
 def build_verl_rlhf_messages(
@@ -99,40 +82,38 @@ def build_verl_rlhf_messages(
         if num_instructions == 1:
             user_content = (
                 "<image>\n"
-                f"Original task: {task}\n\n"
-                "Rewrite this as ONE natural-language instruction.\n"
-                "- Keep exactly the same task (goal, objects, locations).\n"
-                "- Use different wording so it is not a copy.\n"
-                "Output ONLY the rewritten instruction as 1–2 short sentences."
+                "The attached image is an example image of the initial state of a robot that will "
+                f"perform the task: {task}. Generate a diverse set of exactly "
+                f"{num_instructions} instructions. "
+                "And the instruction should be the only one instruction exactly "
             )
         else:
             user_content = (
                 "<image>\n"
-                f"Original task: {task}\n\n"
-                f"Generate {num_instructions} DIFFERENT rewritten instructions.\n"
-                "- All must keep exactly the same task (goal, objects, locations).\n"
-                "- Each should use different wording or structure.\n"
-                f"Output exactly {num_instructions} lines, one instruction per line."
+                "The attached image is an example image of the initial state of a robot that will "
+                f"perform the task: {task}. Generate a diverse set of exactly "
+                f"{num_instructions} instructions. "
+                "And the instruction should be the only one instruction exactly "
             )
-    else:
-        # Non-VL mode (text only)
-        if num_instructions == 1:
-            user_content = (
-                f"Original task: {task}\n\n"
-                "Rewrite this as ONE natural-language instruction.\n"
-                "- Keep exactly the same task (goal, objects, locations).\n"
-                "- Use different wording so it is not a copy.\n"
-                "Output ONLY the rewritten instruction as 1–2 short sentences."
-            )
-        else:
-            user_content = (
-                f"Original task: {task}\n\n"
-                f"{pp}"
-                f"Generate {num_instructions} DIFFERENT rewritten instructions.\n"
-                "- All must keep exactly the same task (goal, objects, locations).\n"
-                "- Each should use different wording or structure.\n"
-                f"Output exactly {num_instructions} lines, one instruction per line."
-            )
+    # else:
+    #     # Non-VL mode (text only)
+    #     if num_instructions == 1:
+    #         user_content = (
+    #             f"Original task: {task}\n\n"
+    #             "Rewrite this as ONE natural-language instruction.\n"
+    #             "- Keep exactly the same task (goal, objects, locations).\n"
+    #             "- Use different wording so it is not a copy.\n"
+    #             "Output ONLY the rewritten instruction as 1–2 short sentences."
+    #         )
+    #     else:
+    #         user_content = (
+    #             f"Original task: {task}\n\n"
+    #             f"{pp}"
+    #             f"Generate {num_instructions} DIFFERENT rewritten instructions.\n"
+    #             "- All must keep exactly the same task (goal, objects, locations).\n"
+    #             "- Each should use different wording or structure.\n"
+    #             f"Output exactly {num_instructions} lines, one instruction per line."
+    #         )
     
     return [
         {"role": "system", "content": PROMPT_SYSTEM.strip()},
@@ -394,7 +375,7 @@ class LocalInstructionModel:
             messages = build_verl_rlhf_messages(
                 task=task,
                 image_path=image_url or "",
-                num_instructions=num_instructions,
+                num_instructions=1,
                 prefer_prompt="",
                 use_vl=self.is_vl and image_url is not None,
             )
@@ -493,29 +474,37 @@ class LocalInstructionModel:
             temperature=self.temperature,
             max_new_tokens=self.max_new_tokens,
             pad_token_id=self.tokenizer.pad_token_id,
+            num_return_sequences=num_instructions,
         )
-        generated_text = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-        
-        # 提取生成的文本（去除输入prompt部分）
-        if self.use_verl_prompt:
-            # 对于VERL格式，尝试从user_content之后提取，或者使用整个生成文本
-            if user_content in generated_text:
-                raw_answer = generated_text.split(user_content)[-1].strip()
-            else:
-                # 如果找不到，尝试从system_content之后提取
-                if system_content in generated_text:
-                    raw_answer = generated_text.split(system_content)[-1].strip()
+        generated_texts = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
+        raw_answers = []
+        for gt in generated_texts:
+            if self.use_verl_prompt:
+                if user_content in gt:
+                    raw_answers.append(gt.split(user_content)[-1].strip())
+                elif system_content in gt:
+                    raw_answers.append(gt.split(system_content)[-1].strip())
                 else:
-                    raw_answer = generated_text.strip()
-        else:
-            # 原始格式：从prompt之后提取
-            raw_answer = generated_text.split(user_content)[-1].strip() if user_content in generated_text else generated_text
-        
-        annotations = _post_process_instructions(raw_answer)
+                    raw_answers.append(gt.strip())
+            else:
+                raw_answers.append(gt.split(user_content)[-1].strip() if user_content in gt else gt)
+
+        annotations_all: List[str] = []
+        for ra in raw_answers:
+            for line in _post_process_instructions(ra):
+                if line:
+                    annotations_all.append(line)
+
+        # seen = set()
+        # annotations = []
+        # for a in annotations_all:
+        #     if a not in seen:
+        #         annotations.append(a)
+        #         seen.add(a)
         selected, selected_sims = _select_topk_annotations(
             embedding_model=self.embedding_model,
             task=task,
-            annotations=annotations,
+            annotations=annotations_all,
             select_topk=select_topk,
             return_all_annotations=return_all_annotations,
         )
@@ -577,5 +566,4 @@ class InstructionGeneratorFacade:
         annotations = list(result)
         similarities = [None] * len(annotations)
         return annotations, similarities
-
 

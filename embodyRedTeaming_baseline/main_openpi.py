@@ -55,7 +55,7 @@ NOW_TIME_STR = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 class OpenPIEvalConfig:
     # Policy serving
     policy_host: str = "127.0.0.1"
-    policy_port: int = 4444
+    policy_port: int = 5555
     resize_size: int = 224
     replan_steps: int = 5
     # WebSocket connection timeout settings (in seconds)
@@ -74,7 +74,7 @@ class OpenPIEvalConfig:
     # Instruction generation
     generator_mode: str = "local"  # "local" or "local"
     api_model_name: str = "qwen2.5-vl-72b-instruct"
-    local_model_path: str = "verl_trained_ckpts/rover_12_03_qwen3_vl_4b"
+    local_model_path: str = "verl_trained_ckpts/rover_12_09_qwen3_vl_4b"
     embedding_device: str = "cuda"
     num_instructions: int = 5
     select_topk: int = 1

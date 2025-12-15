@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/root/autodl-tmp/code/attackVLA/pi0_reward_server/openpi/scripts/serve_policy.py", line 8, in <module>
+    from openpi.policies import policy as _policy
+ModuleNotFoundError: No module named 'openpi'

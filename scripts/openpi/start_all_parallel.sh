@@ -16,14 +16,19 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJ_ROOT="${SCRIPT_DIR}/../.."
 cd "$PROJ_ROOT"
 
+# export LIBERO_CONFIG_PATH="vla_simulator_env/liberoDanger/libero/configs"
+
+
 # 默认配置
 export GPUS="${GPUS:-0,1}"
 export BASE_POLICY_PORT="${BASE_POLICY_PORT:-8000}"
 export BASE_REWARD_PORT="${BASE_REWARD_PORT:-6001}"
 export LB_PORT="${LB_PORT:-6000}"
 export POLICY_PY="${POLICY_PY:-/root/autodl-tmp/conda/envs/openpi/bin/python}"
-export REWARD_PY="${REWARD_PY:-/root/autodl-tmp/conda/envs/openpi-libero_3_10/bin/python}"
+# export REWARD_PY="${REWARD_PY:-/root/autodl-tmp/conda/envs/openpi-libero_3_10/bin/python}"
+export REWARD_PY="${REWARD_PY:-/root/autodl-tmp/conda/envs/liberoDanger/bin/python}"
 export OPENPI_ENV="${OPENPI_ENV:-PI0_LIBERO}"
+# export USE_DANGER="${USE_DANGER:-1}"
 
 # 验证Python
 if [[ ! -x "${POLICY_PY}" ]]; then
