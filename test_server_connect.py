@@ -37,7 +37,7 @@ for suite in test_suites:
             "libero_cfg": {
                 "model_family": "openvla",
             },
-            # "danger": True,
+            "danger": True,
         }
     }
 

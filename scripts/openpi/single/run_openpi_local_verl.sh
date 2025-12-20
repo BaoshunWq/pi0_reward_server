@@ -5,7 +5,7 @@
 
 set -e
 
-export CUDA_VISIBLE_DEVICES=2
+export CUDA_VISIBLE_DEVICES=0
 # ===== User-configurable parameters =====
 POLICY_HOST="127.0.0.1"
 POLICY_PORT="5555"
@@ -17,7 +17,7 @@ NUM_INSTRUCTIONS=5
 SELECT_TOPK=3
 N_ITER_ATTACK=1
 
-LOCAL_MODEL_PATH="verl_trained_ckpts/rover_12_09_qwen3_vl_4b"
+LOCAL_MODEL_PATH="verl_trained_ckpts_vl"
 
 API_MODEL_NAME="qwen2.5-vl-72b-instruct"  # unused in local mode, but kept for symmetry
 
@@ -25,14 +25,14 @@ API_MODEL_NAME="qwen2.5-vl-72b-instruct"  # unused in local mode, but kept for s
 # 要测试的多个 task suite
 TASK_SUITES=(
   # "libero_spatial"
-  # "libero_object"
-  # "libero_goal"
+  "libero_object"
+  "libero_goal"
   "libero_10"
 )
 
 # ===== Script logic (normally you don't need to change below) =====
-ROOT_DIR="/root/autodl-tmp/code/attackVLA/pi0_reward_server"
-cd "${ROOT_DIR}"
+# ROOT_DIR="/root/autodl-tmp/code/attackVLA/pi0_reward_server"
+# cd "${ROOT_DIR}"
 
 # Record script start time
 SCRIPT_START_TIME=$(date +%s)

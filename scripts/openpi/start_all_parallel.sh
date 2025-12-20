@@ -20,13 +20,19 @@ cd "$PROJ_ROOT"
 
 
 # 默认配置
-export GPUS="${GPUS:-0,1}"
+export GPUS="${GPUS:-0,1,2,3,4,5}"
 export BASE_POLICY_PORT="${BASE_POLICY_PORT:-8000}"
 export BASE_REWARD_PORT="${BASE_REWARD_PORT:-6001}"
 export LB_PORT="${LB_PORT:-6000}"
+
+# export GPUS="${GPUS:-2,3}"
+# export BASE_POLICY_PORT="${BASE_POLICY_PORT:-9000}"
+# export BASE_REWARD_PORT="${BASE_REWARD_PORT:-7001}"
+# export LB_PORT="${LB_PORT:-7000}"
+
 export POLICY_PY="${POLICY_PY:-/root/autodl-tmp/conda/envs/openpi/bin/python}"
-# export REWARD_PY="${REWARD_PY:-/root/autodl-tmp/conda/envs/openpi-libero_3_10/bin/python}"
-export REWARD_PY="${REWARD_PY:-/root/autodl-tmp/conda/envs/liberoDanger/bin/python}"
+export REWARD_PY="${REWARD_PY:-/root/autodl-tmp/conda/envs/openpi-libero_3_10/bin/python}"
+# export REWARD_PY="${REWARD_PY:-/root/autodl-tmp/conda/envs/liberoDanger/bin/python}"
 export OPENPI_ENV="${OPENPI_ENV:-PI0_LIBERO}"
 # export USE_DANGER="${USE_DANGER:-1}"
 

@@ -4,7 +4,7 @@ output/
 checkpoints/
 data/
 wandb/
-verl_trained_ckpts/
+verl_trained_ckpts_vl/
 experiments/
 
 # Byte-compiled / optimized / DLL files

@@ -29,6 +29,8 @@ import imageio
 import numpy as np
 import tqdm
 import yaml
+import torch
+from transformers import CLIPTextModelWithProjection, CLIPTokenizerFast
 
 CURRENT_DIR = os.path.dirname(__file__)
 REPO_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
@@ -66,7 +68,7 @@ class OpenPIEvalConfig:
     # Task/eval config
     task_suite_name: str = "libero_spatial"
     num_steps_wait: int = 10
-    num_trials_per_annotation: int = 1
+    num_trials_per_annotation: int = 25
     failure_threshold: float = 0.5
     seed: int = 7
     video_out_path: str = ""
@@ -74,7 +76,7 @@ class OpenPIEvalConfig:
     # Instruction generation
     generator_mode: str = "local"  # "local" or "local"
     api_model_name: str = "qwen2.5-vl-72b-instruct"
-    local_model_path: str = "verl_trained_ckpts/rover_12_09_qwen3_vl_4b"
+    local_model_path: str = "verl_trained_ckpts_vl"
     embedding_device: str = "cuda"
     num_instructions: int = 5
     select_topk: int = 1
@@ -155,6 +157,45 @@ def _load_examples(path: str) -> Dict[str, List[Dict]]:
         with open(path, "r") as f:
             return yaml.safe_load(f) or {}
     return {}
+
+
+_CLIP_TEXT_CACHE: Dict[str, object] = {}
+
+
+def _get_clip_text_model(model_id: str, device: str):
+    key = (model_id, device)
+    cached = _CLIP_TEXT_CACHE.get(key)
+    if cached is None:
+        model = CLIPTextModelWithProjection.from_pretrained(model_id, use_safetensors=True).to(device)
+        tokenizer = CLIPTokenizerFast.from_pretrained(model_id)
+        _CLIP_TEXT_CACHE[key] = (model, tokenizer)
+    return _CLIP_TEXT_CACHE[key]
+
+
+def _compute_annotations_pairwise_similarity(
+    annotations: List[str],
+    device: str = "cuda",
+    model_id: str = "laion/CLIP-ViT-B-32-laion2B-s34B-b79K",
+):
+    if not annotations:
+        return np.zeros((0, 0)), None, None
+    if device.startswith("cuda") and not torch.cuda.is_available():
+        device = "cpu"
+    model, tokenizer = _get_clip_text_model(model_id, device)
+    with torch.no_grad():
+        inputs = tokenizer(annotations, padding=True, return_tensors="pt").to(device)
+        outputs = model(**inputs)
+        embeds = outputs.text_embeds
+        embeds = embeds / embeds.norm(dim=1, keepdim=True)
+        sim = torch.matmul(embeds, embeds.t())
+    n = sim.shape[0]
+    if n <= 1:
+        return sim.detach().cpu().numpy(), None, None
+    total = sim.sum().item()
+    diag = sim.diag().sum().item()
+    mean_off = (total - diag) / (n * (n - 1))
+    diversity = 1.0 - mean_off
+    return sim.detach().cpu().numpy(), mean_off, diversity
 
 
 def _evaluate_annotation(
@@ -359,6 +400,11 @@ def run_openpi_ert(cfg: OpenPIEvalConfig):
         task_sim_sum = 0.0
         task_sim_count = 0
 
+        task_pairwise_mean_sum = 0.0
+        task_pairwise_mean_count = 0
+        task_diversity_sum = 0.0
+        task_diversity_count = 0
+
         for attack_round in range(cfg.n_iter_attack):
             annotations, annotations_smi = instruction_generator.generate(
                 task=instruction,
@@ -370,6 +416,18 @@ def run_openpi_ert(cfg: OpenPIEvalConfig):
             )
 
             norm_annotations = [_normalize_annotation(a) for a in annotations]
+            _, _mean_pairwise, _diversity = _compute_annotations_pairwise_similarity(
+                norm_annotations, device=cfg.embedding_device
+            )
+            if _mean_pairwise is not None and _diversity is not None:
+                logging.info(f"[Diversity] mean_pairwise_similarity={_mean_pairwise:.3f}, diversity={_diversity:.3f}")
+            # 累计当前task的多样性指标（跨attack_round平均）
+            if _mean_pairwise is not None:
+                task_pairwise_mean_sum += float(_mean_pairwise)
+                task_pairwise_mean_count += 1
+            if _diversity is not None:
+                task_diversity_sum += float(_diversity)
+                task_diversity_count += 1
 
             # 确保相似度列表与指令列表长度一致（API 模型可能返回占位 None）
             if annotations_smi is None or len(annotations_smi) != len(norm_annotations):
@@ -404,11 +462,23 @@ def run_openpi_ert(cfg: OpenPIEvalConfig):
             failed_annotations = failed_annotations[-cfg.max_feedback_examples :]
             in_context_examples = list(dict.fromkeys(in_context_examples + failed_annotations))
 
+        task_pairwise_mean_similarity = (
+            (task_pairwise_mean_sum / task_pairwise_mean_count)
+            if task_pairwise_mean_count > 0
+            else None
+        )
+        task_diversity = (
+            (task_diversity_sum / task_diversity_count)
+            if task_diversity_count > 0
+            else None
+        )
         task_result = {
             "task": instruction,
             "image_url": image_url,
             "done_annotations": done_annotations,
             "fail_annotations": failed_annotations,
+            "annotation_pairwise_mean_similarity": task_pairwise_mean_similarity,
+            "annotation_diversity": task_diversity,
         }
         results.append(task_result)
         with open(cfg.output_path, "w") as f:
@@ -464,4 +534,3 @@ def run_openpi_ert(cfg: OpenPIEvalConfig):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     run_openpi_ert()
-

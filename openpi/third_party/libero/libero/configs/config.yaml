@@ -22,3 +22,10 @@ task_embedding_one_hot_offset: 1
 pretrain: false
 pretrain_model_path: ""
 benchmark_name: "LIBERO_SPATIAL"
+
+
+assets: openpi/third_party/libero/libero/libero/assets
+bddl_files: openpi/third_party/libero/libero/libero/bddl_files
+benchmark_root: openpi/third_party/libero/libero/libero
+datasets: openpi/third_party/libero/libero/libero/datasets
+init_states: openpi/third_party/libero/libero/libero/init_files
