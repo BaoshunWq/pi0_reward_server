@@ -358,6 +358,8 @@ def run_openpi_ert(cfg: OpenPIEvalConfig):
     # 当前 task_suite_name 下所有任务、所有改写指令的相似度累积和（用于计算整体均值）
     suite_sim_sum = 0.0
     suite_sim_count = 0
+    suite_diversity_sum = 0.0
+    suite_diversity_count = 0
     results: List[Dict] = []
     task_stats: List[Dict] = []
 
@@ -472,6 +474,9 @@ def run_openpi_ert(cfg: OpenPIEvalConfig):
             if task_diversity_count > 0
             else None
         )
+        if task_diversity is not None:
+            suite_diversity_sum += float(task_diversity)
+            suite_diversity_count += 1
         task_result = {
             "task": instruction,
             "image_url": image_url,
@@ -512,6 +517,9 @@ def run_openpi_ert(cfg: OpenPIEvalConfig):
     suite_mean_similarity = (
         (suite_sim_sum / suite_sim_count) if suite_sim_count > 0 else None
     )
+    suite_mean_diversity = (
+        (suite_diversity_sum / suite_diversity_count) if suite_diversity_count > 0 else None
+    )
     # 在 task_stats.json 中额外写入一行整体统计信息
     task_stats.append(
         {
@@ -521,6 +529,7 @@ def run_openpi_ert(cfg: OpenPIEvalConfig):
             "successes": suite_task_success,
             "accuracy": overall,
             "annotation_mean_similarity": suite_mean_similarity,
+            "annotation_mean_diversity": suite_mean_diversity,
         }
     )
     with open(task_stats_path, "w") as f:
