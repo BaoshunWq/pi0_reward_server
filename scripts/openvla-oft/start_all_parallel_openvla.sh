@@ -2,20 +2,7 @@
 set -euo pipefail
 
 # 一键启动 OpenVLA-OFT: 多GPU Policy + Reward + 负载均衡器
-#
-# 可覆盖的环境变量：
-#   GPUS="0,1"                    - GPU 列表
-#   BASE_POLICY_PORT=23451        - Policy 起始端口
-#   BASE_REWARD_PORT=6101         - Reward 起始端口
-#   LB_PORT=6100                  - 负载均衡器端口
-#   POLICY_PY=python              - Policy Python 解释器
-#   REWARD_PY=python              - Reward Python 解释器
-#   PRETRAINED_CKPT=""            - HF checkpoint 路径/ID
-#   NUM_ACTIONS_CHUNK=8           - open-loop 步数
-#
-# 示例：
-#   GPUS=0,1 PRETRAINED_CKPT=moojink/openvla-7b-oft-finetuned-libero-spatial-object-goal-10 \
-#   bash scripts/openvla-oft/start_all_parallel_openvla.sh
+
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJ_ROOT="${SCRIPT_DIR}/../.."
@@ -23,7 +10,7 @@ cd "${PROJ_ROOT}"
 
 mkdir -p logs/openvla_parallel
 
-export GPUS="${GPUS:-0,1}"
+export GPUS="${GPUS:-0,1,2,3}"
 export BASE_POLICY_PORT="${BASE_POLICY_PORT:-23451}"
 export BASE_REWARD_PORT="${BASE_REWARD_PORT:-6101}"
 export LB_PORT="${LB_PORT:-6100}"

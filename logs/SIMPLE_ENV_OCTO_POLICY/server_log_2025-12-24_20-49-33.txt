@@ -1,0 +1,10 @@
+ * Serving Flask app 'app_policy'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8001
+ * Running on http://172.17.0.14:8001
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [24/Dec/2025 20:49:43] "GET /health?ide_webview_request_time=1766580582588 HTTP/1.1" 200 -
+127.0.0.1 - - [24/Dec/2025 20:49:43] "[33mGET /@vite/client HTTP/1.1[0m" 404 -
+127.0.0.1 - - [24/Dec/2025 20:50:11] "GET /health?ide_webview_request_time=1766580582588 HTTP/1.1" 200 -

@@ -327,7 +327,7 @@ class LocalInstructionModel:
         embedding_model: CLIPEmbeddingModel,
         model_path: str,
         device: str = "cuda",
-        temperature: float = 0.8,
+        temperature: float = 1.0,
         max_new_tokens: int = 512,
         use_verl_prompt: bool = False,
     ) -> None:

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/root/autodl-tmp/code/attackVLA/pi0_reward_server/SimplerEnv/simple_env_reward_server_octo/app_simple_env.py", line 7, in <module>
+    from .reward_core import DEFAULT_SIMPLE_ENV_CFG, compute_score
+ImportError: attempted relative import with no known parent package

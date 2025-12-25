@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -e
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"/../../.. && pwd)"
+cd "${ROOT_DIR}"
+GPU="${GPU:-0}"
+OCTO_POLICY_PORT="${OCTO_POLICY_PORT:-8001}"
+OCTO_REWARD_PORT="${OCTO_REWARD_PORT:-6101}"
+RT1_POLICY_PORT="${RT1_POLICY_PORT:-8002}"
+RT1_REWARD_PORT="${RT1_REWARD_PORT:-6102}"
+OCTO_POLICY_PID="$(GPU=${GPU} PORT=${OCTO_POLICY_PORT} bash scripts/simple_env/single/simple_env_octo_server_run.sh)"
+RT1_POLICY_PID="$(GPU=${GPU} PORT=${RT1_POLICY_PORT} bash scripts/simple_env/single/simple_env_rt1_server_run.sh)"
+sleep 2
+OCTO_REWARD_PID="$(GPU=${GPU} PORT=${OCTO_REWARD_PORT} POLICY_PORT=${OCTO_POLICY_PORT} bash scripts/simple_env/single/simple_env_octo_env_run.sh)"
+RT1_REWARD_PID="$(GPU=${GPU} PORT=${RT1_REWARD_PORT} POLICY_PORT=${RT1_POLICY_PORT} bash scripts/simple_env/single/simple_env_rt1_env_run.sh)"
+echo "OCTO_POLICY_PID=${OCTO_POLICY_PID}"
+echo "OCTO_REWARD_PID=${OCTO_REWARD_PID}"
+echo "RT1_POLICY_PID=${RT1_POLICY_PID}"
+echo "RT1_REWARD_PID=${RT1_REWARD_PID}"
+echo "OCTO_POLICY=http://localhost:${OCTO_POLICY_PORT}"
+echo "OCTO_REWARD=http://localhost:${OCTO_REWARD_PORT}"
+echo "RT1_POLICY=http://localhost:${RT1_POLICY_PORT}"
+echo "RT1_REWARD=http://localhost:${RT1_REWARD_PORT}"

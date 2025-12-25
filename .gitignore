@@ -6,6 +6,7 @@ data/
 wandb/
 verl_trained_ckpts_vl/
 experiments/
+SimplerEnv/checkpoints
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
