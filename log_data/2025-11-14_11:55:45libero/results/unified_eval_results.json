@@ -1,0 +1,30 @@
+[
+    {
+        "task_id": 0,
+        "task_description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-0_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl located between the plate and the ramekin and place it on the plate."
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.9796141982078552
+        ]
+    },
+    {
+        "task_id": 1,
+        "task_description": "pick up the black bowl next to the ramekin and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-1_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl located next to the ramekin and place it on the plate."
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.967074990272522
+        ]
+    }
+]

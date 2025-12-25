@@ -1,0 +1,170 @@
+[
+    {
+        "task_id": 0,
+        "task_description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-0_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl between the plate and the ramekin and place it on the plate."
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.994111955165863
+        ]
+    },
+    {
+        "task_id": 1,
+        "task_description": "pick up the black bowl next to the ramekin and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-1_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl next to the ramekin and place it on the plate.",
+            "Pick up the black bowl next to the ramekin and place it"
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.9917161464691162,
+            0.988452136516571
+        ]
+    },
+    {
+        "task_id": 2,
+        "task_description": "pick up the black bowl from table center and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-2_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl from the table center and place it on the plate.",
+            "Pick up the black bowl"
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.9891246557235718,
+            0.9249773025512695
+        ]
+    },
+    {
+        "task_id": 3,
+        "task_description": "pick up the black bowl on the cookie box and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-3_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl from the cookie box and place it on the plate.",
+            "Get the black bowl from the cookie box and place it on the plate.",
+            "Take the black bowl from the cookie box and place it on the plate.",
+            "Retrieve the black bowl from the cookie box and place it on the plate."
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.9708176851272583,
+            0.9669108390808105,
+            0.9587494134902954,
+            0.9423597455024719
+        ]
+    },
+    {
+        "task_id": 4,
+        "task_description": "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-4_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl from the top drawer of the wooden cabinet and place it on the plate.",
+            "Take the black bowl from the top drawer of the wooden cabinet and place it on the plate.",
+            "Retrieve the black bowl from the top drawer of the wooden cabinet and place it on the plate."
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.990626871585846,
+            0.9850050806999207,
+            0.9711241126060486
+        ]
+    },
+    {
+        "task_id": 5,
+        "task_description": "pick up the black bowl on the ramekin and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-5_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl on the ramekin and place it on the plate.",
+            "2"
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.9896783828735352,
+            0.7074364423751831
+        ]
+    },
+    {
+        "task_id": 6,
+        "task_description": "pick up the black bowl next to the cookie box and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-6_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl next to the cookie box and place it on the plate.",
+            "2"
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.9909652471542358,
+            0.739004909992218
+        ]
+    },
+    {
+        "task_id": 7,
+        "task_description": "pick up the black bowl on the stove and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-7_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl from the stove and place it on the plate",
+            "Pick up the black bowl from the stove and place it on the plate."
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.9918789267539978,
+            0.9747016429901123
+        ]
+    },
+    {
+        "task_id": 8,
+        "task_description": "pick up the black bowl next to the plate and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-8_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl next to the plate and place it on the plate.",
+            "Pick up the black bowl"
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.9920310378074646,
+            0.9109834432601929
+        ]
+    },
+    {
+        "task_id": 9,
+        "task_description": "pick up the black bowl on the wooden cabinet and place it on the plate",
+        "mode": "vlm",
+        "image_url": "libero-init-frames/libero_spatial_task-9_img-0_frame0.png",
+        "done_annotations": [],
+        "fail_annotations": [
+            "Pick up the black bowl from the wooden cabinet and place it on the plate.",
+            "Take the black bowl from the wooden cabinet and place it on the plate.",
+            "Get the black bowl from the wooden cabinet and place it on the plate.",
+            "Retrieve the black bowl from the wooden cabinet and place it on the plate."
+        ],
+        "done_annotations_smi": [],
+        "fail_annotations_smi": [
+            0.9872548580169678,
+            0.9818601608276367,
+            0.981416642665863,
+            0.9652954339981079
+        ]
+    }
+]

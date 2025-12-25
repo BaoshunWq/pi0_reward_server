@@ -2,7 +2,7 @@
 rollouts/
 output/
 checkpoints/
-data/
+
 wandb/
 verl_trained_ckpts_vl/
 experiments/
@@ -152,8 +152,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-# .dmypy.json
-# dmypy.json
+.dmypy.json
+dmypy.json
 
 # Pyre type checker
 .pyre/
